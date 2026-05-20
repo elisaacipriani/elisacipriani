@@ -6,7 +6,7 @@
     <meta name="description" content="Encanto Subterráneo - Elisa Cipriani.">
     <title>ELISA CIPRIANI - Encanto Subterráneo</title>
     <link rel="icon" type="image/svg+xml" href="../assets/icons/favicon.svg">
-    <link rel="stylesheet" href="../assets/css/styles.css?v=layout103">
+    <link rel="stylesheet" href="../assets/css/styles.css?v=layout105">
   </head>
   <body class="encanto-project">
     <header class="site-header" aria-label="Main navigation">
@@ -215,6 +215,27 @@
       } else if (moodboard) {
         startMoodboardLoop();
       }
+
+      document.querySelectorAll(".collection-piece").forEach((piece) => {
+        const frame = piece.closest(".encanto-collection-frame");
+
+        piece.addEventListener("mouseenter", () => {
+          frame.classList.add("is-previewing");
+          piece.classList.add("is-hovered");
+        });
+
+        piece.addEventListener("focus", () => {
+          frame.classList.add("is-previewing");
+          piece.classList.add("is-hovered");
+        });
+
+        ["mouseleave", "blur"].forEach((eventName) => {
+          piece.addEventListener(eventName, () => {
+            frame.classList.remove("is-previewing");
+            piece.classList.remove("is-hovered");
+          });
+        });
+      });
 
     </script>
   </body>
