@@ -252,7 +252,6 @@ window.elisaSetLanguage = setLanguage;
 
 setupHeaderState();
 setupCustomCursor();
-setupSectionTopLinks();
 setupPageTransitions();
 setupTopLinks();
 setLanguage("es");

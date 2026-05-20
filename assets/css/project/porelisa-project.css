@@ -657,7 +657,7 @@ main {
 }
 
 .section-top-link {
-  display: block;
+  display: none !important;
   width: 42px;
   height: 42px;
   margin-top: clamp(36px, 6vw, 86px);

@@ -325,7 +325,6 @@ ensureInkFilter();
 setupFilters();
 setupSequences();
 setupCustomCursor();
-setupSectionTopLinks();
 setupPageTransitions();
 setupTopLinks();
 setupMobileMediaReveal();

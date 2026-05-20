@@ -1,5 +1,3 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" fill="#fff"/>
-  <path d="M20 17H10v30h10M44 17h10v30H44" fill="none" stroke="#000" stroke-width="3" stroke-linecap="square"/>
-  <path d="M27 18h14M27 32h11M27 46h14" fill="none" stroke="#000" stroke-width="2" stroke-linecap="square"/>
+  <text x="32" y="38" fill="#fff" font-family="Helvetica, Arial, sans-serif" font-size="38" font-weight="700" text-anchor="middle" dominant-baseline="middle">EC</text>
 </svg>

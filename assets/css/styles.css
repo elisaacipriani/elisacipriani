@@ -851,7 +851,7 @@ li {
 .info-section {
   row-gap: 0;
   border-top: 0;
-  padding-top: 12px;
+  padding-top: clamp(72px, 8vw, 120px);
 }
 
 .info-block + .info-block {
@@ -1063,10 +1063,10 @@ li {
 }
 
 .section-top-link {
+  display: none !important;
   grid-column: 1 / -1;
   justify-self: start;
   align-self: end;
-  display: block;
   width: 42px;
   height: 42px;
   margin-top: clamp(34px, 5vw, 72px);
