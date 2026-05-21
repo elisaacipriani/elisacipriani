@@ -1526,8 +1526,9 @@ main {
     grid-column: 1 / -1;
     grid-row: 2;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: minmax(62px, 1fr) auto minmax(62px, 1fr);
     gap: 8px;
+    align-items: start;
     min-width: 0;
     width: 100%;
     transform: none;
@@ -1547,7 +1548,24 @@ main {
 
   .nav-link {
     min-width: 0;
-    line-height: 1.08;
+    font-size: 11px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .site-nav a:nth-child(1) {
+    justify-self: start;
+    text-align: left;
+  }
+
+  .site-nav a:nth-child(2) {
+    justify-self: center;
+    text-align: center;
+  }
+
+  .site-nav a:nth-child(3) {
+    justify-self: end;
+    text-align: right;
   }
 
   .language-switch {

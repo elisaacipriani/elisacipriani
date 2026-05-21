@@ -1233,32 +1233,11 @@ li {
 }
 
 .savia-series {
-  padding-top: 0;
+  padding-block: 0;
 }
 
 .savia-series h1 {
   grid-column: 2 / span 10;
-}
-
-.savia-series-frame {
-  position: relative;
-  grid-column: 1 / -1;
-  width: 100vw;
-  margin-right: calc(var(--pad) * -1);
-  margin-left: calc(var(--pad) * -1);
-  overflow: hidden;
-  background: #000000;
-}
-
-.savia-series-frame::before {
-  position: absolute;
-  z-index: 1;
-  top: 44%;
-  right: 0;
-  left: 0;
-  height: 19%;
-  content: "";
-  background: #000000;
 }
 
 .savia-two-up {
@@ -1275,29 +1254,13 @@ li {
 }
 
 .savia-series img {
+  grid-column: 1 / -1;
   display: block;
-  width: 100%;
+  width: 100vw;
   max-width: none;
   height: auto;
-}
-
-.savia-series-labels {
-  position: absolute;
-  top: 49%;
-  right: 0;
-  left: 0;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: repeat(9, minmax(0, 1fr));
-  gap: 0;
-  padding-inline: 9vw;
-  padding-block: 18px 28px;
-  color: #ffffff;
-  font-size: clamp(9px, 0.58vw, 13px);
-  font-weight: 300;
-  line-height: 1.18;
-  text-align: center;
-  text-transform: uppercase;
+  margin-right: calc(var(--pad) * -1);
+  margin-left: calc(var(--pad) * -1);
 }
 
 .savia-system-frame {
@@ -1311,10 +1274,8 @@ li {
 
 .savia-system-frame::before,
 .savia-system-frame::after {
-  position: absolute;
-  z-index: 1;
-  content: "";
-  background: #ffffff;
+  display: none;
+  content: none;
 }
 
 .savia-system-frame::before {
@@ -1336,6 +1297,15 @@ li {
   width: 100%;
   max-width: none;
   height: auto;
+}
+
+.i18n-media {
+  display: none !important;
+}
+
+html[lang="es"] .i18n-media-es,
+html[lang="en"] .i18n-media-en {
+  display: block !important;
 }
 
 .savia-system-title,
@@ -2244,8 +2214,8 @@ html[lang="es"] .migrar-mindmap-labels {
 
 .diary-hero h1 {
   grid-column: 1 / span 7;
-  max-width: 920px;
-  font-size: clamp(70px, 8vw, 150px);
+  max-width: 1040px;
+  font-size: 84px;
   font-weight: 200;
   line-height: 0.9;
   letter-spacing: 0;
@@ -2391,20 +2361,38 @@ html[lang="es"] .migrar-mindmap-labels {
   .site-nav {
     grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--gutter);
+    grid-template-columns: minmax(62px, 1fr) auto minmax(62px, 1fr);
+    gap: 8px;
+    align-items: start;
   }
 
   .site-nav a {
     min-width: 0;
-    white-space: normal;
+    font-size: 12px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .site-nav a:nth-child(1) {
+    justify-self: start;
+    text-align: left;
+  }
+
+  .site-nav a:nth-child(2) {
+    justify-self: center;
+    text-align: center;
+  }
+
+  .site-nav a:nth-child(3) {
+    justify-self: end;
+    text-align: right;
   }
 
   .hero-copy {
     position: absolute;
     display: grid;
     grid-template-columns: 1fr;
-    row-gap: 14px;
+    row-gap: 22px;
     right: var(--pad);
     bottom: 28px;
     padding: 0;
@@ -2441,7 +2429,7 @@ html[lang="es"] .migrar-mindmap-labels {
   }
 
   .hero-copy :where(h1, p:not(.eyebrow)) {
-    width: min(250px, 100%);
+    width: min(330px, 100%);
   }
 
   .hero-copy p:not(.eyebrow) {
@@ -2449,8 +2437,16 @@ html[lang="es"] .migrar-mindmap-labels {
     font-size: 16px;
   }
 
+  .hero-copy h1,
+  .hero-copy p:nth-of-type(2),
+  .hero-copy p:nth-of-type(3) {
+    justify-self: start;
+    text-align: left;
+  }
+
   .statement-title {
-    font-size: clamp(44px, 16vw, 84px);
+    font-size: clamp(52px, 17vw, 82px);
+    line-height: 0.96;
   }
 
   .statement-portraits,
@@ -2498,6 +2494,18 @@ html[lang="es"] .migrar-mindmap-labels {
 
   .statement-portraits {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .donkeys-section {
+    min-height: auto;
+  }
+
+  .donkeys-section img {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: center center;
   }
 
   .project-index {
@@ -2578,7 +2586,8 @@ html[lang="es"] .migrar-mindmap-labels {
     transform: none;
   }
 
-  .project-index-thumb.is-azul-cover img {
+  .project-index-thumb.is-azul-cover img,
+  .project-index-thumb.is-encanto-cover img {
     transform: none;
   }
 
@@ -2589,8 +2598,9 @@ html[lang="es"] .migrar-mindmap-labels {
 
   .journey-section h2 {
     margin-bottom: 8px;
-    font-size: clamp(58px, 22vw, 92px);
-    overflow-wrap: anywhere;
+    font-size: clamp(46px, 18vw, 74px);
+    overflow-wrap: normal;
+    white-space: nowrap;
   }
 
   .journey-grid {
@@ -2609,7 +2619,7 @@ html[lang="es"] .migrar-mindmap-labels {
   .cv-block,
   .info-block {
     grid-template-columns: 1fr;
-    row-gap: 18px;
+    row-gap: 22px;
   }
 
   .cv-block h2,
@@ -2626,11 +2636,37 @@ html[lang="es"] .migrar-mindmap-labels {
 
   .cv-block dl > div {
     grid-template-columns: 1fr;
-    row-gap: 6px;
+    row-gap: 8px;
+    padding-bottom: 20px;
+  }
+
+  .cv-block dl > div + div {
+    padding-top: 20px;
   }
 
   .info-section .info-block:not(.wide) ul {
     grid-template-columns: 1fr;
+    row-gap: 4px;
+  }
+
+  .text-pair p,
+  .trust-copy p,
+  .journey-grid p,
+  dd,
+  li,
+  .cv-block dd,
+  .table-list dd,
+  .info-block li {
+    font-size: 15px;
+    line-height: 1.18;
+    letter-spacing: 0;
+  }
+
+  .cv-block h2,
+  .info-block h2,
+  .who-section h2 {
+    font-size: 15px;
+    line-height: 1.1;
   }
 
   .info-block.wide .table-list {
@@ -2662,7 +2698,7 @@ html[lang="es"] .migrar-mindmap-labels {
 
   .contact-details a,
   .contact-details a:last-child {
-    font-size: clamp(30px, 10vw, 70px);
+    font-size: clamp(25px, 7vw, 54px);
     line-height: 0.92;
     white-space: normal;
     overflow-wrap: anywhere;
@@ -2789,18 +2825,8 @@ html[lang="es"] .migrar-mindmap-labels {
     margin-top: 10px;
   }
 
-  .savia-series-frame {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
   .savia-series img {
-    width: max(760px, 180vw);
-  }
-
-  .savia-series-labels,
-  .savia-series-frame::before {
-    display: none;
+    width: 100vw;
   }
 
   .savia-two-up,
@@ -2932,7 +2958,7 @@ html[lang="es"] .migrar-mindmap-labels {
   }
 
   .diary-hero h1 {
-    font-size: clamp(44px, 12vw, 86px);
+    font-size: clamp(42px, 9vw, 68px);
   }
 
   .diary-data div {
