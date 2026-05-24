@@ -189,7 +189,7 @@ const copy = {
     "works.cat.migrar": "Territory / Research",
     "works.cat.encanto": "Object / Installation",
     "works.cat.hilvan": "Textile / Process",
-    "works.cat.diary": "Editorial design / Tattoo",
+    "works.cat.diary": "Illustration / Photography",
     "arts.title": "Arts & Photography",
     "arts.note": "Series, images and visual archives.",
     "arts.category": "arts & photography",
