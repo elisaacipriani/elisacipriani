@@ -535,6 +535,11 @@ h1 {
   transform: scale(1.35);
 }
 
+.project-index-item.is-hilvan-index .project-index-thumb video {
+  height: calc(100% + 2px);
+  transform: translateY(-1px);
+}
+
 .project-index-page {
   min-height: 100svh;
 }
