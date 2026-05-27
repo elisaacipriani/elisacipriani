@@ -300,7 +300,7 @@
       "home.title": "A multidisciplinary designer from Buenos<br>Aires, Argentina.",
       "home.copy1": "Exploring arts, fashion, and culture<br>through handmade practices.",
       "home.copy2": "Values the creative process where ideas<br>and materials need to become projects.",
-      "statement.title": "To design is<br>to give life<br>to new<br>universes.",
+      "statement.title": "To design<br>is to give<br>life to new<br>universes",
       "statement.caption": "The most valuable tools we have within ourselves are imagination and creativity. With these, we can give shape to things so that the world gets to know them.",
       "works.title": "Works",
       "works.note": "Works, series and records.",
