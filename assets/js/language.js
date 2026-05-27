@@ -11,7 +11,7 @@
       "home.title": "Diseñadora multidisciplinaria de<br>Buenos Aires, Argentina.",
       "home.copy1": "Explora arte, moda y cultura<br>a través de prácticas hechas a mano.",
       "home.copy2": "Valora el proceso creativo donde las ideas<br>y los materiales necesitan convertirse en proyectos.",
-      "statement.title": "Diseñar es<br>dar vida<br>a nuevos<br>universos.",
+      "statement.title": "Diseñar<br>es dar<br>vida a<br>nuevos<br>universos",
       "statement.caption": "Las herramientas más valiosas que tenemos dentro son la imaginación y la creatividad. Con ellas podemos dar forma a las cosas para que el mundo las conozca.",
       "works.title": "Trabajos",
       "works.note": "Obras, series y registros.",
