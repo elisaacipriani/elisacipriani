@@ -4503,7 +4503,7 @@ html:not([lang="en"]) .migrar-mindmap-layered-es {
     margin-inline: 0;
     overflow: hidden;
     aspect-ratio: auto;
-    background: #000000;
+    background: transparent;
   }
 
   .encanto-moodboard-reveal > img,
