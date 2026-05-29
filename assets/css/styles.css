@@ -363,6 +363,10 @@ h1 {
   font-weight: 200 !important;
 }
 
+.hero-mobile-copy {
+  display: none;
+}
+
 .statement-section {
   align-items: center;
   min-height: 100svh;
@@ -3844,9 +3848,9 @@ html:not([lang="en"]) .migrar-mindmap-layered-es {
 
   .hero-copy {
     position: absolute;
-    inset: auto var(--pad) 28px;
+    inset: calc(var(--home-header) + 24px) var(--pad) auto;
     display: grid;
-    row-gap: 18px;
+    row-gap: 0;
     justify-items: start;
     padding: 0;
   }
@@ -3889,6 +3893,24 @@ html:not([lang="en"]) .migrar-mindmap-layered-es {
   .hero-copy p:not(.eyebrow) {
     max-width: 320px;
     font-size: 16px;
+  }
+
+  .hero-copy h1,
+  .hero-copy p:not(.eyebrow):not(.hero-mobile-copy) {
+    display: none;
+  }
+
+  .hero-mobile-copy {
+    display: block !important;
+    grid-column: 1 / -1;
+    width: min(330px, 100%) !important;
+    max-width: 330px !important;
+    min-height: 0 !important;
+    margin: 0;
+    font-size: 13px !important;
+    font-weight: 200 !important;
+    line-height: 1.08 !important;
+    letter-spacing: 0.04em;
   }
 
   .hero-copy h1,
@@ -5336,6 +5358,15 @@ h3,
   .migrar-project .site-footer,
   .migrar-project .site-footer :where(a, p, span) {
     font-size: 13px !important;
+  }
+
+  .site-header,
+  .site-footer,
+  main > section:not(.hero),
+  .migrar-project .site-header,
+  .migrar-project .site-footer {
+    padding-left: var(--pad) !important;
+    padding-right: var(--pad) !important;
   }
 
   .migrar-subtitle {

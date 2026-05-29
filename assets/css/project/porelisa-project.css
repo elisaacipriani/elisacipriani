@@ -2037,6 +2037,17 @@ main {
   .site-footer :where(a, p, span) {
     font-size: 13px !important;
   }
+
+  .site-header,
+  .site-footer,
+  .home-intro,
+  .archive-section,
+  .bio-section,
+  .contact-section,
+  .project-page {
+    padding-left: var(--pad) !important;
+    padding-right: var(--pad) !important;
+  }
 }
 
 .project-page .media-item img,
