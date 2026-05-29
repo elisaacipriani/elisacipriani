@@ -1457,7 +1457,8 @@ main {
   .project-hero h1,
   .project-subtitle {
     max-width: 100%;
-    overflow-wrap: anywhere;
+    overflow-wrap: normal;
+    word-break: normal;
   }
 
   .project-subtitle {
@@ -1466,11 +1467,12 @@ main {
 
   .project-data {
     width: 100%;
+    max-width: none;
   }
 
   .project-hero::after {
-    right: 0;
-    left: 0;
+    right: calc(var(--pad) * -1) !important;
+    left: calc(var(--pad) * -1) !important;
   }
 }
 
@@ -1550,7 +1552,7 @@ main {
     align-items: center;
     padding-top: 12px;
     padding-bottom: 12px;
-    font-size: 11px;
+    font-size: 13px;
   }
 
   .brand {
@@ -1586,7 +1588,7 @@ main {
 
   .nav-link {
     min-width: 0;
-    font-size: 11px;
+    font-size: inherit;
     line-height: 1;
     white-space: nowrap;
   }
@@ -1708,10 +1710,10 @@ main {
   }
 
   .project-data div {
-    margin-right: calc(var(--pad) * -1);
-    margin-left: calc(var(--pad) * -1);
-    padding-right: var(--pad);
-    padding-left: var(--pad);
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
   }
 
   .archive-item {
@@ -2027,6 +2029,13 @@ main {
     width: auto;
     max-width: none;
     white-space: nowrap;
+  }
+
+  .site-header,
+  .site-header :where(a, button, span),
+  .site-footer,
+  .site-footer :where(a, p, span) {
+    font-size: 13px !important;
   }
 }
 

@@ -5055,6 +5055,10 @@ html:not([lang="en"]) .migrar-mindmap-layered-es {
     font-size: clamp(42px, 9vw, 68px);
   }
 
+  .diary-data {
+    margin-top: 38px;
+  }
+
   .diary-data div {
     grid-template-columns: 1fr;
     gap: 4px;
@@ -5228,13 +5232,13 @@ h3,
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-rows: auto auto;
-    gap: 9px 12px;
+    gap: 14px 12px;
     align-content: center;
     align-items: center;
     min-height: var(--home-header);
     padding-top: 12px;
     padding-bottom: 12px;
-    font-size: 11px;
+    font-size: 13px;
     line-height: 1;
   }
 
@@ -5250,6 +5254,16 @@ h3,
     grid-column: 2;
     grid-row: 1;
     justify-self: end;
+    gap: 18px;
+  }
+
+  .language-switch :where(button, a),
+  .migrar-project .language-switch :where(button, a) {
+    justify-content: flex-end;
+    width: auto;
+    min-width: 0;
+    min-height: auto;
+    padding: 0;
   }
 
   .menu-toggle {
@@ -5285,7 +5299,7 @@ h3,
   .migrar-project .site-nav a {
     grid-row: 1 !important;
     min-width: 0;
-    font-size: 11px;
+    font-size: inherit;
     line-height: 1;
     white-space: nowrap;
     opacity: 1;
@@ -5311,6 +5325,17 @@ h3,
     grid-column: 3 !important;
     justify-self: end !important;
     text-align: right !important;
+  }
+
+  .site-header,
+  .site-header :where(a, button, span),
+  .site-footer,
+  .site-footer :where(a, p, span),
+  .migrar-project .site-header,
+  .migrar-project .site-header :where(a, button, span),
+  .migrar-project .site-footer,
+  .migrar-project .site-footer :where(a, p, span) {
+    font-size: 13px !important;
   }
 
   .migrar-subtitle {
