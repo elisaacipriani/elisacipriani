@@ -112,7 +112,7 @@ const copy = {
     "home.copy1": "Explora arte, moda y cultura<br>a través de prácticas hechas a mano.",
     "home.copy2": "Valora el proceso creativo, donde ideas y materiales se encuentran para convertirse en proyectos.",
     "home.mobileCopy": "Diseñadora multidisciplinaria de Buenos Aires, Argentina. Explora arte, moda y cultura a través de prácticas hechas a mano. Valora el proceso creativo donde las ideas y los materiales necesitan convertirse en proyectos.",
-    "statement.title": "Diseñar es dar<br>vida a nuevos<br>universos.",
+    "statement.title": "Diseñar<br>es dar vida<br>a nuevos<br>universos",
     "statement.caption": "Las herramientas más valiosas que tenemos dentro son la imaginación y la creatividad. Con ellas podemos dar forma a las cosas para que el mundo las conozca.",
     "works.title": "Trabajos",
     "works.note": "Obras, series y registros.",
