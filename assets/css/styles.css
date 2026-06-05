@@ -888,14 +888,26 @@ h2 {
   grid-column: 6 / -1;
   gap: 0;
   margin-right: calc(var(--pad) * -1);
+  padding-right: 53px;
 }
 
 .cv-block dl > div {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(150px, 0.42fr) minmax(0, 1fr);
   column-gap: var(--gutter);
   padding: 0 0 18px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 0;
+}
+
+.cv-block dl > div::after {
+  position: absolute;
+  right: -53px;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  content: "";
+  background: var(--line);
 }
 
 .cv-block dl > div + div {
@@ -4168,6 +4180,11 @@ html:not([lang="en"]) .migrar-mindmap-layered-es {
   }
 
   .cv-block dl {
+    margin-right: calc(var(--pad) * -1);
+    padding-right: 53px;
+  }
+
+  .cv-block dl {
     display: grid;
     gap: 0;
   }
@@ -4198,6 +4215,10 @@ html:not([lang="en"]) .migrar-mindmap-layered-es {
   .cv-block dl > div,
   .info-section .info-block:not(.wide) li {
     border-color: rgba(0, 0, 0, 0.14);
+  }
+
+  .cv-block dl > div::after {
+    background: rgba(0, 0, 0, 0.14);
   }
 
   .text-pair p,
