@@ -650,6 +650,10 @@
   margin-left: auto;
 }
 
+.tre-sorelle-identity-mockups-mobile {
+  display: none;
+}
+
 .tre-sorelle-objects-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -761,7 +765,7 @@
   }
 
   .tre-sorelle-hero {
-    --tre-sorelle-title-size: clamp(76px, 25vw, 122px);
+    --tre-sorelle-title-size: clamp(64px, 20vw, 96px);
     display: flex;
     flex-direction: column;
     min-height: auto;
@@ -777,6 +781,7 @@
 
   .tre-sorelle-hero-image {
     order: 3;
+    width: 100%;
     min-height: 0;
     margin: 42px 0 0;
   }
@@ -858,7 +863,7 @@
   }
 
   .tre-sorelle-identity-logo-stage img {
-    width: min(52vw, 250px);
+    width: min(60vw, 280px);
   }
 
   .tre-sorelle-identity-logo-stage p {
@@ -885,6 +890,13 @@
     width: 100%;
   }
 
+  .tre-sorelle-system-palette,
+  .tre-sorelle-system-typefaces,
+  .tre-sorelle-system-typefaces img {
+    width: 100%;
+    max-width: none;
+  }
+
   .tre-sorelle-type-specimen,
   .tre-sorelle-palette {
     grid-column: 1;
@@ -901,7 +913,56 @@
 
   .tre-sorelle-identity-applications {
     grid-template-columns: 1fr;
+    gap: 72px;
+    width: 100%;
     transform: none;
+  }
+
+  .tre-sorelle-garment-tags {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    width: 100%;
+  }
+
+  .tre-sorelle-garment-tags img,
+  .tre-sorelle-brand-card-set {
+    width: 100%;
+    max-width: none;
+  }
+
+  .tre-sorelle-identity-mockups {
+    display: none;
+  }
+
+  .tre-sorelle-identity-mockups-mobile {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 42px;
+    width: 100%;
+    margin-top: 92px;
+  }
+
+  .tre-sorelle-mobile-mockup {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+  }
+
+  .tre-sorelle-mobile-mockup.is-envelope,
+  .tre-sorelle-mobile-mockup.is-bags {
+    background-image: url("../images/tre-sorelle/identity/identity-mockups-envelope-bags.png");
+  }
+
+  .tre-sorelle-mobile-mockup.is-floral,
+  .tre-sorelle-mobile-mockup.is-wax {
+    background-image: url("../images/tre-sorelle/identity/identity-mockups-floral-wax.png");
+  }
+
+  .tre-sorelle-mobile-mockup.is-bags,
+  .tre-sorelle-mobile-mockup.is-wax {
+    background-position: right center;
   }
 
   .tre-sorelle-identity-applications img:first-child,
@@ -911,6 +972,13 @@
 
   .tre-sorelle-strategy-grid {
     gap: 100px;
+    overflow: hidden;
+  }
+
+  .tre-sorelle-reference-board {
+    width: 126%;
+    max-width: none;
+    margin-left: -13%;
   }
 
   .tre-sorelle-strategy-eyebrow {
@@ -946,13 +1014,21 @@
 
   .tre-sorelle-campaign-pair,
   .tre-sorelle-campaign-triptych {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
+    gap: 42px;
   }
 
   .tre-sorelle-campaign-triptych img:last-child {
-    grid-column: 1 / -1;
-    justify-self: center;
-    width: calc(50% - (var(--gutter) / 2));
+    grid-column: auto;
+    justify-self: stretch;
+    width: 100%;
+  }
+
+  .tre-sorelle-campaign-pair img,
+  .tre-sorelle-campaign-triptych img {
+    width: 100%;
+    aspect-ratio: auto;
+    object-fit: contain;
   }
 
   .tre-sorelle-social-grid img:nth-child(2),
