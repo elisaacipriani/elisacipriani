@@ -960,17 +960,10 @@
     width: 100%;
   }
 
-  .tre-sorelle-mobile-brand-card {
+  .tre-sorelle-brand-card-set-mobile img {
+    display: block;
     width: 100%;
-    aspect-ratio: 1.64 / 1;
-    background-image: url("../images/tre-sorelle/identity/brand-card-set-mobile.png");
-    background-position: left top;
-    background-repeat: no-repeat;
-    background-size: 190% auto;
-  }
-
-  .tre-sorelle-mobile-brand-card.is-back {
-    background-position: left bottom;
+    height: auto;
   }
 
   .tre-sorelle-identity-mockups {
@@ -1338,17 +1331,17 @@
 }
 
 .roomie-editorial {
-  background: #000000;
+  background: #ffffff;
 }
 
 .roomie-editorial .roomie-chapter-heading :where(h2, p) {
-  color: #ffffff;
+  color: #000000;
 }
 
 .roomie-editorial-selection {
   display: grid;
   gap: clamp(18px, 2.6vw, 44px);
-  background: #000000;
+  background: #ffffff;
 }
 
 .roomie-editorial-selection figure {
@@ -1364,6 +1357,16 @@
   background: #ffffff;
 }
 
+.roomie-editorial-dark-selection {
+  display: grid;
+  gap: clamp(18px, 2.6vw, 44px);
+  margin-right: calc(var(--pad) * -1);
+  margin-bottom: calc(clamp(96px, 12vw, 180px) * -1);
+  margin-left: calc(var(--pad) * -1);
+  padding: clamp(18px, 2.6vw, 44px) var(--pad) clamp(96px, 12vw, 180px);
+  background: #000000;
+}
+
 .roomie-editorial-dark {
   background: #000000;
 }
@@ -1376,16 +1379,48 @@
   color: #ffffff;
 }
 
-.roomie-academy-grid {
+.roomie-academy-copy {
+  grid-column: 6 / span 5;
+  grid-row: 1;
+  max-width: 580px;
+}
+
+.roomie-academy-copy > p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.18;
+  letter-spacing: 0.02em;
+}
+
+.roomie-academy-links {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--gutter);
+  grid-template-columns: auto 1fr;
+  gap: 7px 18px;
+  margin-top: 24px;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.roomie-academy-links span {
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+}
+
+.roomie-academy-links > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 18px;
+  color: #ffffff;
+}
+
+.roomie-academy-grid {
+  display: block;
 }
 
 .roomie-academy-grid img {
+  display: block;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
+  height: auto;
 }
 
 .roomie-series + .roomie-series {
@@ -1413,6 +1448,39 @@
   width: auto;
   max-width: 520px;
   font-size: 16px;
+}
+
+.roomie-rebranding-label p {
+  grid-column: 6 / span 5;
+  max-width: 580px;
+}
+
+.roomie-series-copy {
+  grid-column: 8 / -1;
+  width: auto;
+  max-width: 520px;
+}
+
+.roomie-series-copy p {
+  max-width: none;
+  margin: 0;
+}
+
+.roomie-series-credit {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px 24px;
+  margin-top: 18px;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.roomie-series-credit a {
+  justify-self: end;
+  text-align: right;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .roomie-series-grid {
@@ -1447,9 +1515,97 @@
   width: 100%;
 }
 
+.roomie-results-triptych {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 2.4vw, 40px);
+  align-items: start;
+  width: 88%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.roomie-results-phone {
+  min-width: 0;
+  margin: 0;
+}
+
+.roomie-results-device {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1642 / 3258;
+}
+
+.roomie-results-device::after {
+  position: absolute;
+  z-index: 3;
+  top: 5.25%;
+  left: 50%;
+  width: 25%;
+  aspect-ratio: 3.25 / 1;
+  content: "";
+  background: #000000;
+  border-radius: 999px;
+  transform: translateX(-50%);
+}
+
+.roomie-results-screen {
+  position: absolute;
+  z-index: 2;
+  top: 3.15%;
+  left: 6.9%;
+  width: 86.2%;
+  height: 93.7%;
+  overflow: hidden;
+  padding: 3px 2px;
+  border-radius: clamp(24px, 2.6vw, 44px);
+  background: #090e13;
+}
+
+.roomie-results-screen img {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+}
+
+.roomie-results-device .roomie-results-frame {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.roomie-results-phone figcaption {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
 .roomie-universe-phone {
-  width: min(36%, 570px);
+  width: min(28%, 440px);
+  margin: 0;
   justify-self: center;
+}
+
+.roomie-universe-phone img {
+  width: 100%;
+}
+
+.roomie-universe-phone figcaption {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.roomie-universe-phone a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .roomie-series-grid img {
@@ -1522,8 +1678,14 @@
   .roomie-chapter-heading h2,
   .roomie-chapter-heading > p:last-child,
   .roomie-series-label h3,
-  .roomie-series-label p {
+  .roomie-series-label p,
+  .roomie-series-copy,
+  .roomie-academy-copy {
     grid-column: 1;
+  }
+
+  .roomie-academy-copy {
+    grid-row: auto;
   }
 
   .roomie-intro {
@@ -1594,8 +1756,14 @@
     gap: 48px;
   }
 
+  .roomie-results-triptych {
+    grid-template-columns: 1fr;
+    gap: 54px;
+    width: 68%;
+  }
+
   .roomie-universe-phone {
-    width: 70%;
+    width: 60%;
   }
 
   .roomie-closing {
@@ -7146,6 +7314,21 @@ h3,
   font-size: 16px !important;
 }
 
+.roomie-project .roomie-rebranding-label h3 {
+  grid-column: 1 / span 4;
+  grid-row: 1;
+  font-size: 25px !important;
+}
+
+.roomie-project .roomie-rebranding-label p {
+  grid-column: 6 / span 4;
+  grid-row: 1;
+  max-width: 433px !important;
+  font-size: 18px !important;
+  line-height: 1.08;
+  letter-spacing: 0.04em;
+}
+
 .roomie-project .roomie-closing p {
   width: auto !important;
   max-width: 1500px !important;
@@ -7180,6 +7363,18 @@ h3,
 
   .roomie-project .roomie-chapter-heading > p:last-child {
     grid-column: 1 / -1 !important;
+    grid-row: 2;
+    font-size: 16px !important;
+  }
+
+  .roomie-project .roomie-rebranding-label h3 {
+    grid-column: 1 !important;
+    grid-row: 1;
+    font-size: 18px !important;
+  }
+
+  .roomie-project .roomie-rebranding-label p {
+    grid-column: 1 !important;
     grid-row: 2;
     font-size: 16px !important;
   }
