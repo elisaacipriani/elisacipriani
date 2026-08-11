@@ -104,8 +104,9 @@
 .tre-sorelle-meta {
   grid-column: 9 / -1;
   grid-row: 1;
-  align-self: end;
+  align-self: center;
   margin: 0;
+  transform: translateY(calc(var(--tre-sorelle-title-size) * 0.55));
 }
 
 .tre-sorelle-meta div {
@@ -223,6 +224,7 @@
   align-self: center;
   width: 100%;
   height: auto;
+  clip-path: inset(3px);
   mix-blend-mode: multiply;
 }
 
@@ -524,7 +526,7 @@
 }
 
 .tre-sorelle-identity-logo-stage img {
-  width: min(24vw, 300px);
+  width: min(28vw, 350px);
   height: auto;
 }
 
@@ -533,10 +535,10 @@
   grid-template-columns: 1fr;
   gap: clamp(56px, 7vw, 110px);
   align-items: start;
-  width: 80%;
+  width: 72%;
   margin-right: auto;
   margin-bottom: clamp(110px, 14vw, 210px);
-  margin-left: 0;
+  margin-left: calc((100% + var(--gutter)) / 12);
 }
 
 .tre-sorelle-system-palette,
@@ -786,6 +788,7 @@
   .tre-sorelle-meta {
     order: 2;
     margin-top: 42px;
+    transform: none;
   }
 
   .tre-sorelle-meta div {
@@ -855,7 +858,7 @@
   }
 
   .tre-sorelle-identity-logo-stage img {
-    width: min(46vw, 220px);
+    width: min(52vw, 250px);
   }
 
   .tre-sorelle-identity-logo-stage p {
@@ -868,7 +871,9 @@
   .tre-sorelle-identity-system {
     grid-template-columns: 1fr;
     gap: 72px;
+    width: 100%;
     margin-bottom: 88px;
+    margin-left: 0;
   }
 
   .tre-sorelle-system-typefaces {
