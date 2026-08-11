@@ -219,9 +219,15 @@
   color: #000000;
 }
 
-.tre-sorelle-reference-board {
+.tre-sorelle-reference-picture {
   display: block;
   align-self: center;
+  width: 100%;
+  overflow: hidden;
+}
+
+.tre-sorelle-reference-board {
+  display: block;
   width: 100%;
   height: auto;
   clip-path: inset(3px);
@@ -367,6 +373,10 @@
   height: auto;
 }
 
+.tre-sorelle-phone-panel {
+  display: contents;
+}
+
 .tre-sorelle-social-strategy {
   margin-bottom: clamp(100px, 12vw, 180px);
 }
@@ -400,6 +410,11 @@
   display: block;
   width: 100%;
   height: auto;
+}
+
+.tre-sorelle-instagram-posts picture {
+  display: block;
+  width: 100%;
 }
 
 .tre-sorelle-reel-stage {
@@ -639,6 +654,10 @@
   width: 115%;
   max-width: none;
   object-fit: contain;
+}
+
+.tre-sorelle-brand-card-set-mobile {
+  display: none;
 }
 
 .tre-sorelle-identity-mockups {
@@ -930,6 +949,30 @@
     max-width: none;
   }
 
+  .tre-sorelle-brand-card-set {
+    display: none;
+  }
+
+  .tre-sorelle-brand-card-set-mobile {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 42px;
+    width: 100%;
+  }
+
+  .tre-sorelle-mobile-brand-card {
+    width: 100%;
+    aspect-ratio: 1.64 / 1;
+    background-image: url("../images/tre-sorelle/identity/brand-card-set.png");
+    background-position: left top;
+    background-repeat: no-repeat;
+    background-size: 200% auto;
+  }
+
+  .tre-sorelle-mobile-brand-card.is-back {
+    background-position: left bottom;
+  }
+
   .tre-sorelle-identity-mockups {
     display: none;
   }
@@ -947,7 +990,7 @@
     aspect-ratio: 4 / 5;
     background-position: left center;
     background-repeat: no-repeat;
-    background-size: auto 100%;
+    background-size: auto 110%;
   }
 
   .tre-sorelle-mobile-mockup.is-envelope,
@@ -975,10 +1018,16 @@
     overflow: hidden;
   }
 
+  .tre-sorelle-reference-picture,
   .tre-sorelle-reference-board {
-    width: 126%;
+    width: 100%;
     max-width: none;
-    margin-left: -13%;
+    margin: 0;
+  }
+
+  .tre-sorelle-reference-board {
+    clip-path: none;
+    mix-blend-mode: multiply;
   }
 
   .tre-sorelle-strategy-eyebrow {
@@ -1037,17 +1086,75 @@
   }
 
   .tre-sorelle-reel-stage {
-    min-height: 86svh;
-    margin-top: 0;
-    margin-bottom: 88px;
+    width: 100vw;
+    height: 100svh;
+    min-height: 0;
+    margin: 0 calc(50% - 50vw) 88px;
+    overflow: visible;
   }
 
   .tre-sorelle-iphone {
-    width: min(88vw, 41svh, 500px);
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  .tre-sorelle-iphone::after,
+  .tre-sorelle-iphone-frame {
+    display: none;
+  }
+
+  .tre-sorelle-iphone-screen {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  .tre-sorelle-iphone-video {
+    border-radius: 0;
+  }
+
+  .tre-sorelle-phone-triptych {
+    grid-template-columns: 1fr;
+    gap: 0;
+    width: 100vw;
+    margin-right: calc(50% - 50vw);
+    margin-bottom: 0;
+    margin-left: calc(50% - 50vw);
+  }
+
+  .tre-sorelle-phone-panel {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100svh;
+    aspect-ratio: auto;
+    overflow: hidden;
+  }
+
+  .tre-sorelle-phone-panel img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.42);
   }
 
   .tre-sorelle-reel-label,
   .tre-sorelle-posts-label {
+    display: none;
+  }
+
+  .tre-sorelle-instagram-posts,
+  .tre-sorelle-instagram-posts img {
+    width: 100%;
+    max-width: none;
+  }
+
+  .tre-sorelle-social-grid {
     display: none;
   }
 
