@@ -1599,7 +1599,8 @@
   justify-self: center;
 }
 
-.roomie-universe-phone img {
+.roomie-universe-device img {
+  display: block;
   width: 100%;
 }
 
@@ -7416,14 +7417,85 @@ h3,
 
   .roomie-project .roomie-editorial-mobile {
     display: grid;
-    gap: 28px;
-    width: 100%;
+    gap: 0;
+    width: 100vw;
+    margin-right: calc(50% - 50vw);
+    margin-left: calc(50% - 50vw);
+  }
+
+  .roomie-project .roomie-editorial {
+    padding-bottom: 0 !important;
   }
 
   .roomie-project .roomie-editorial-mobile img {
     display: block;
     width: 100%;
     height: auto;
+  }
+
+  .roomie-project .roomie-results-triptych {
+    grid-template-columns: 1fr;
+    gap: 48px;
+    width: 100vw;
+    margin-right: calc(50% - 50vw);
+    margin-left: calc(50% - 50vw);
+  }
+
+  .roomie-project .roomie-results-device {
+    width: 100%;
+    aspect-ratio: auto;
+  }
+
+  .roomie-project .roomie-results-device::after,
+  .roomie-project .roomie-results-frame {
+    display: none;
+  }
+
+  .roomie-project .roomie-results-screen {
+    position: static;
+    width: 100%;
+    height: auto;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  .roomie-project .roomie-results-screen img {
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+    object-fit: contain;
+  }
+
+  .roomie-project .roomie-results-phone figcaption {
+    padding-right: var(--pad);
+    padding-left: var(--pad);
+  }
+
+  .roomie-project .roomie-universe-phone {
+    width: 100vw;
+    margin-right: calc(50% - 50vw);
+    margin-left: calc(50% - 50vw);
+  }
+
+  .roomie-project .roomie-universe-device {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1010 / 1880;
+    overflow: hidden;
+    background: #f4f4f4;
+  }
+
+  .roomie-project .roomie-universe-device img {
+    position: absolute;
+    top: -25.25vw;
+    left: -9.4%;
+    width: 118.82%;
+    max-width: none;
+  }
+
+  .roomie-project .roomie-universe-phone figcaption {
+    padding-right: var(--pad);
+    padding-left: var(--pad);
   }
 
   .roomie-project .roomie-closing p {
