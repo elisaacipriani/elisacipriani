@@ -963,10 +963,10 @@
   .tre-sorelle-mobile-brand-card {
     width: 100%;
     aspect-ratio: 1.64 / 1;
-    background-image: url("../images/tre-sorelle/identity/brand-card-set.png");
+    background-image: url("../images/tre-sorelle/identity/brand-card-set-mobile.png");
     background-position: left top;
     background-repeat: no-repeat;
-    background-size: 200% auto;
+    background-size: 190% auto;
   }
 
   .tre-sorelle-mobile-brand-card.is-back {
@@ -1196,31 +1196,31 @@
 }
 
 .roomie-hero {
+  position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   min-height: calc(100svh - var(--home-header));
-  padding: clamp(96px, 13vw, 180px) var(--pad) clamp(30px, 4vw, 58px);
+  padding: clamp(92px, 10vw, 150px) var(--pad);
 }
 
 .roomie-logo {
-  align-self: center;
   width: min(88vw, 1500px);
-  margin: auto 0;
+  margin: 0;
 }
 
-.roomie-hero-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 24px;
-  text-transform: uppercase;
+.roomie-project .roomie-hero-meta {
+  position: absolute;
+  right: var(--pad);
+  bottom: clamp(34px, 4vw, 64px);
+  align-self: auto;
+  width: min(620px, calc(100% - (var(--pad) * 2)));
+  margin-top: 0;
 }
 
-.roomie-hero-footer p {
-  width: auto;
-  max-width: none;
-  font-size: 13px;
+.roomie-project .roomie-hero-meta div {
+  grid-template-columns: minmax(92px, 0.7fr) minmax(0, 1.8fr);
 }
 
 .roomie-intro {
@@ -1237,7 +1237,7 @@
 }
 
 .roomie-lead {
-  grid-column: 5 / span 4;
+  grid-column: 6 / span 4;
   width: auto;
   max-width: 433px;
   font-size: 18px;
@@ -1426,20 +1426,19 @@
 
 @media (max-width: 900px) {
   .roomie-hero {
-    min-height: calc(82svh - var(--home-header));
-    padding: 92px var(--pad) 28px !important;
+    min-height: calc(100svh - var(--home-header));
+    padding: 92px var(--pad) 58px !important;
   }
 
   .roomie-logo {
     width: 94%;
   }
 
-  .roomie-hero-footer {
-    align-items: start;
-  }
-
-  .roomie-hero-footer p:first-child {
-    max-width: 220px;
+  .roomie-project .roomie-hero-meta {
+    right: var(--pad);
+    bottom: 32px;
+    width: calc(100% - (var(--pad) * 2));
+    margin-top: 0;
   }
 
   .roomie-intro,
@@ -7026,13 +7025,13 @@ h3,
   display: flex;
 }
 
-.roomie-project .roomie-hero-footer p {
-  width: auto !important;
-  max-width: none !important;
-  font-size: 13px !important;
+.roomie-project .roomie-kicker {
+  font-size: 25px !important;
+  font-weight: 400 !important;
+  line-height: 1;
+  text-transform: none;
 }
 
-.roomie-project .roomie-kicker,
 .roomie-project .roomie-chapter-heading > p:first-child {
   font-size: 13px !important;
 }
@@ -7078,6 +7077,10 @@ h3,
 }
 
 @media (max-width: 900px) {
+  .roomie-project .roomie-kicker {
+    font-size: 18px !important;
+  }
+
   .roomie-project .roomie-lead {
     font-size: 18px !important;
   }
