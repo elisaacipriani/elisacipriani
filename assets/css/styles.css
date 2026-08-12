@@ -78,6 +78,7 @@
 
 .tre-sorelle-kicker {
   margin-top: clamp(20px, 2vw, 34px);
+  text-transform: none;
 }
 
 .tre-sorelle-hero-note {
@@ -217,6 +218,20 @@
 
 .tre-sorelle-strategy-panel {
   color: #000000;
+}
+
+@media (min-width: 901px) {
+  .tre-sorelle-direction .tre-sorelle-strategy-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+
+  .tre-sorelle-direction .tre-sorelle-strategy-panel {
+    grid-column: 2 / span 5;
+  }
+
+  .tre-sorelle-direction .tre-sorelle-reference-picture {
+    grid-column: 8 / -1;
+  }
 }
 
 .tre-sorelle-reference-picture {
@@ -719,7 +734,7 @@
 }
 
 .tre-sorelle-metrics {
-  grid-column: 1 / -1;
+  grid-column: 2 / -1;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--gutter);
@@ -1426,6 +1441,31 @@ html[lang="en"] .roomie-editorial-mobile.roomie-lang-en {
   letter-spacing: -0.045em;
 }
 
+/* Keep the English desktop card at the same type scale as the Spanish artwork. */
+.roomie-editorial-desktop .roomie-editorial-origin-card h3 {
+  width: 88%;
+  font-size: clamp(72px, 7.9vw, 158px);
+}
+
+.roomie-editorial-desktop .roomie-editorial-origin-card p {
+  width: 72%;
+  font-size: clamp(24px, 2.45vw, 49px);
+}
+
+/* Keep the English "What We Represent" composition at the same desktop
+   scale as its Spanish counterpart, without affecting the mobile stories. */
+.roomie-editorial-desktop .roomie-editorial-represent-card h3,
+.roomie-editorial-desktop .roomie-editorial-represent-card > :first-child > :last-child {
+  font-size: clamp(22px, 1.6vw, 33px);
+  line-height: 1.08;
+}
+
+.roomie-editorial-desktop .roomie-editorial-represent-card li,
+.roomie-editorial-desktop .roomie-editorial-represent-card > :last-child > * {
+  font-size: clamp(30px, 2.75vw, 56px);
+  line-height: 0.92;
+}
+
 .roomie-editorial-represent-card {
   display: grid;
   grid-template-columns: 1fr 1.08fr;
@@ -1619,8 +1659,8 @@ html[lang="en"] .roomie-editorial-mobile.roomie-lang-en {
 }
 
 .roomie-series-credit a {
-  justify-self: start;
-  text-align: left;
+  justify-self: end;
+  text-align: right;
   color: inherit;
   text-decoration: underline;
   text-underline-offset: 0.2em;
@@ -2600,6 +2640,14 @@ h1 {
   font-size: 20px;
   font-weight: 200;
   line-height: 1.18;
+}
+
+@media (min-width: 901px) {
+  .project-index-page .is-tre-sorelle-index .project-index-category,
+  .project-index-page .is-roomie-index .project-index-category {
+    max-width: none;
+    white-space: nowrap;
+  }
 }
 
 .project-index-page .project-index-category::after {
@@ -7503,6 +7551,18 @@ h3,
   font-size: 16px !important;
 }
 
+.roomie-project .roomie-love-series .roomie-series-copy,
+.roomie-project .roomie-love-series .roomie-series-copy p {
+  width: auto !important;
+  max-width: 433px !important;
+}
+
+.roomie-project .roomie-love-series .roomie-series-copy p {
+  font-size: 18px !important;
+  line-height: 1.08 !important;
+  letter-spacing: 0.04em;
+}
+
 .roomie-project .roomie-rebranding-label h3 {
   grid-column: 1 / span 4;
   grid-row: 1;
@@ -7560,10 +7620,6 @@ h3,
     text-align: right;
   }
 
-  .roomie-project .roomie-love-series .roomie-series-credit a {
-    margin-right: 14px;
-  }
-
   .roomie-project .roomie-kicker {
     font-size: 18px !important;
   }
@@ -7611,6 +7667,10 @@ h3,
   }
 
   .roomie-project .roomie-rebranding-copy p {
+    font-size: 16px !important;
+  }
+
+  .roomie-project .roomie-love-series .roomie-series-copy p {
     font-size: 16px !important;
   }
 
@@ -7665,12 +7725,6 @@ h3,
     display: block;
     width: 100%;
     height: auto;
-  }
-
-  .roomie-project .roomie-editorial-mobile > img:last-child {
-    aspect-ratio: 9 / 15.2;
-    object-fit: cover;
-    object-position: center bottom;
   }
 
   .roomie-project .roomie-editorial-mobile figure {
@@ -7811,5 +7865,26 @@ h3,
 
   .roomie-project .roomie-closing p {
     font-size: clamp(40px, 12vw, 70px) !important;
+  }
+}
+
+/* Mobile: preserve full Roomie post artwork */
+@media (max-width: 768px) {
+  .tre-sorelle-instagram-posts img,
+  .tre-sorelle-social-grid img,
+  .tre-sorelle-brand-card-set-mobile img,
+  .rebrand-grid img,
+  .rebranding-grid img,
+  .roomie-rebrand-grid img,
+  .roomie-universe-grid img,
+  .posts-grid img,
+  .posts-and-stories-grid img,
+  .roomie-series-grid img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    transform: none !important;
   }
 }
