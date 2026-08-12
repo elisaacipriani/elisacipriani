@@ -1180,6 +1180,7 @@
 /* Roomie Design */
 .roomie-page {
   position: relative;
+  --roomie-copy-media-gap: clamp(58px, 8vw, 118px);
   padding-top: var(--home-header);
   background: #ffffff;
 }
@@ -1216,11 +1217,16 @@
   grid-template-columns: minmax(92px, 0.7fr) minmax(0, 1.8fr);
 }
 
+.roomie-project .roomie-hero-meta dt {
+  text-transform: none;
+}
+
 .roomie-intro {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--gutter);
   padding: clamp(100px, 13vw, 190px) var(--pad);
+  padding-bottom: var(--roomie-copy-media-gap);
 }
 
 .roomie-kicker {
@@ -1257,7 +1263,7 @@
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--gutter);
   align-items: start;
-  margin-bottom: clamp(58px, 8vw, 118px);
+  margin-bottom: var(--roomie-copy-media-gap);
 }
 
 .roomie-chapter-heading > p:first-child {
@@ -1294,23 +1300,24 @@
 
 .roomie-moodboard-grid img {
   width: 100%;
+  height: auto;
   margin: 0 0 clamp(8px, 1vw, 16px);
   break-inside: avoid;
 }
 
 .roomie-moodboard-grid .roomie-moodboard-ratio-portrait {
-  aspect-ratio: 2 / 3;
-  object-fit: cover;
+  aspect-ratio: auto;
+  object-fit: contain;
 }
 
 .roomie-moodboard-grid .roomie-moodboard-ratio-narrow {
-  aspect-ratio: 647 / 1400;
-  object-fit: cover;
+  aspect-ratio: auto;
+  object-fit: contain;
 }
 
 .roomie-moodboard-grid .roomie-moodboard-ratio-three-four {
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
+  aspect-ratio: auto;
+  object-fit: contain;
 }
 
 .roomie-editorial-grid {
@@ -1357,8 +1364,115 @@
   display: none;
 }
 
+.roomie-lang-en {
+  display: none !important;
+}
+
+html[lang="en"] .roomie-lang-es {
+  display: none !important;
+}
+
+html[lang="en"] .roomie-editorial-selection.roomie-lang-en {
+  display: grid !important;
+}
+
+html[lang="en"] .roomie-editorial-mobile.roomie-lang-en {
+  display: none !important;
+}
+
 .roomie-editorial-light {
   background: #ffffff;
+}
+
+.roomie-editorial-origin-card,
+.roomie-editorial-represent-card {
+  box-sizing: border-box;
+  width: 100%;
+  aspect-ratio: 1314 / 739;
+  container-type: inline-size;
+}
+
+.roomie-editorial-origin-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 6.3% 4.6% 8.2%;
+  color: #000000;
+  background: #ffffff;
+}
+
+.roomie-editorial-origin-card h3 {
+  width: 58%;
+  margin: 0;
+  font-size: 5.45cqw;
+  font-weight: 600;
+  line-height: 0.88;
+  letter-spacing: -0.065em;
+  text-transform: uppercase;
+}
+
+.roomie-editorial-origin-card p {
+  width: 55%;
+  max-width: none;
+  margin: 0;
+  font-size: 1.55cqw;
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+}
+
+.roomie-editorial-represent-card {
+  display: grid;
+  grid-template-columns: 1fr 1.08fr;
+  gap: 3%;
+  padding: 2.7% 2.7% 3.2%;
+  color: #ffffff;
+  background: #000000;
+}
+
+.roomie-represent-intro {
+  padding-top: 8.5%;
+}
+
+.roomie-represent-intro strong {
+  font-size: 0.82cqw;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.roomie-represent-intro p {
+  max-width: none;
+  margin: 1.5% 0 0;
+  font-size: 1.65cqw;
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+}
+
+.roomie-represent-list {
+  align-self: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.roomie-represent-list li {
+  display: flex;
+  min-height: 7.2cqw;
+  align-items: center;
+  justify-content: flex-end;
+  border-top: 1px solid rgba(255, 255, 255, 0.82);
+  font-size: 3.5cqw;
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.roomie-represent-list li:last-child {
+  border-bottom: 0;
 }
 
 .roomie-editorial-dark-selection {
@@ -1394,6 +1508,10 @@
   font-size: 18px;
   line-height: 1.18;
   letter-spacing: 0.02em;
+}
+
+.roomie-academy-copy > p + p {
+  margin-top: 18px;
 }
 
 .roomie-academy-links {
@@ -1436,7 +1554,7 @@
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--gutter);
   align-items: baseline;
-  margin-bottom: 28px;
+  margin-bottom: var(--roomie-copy-media-gap);
 }
 
 .roomie-series-label h3 {
@@ -1454,9 +1572,13 @@
   font-size: 16px;
 }
 
-.roomie-rebranding-label p {
+.roomie-rebranding-copy {
   grid-column: 6 / span 5;
   max-width: 580px;
+}
+
+.roomie-rebranding-copy p + p {
+  margin-top: 18px;
 }
 
 .roomie-series-copy {
@@ -1472,7 +1594,7 @@
 
 .roomie-series-credit {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px 24px;
   margin-top: 18px;
   font-size: 13px;
@@ -1480,8 +1602,8 @@
 }
 
 .roomie-series-credit a {
-  justify-self: end;
-  text-align: right;
+  justify-self: start;
+  text-align: left;
   color: inherit;
   text-decoration: underline;
   text-underline-offset: 0.2em;
@@ -1521,6 +1643,19 @@
 
 .roomie-universe-wide {
   width: 100%;
+}
+
+.roomie-results-context {
+  display: grid;
+  gap: var(--roomie-copy-media-gap);
+}
+
+.roomie-results-context h4 {
+  width: 88%;
+  margin: 0 auto;
+  font-size: clamp(28px, 2.5vw, 42px);
+  font-weight: 400;
+  line-height: 1;
 }
 
 .roomie-results-triptych {
@@ -1700,7 +1835,7 @@
   .roomie-intro {
     gap: 42px;
     padding-top: 88px !important;
-    padding-bottom: 88px !important;
+    padding-bottom: var(--roomie-copy-media-gap) !important;
   }
 
   .roomie-lead {
@@ -7329,13 +7464,32 @@ h3,
   font-size: 25px !important;
 }
 
-.roomie-project .roomie-rebranding-label p {
+.roomie-project .roomie-rebranding-copy {
   grid-column: 6 / span 4;
   grid-row: 1;
   max-width: 433px !important;
+}
+
+.roomie-project .roomie-rebranding-copy p {
   font-size: 18px !important;
   line-height: 1.08;
   letter-spacing: 0.04em;
+}
+
+@media (min-width: 901px) {
+  .roomie-project .roomie-rebranding-label {
+    margin-bottom: var(--roomie-copy-media-gap);
+  }
+
+  .roomie-project .roomie-love-series .roomie-series-label {
+    align-items: start;
+    margin-bottom: var(--roomie-copy-media-gap);
+  }
+
+  .roomie-project .roomie-love-series .roomie-series-copy {
+    grid-column: 6 / span 4;
+    max-width: 433px;
+  }
 }
 
 .roomie-project .roomie-closing p {
@@ -7346,6 +7500,15 @@ h3,
 }
 
 @media (max-width: 900px) {
+  .roomie-project .roomie-series-credit {
+    grid-template-columns: 1fr auto;
+  }
+
+  .roomie-project .roomie-series-credit a {
+    justify-self: end;
+    text-align: right;
+  }
+
   .roomie-project .roomie-kicker {
     font-size: 18px !important;
   }
@@ -7382,9 +7545,12 @@ h3,
     font-size: 18px !important;
   }
 
-  .roomie-project .roomie-rebranding-label p {
+  .roomie-project .roomie-rebranding-copy {
     grid-column: 1 !important;
     grid-row: 2;
+  }
+
+  .roomie-project .roomie-rebranding-copy p {
     font-size: 16px !important;
   }
 
@@ -7415,12 +7581,20 @@ h3,
     display: none;
   }
 
+  html[lang="en"] .roomie-project .roomie-editorial-desktop.roomie-lang-en {
+    display: none !important;
+  }
+
   .roomie-project .roomie-editorial-mobile {
     display: grid;
     gap: 0;
     width: 100vw;
     margin-right: calc(50% - 50vw);
     margin-left: calc(50% - 50vw);
+  }
+
+  html[lang="en"] .roomie-project .roomie-editorial-mobile.roomie-lang-en {
+    display: grid !important;
   }
 
   .roomie-project .roomie-editorial {
@@ -7433,12 +7607,77 @@ h3,
     height: auto;
   }
 
+  .roomie-project .roomie-editorial-mobile figure {
+    margin: 0;
+  }
+
+  .roomie-project .roomie-editorial-mobile .roomie-editorial-origin-card,
+  .roomie-project .roomie-editorial-mobile .roomie-editorial-represent-card {
+    aspect-ratio: 9 / 16;
+  }
+
+  .roomie-project .roomie-editorial-mobile .roomie-editorial-origin-card {
+    padding: 9% 7% 13%;
+  }
+
+  .roomie-project .roomie-editorial-mobile .roomie-editorial-origin-card h3 {
+    width: 100%;
+    font-size: 8.1cqw;
+    line-height: 0.9;
+  }
+
+  .roomie-project .roomie-editorial-mobile .roomie-editorial-origin-card p {
+    width: 100%;
+    font-size: 3.25cqw;
+    line-height: 1.05;
+  }
+
+  .roomie-project .roomie-editorial-mobile .roomie-editorial-represent-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 7% 7% 10%;
+  }
+
+  .roomie-project .roomie-editorial-mobile .roomie-represent-intro {
+    padding-top: 8%;
+  }
+
+  .roomie-project .roomie-editorial-mobile .roomie-represent-intro strong {
+    font-size: 2.1cqw;
+  }
+
+  .roomie-project .roomie-editorial-mobile .roomie-represent-intro p {
+    margin-top: 4%;
+    font-size: 4.2cqw;
+  }
+
+  .roomie-project .roomie-editorial-mobile .roomie-represent-list {
+    width: 100%;
+    margin-top: 15%;
+  }
+
+  .roomie-project .roomie-editorial-mobile .roomie-represent-list li {
+    min-height: 10.4cqw;
+    font-size: 5.45cqw;
+  }
+
   .roomie-project .roomie-results-triptych {
     grid-template-columns: 1fr;
     gap: 48px;
     width: 100vw;
     margin-right: calc(50% - 50vw);
     margin-left: calc(50% - 50vw);
+  }
+
+  .roomie-project .roomie-results-context {
+    gap: var(--roomie-copy-media-gap);
+  }
+
+  .roomie-project .roomie-results-context h4 {
+    width: 100%;
+    font-size: 28px;
+    line-height: 1.05;
   }
 
   .roomie-project .roomie-results-device {
