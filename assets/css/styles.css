@@ -1731,51 +1731,40 @@ html[lang="en"] .roomie-editorial-mobile.roomie-lang-en {
 }
 
 .roomie-results-device {
-  position: relative;
   width: 100%;
-  aspect-ratio: 1642 / 3258;
-}
-
-.roomie-results-device::after {
-  position: absolute;
-  z-index: 3;
-  top: 5.25%;
-  left: 50%;
-  width: 25%;
-  aspect-ratio: 3.25 / 1;
-  content: "";
-  background: #000000;
-  border-radius: 999px;
-  transform: translateX(-50%);
 }
 
 .roomie-results-screen {
+  position: relative;
+  width: 86.2%;
+  margin: 0 auto;
+}
+
+.roomie-results-screen::before {
   position: absolute;
   z-index: 2;
-  top: 3.15%;
-  left: 6.9%;
-  width: 86.2%;
-  height: 93.7%;
-  overflow: hidden;
-  padding: 3px 2px;
-  border-radius: clamp(24px, 2.6vw, 44px);
-  background: #090e13;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 7.8%;
+  content: "";
+  background: linear-gradient(
+    to bottom,
+    #000000 0%,
+    #000000 42%,
+    rgba(0, 0, 0, 0.94) 54%,
+    rgba(0, 0, 0, 0.76) 68%,
+    rgba(0, 0, 0, 0.48) 81%,
+    rgba(0, 0, 0, 0.2) 92%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  pointer-events: none;
 }
 
 .roomie-results-screen img {
+  display: block;
   width: 100%;
-  height: 100%;
-  border-radius: inherit;
-  object-fit: cover;
-}
-
-.roomie-results-device .roomie-results-frame {
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+  height: auto;
 }
 
 .roomie-results-phone figcaption {
@@ -1924,12 +1913,9 @@ html[lang="en"] .roomie-editorial-mobile.roomie-lang-en {
   }
 
   .roomie-moodboard-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-flow: row;
-    align-items: start;
-    gap: clamp(8px, 2.4vw, 14px);
-    columns: auto;
+    display: block;
+    columns: 2;
+    column-gap: clamp(8px, 2.4vw, 14px);
   }
 
   .roomie-moodboard-grid img {
@@ -1937,7 +1923,8 @@ html[lang="en"] .roomie-editorial-mobile.roomie-lang-en {
     width: 100%;
     max-width: 100%;
     height: auto;
-    margin: 0;
+    margin: 0 0 clamp(8px, 2.4vw, 14px);
+    break-inside: avoid;
     transform: none !important;
     transition: none !important;
     animation: none !important;
@@ -1976,7 +1963,13 @@ html[lang="en"] .roomie-editorial-mobile.roomie-lang-en {
   .roomie-results-triptych {
     grid-template-columns: 1fr;
     gap: 54px;
-    width: 68%;
+    width: 100vw;
+    margin-right: calc(50% - 50vw);
+    margin-left: calc(50% - 50vw);
+  }
+
+  .roomie-results-screen {
+    width: 100%;
   }
 
   .roomie-universe-phone {
@@ -7693,8 +7686,30 @@ h3,
     height: auto;
   }
 
-  .roomie-project .roomie-mobile-post-grid > img:not(:nth-child(4n + 1)) {
-    clip-path: inset(0 0 0 18px);
+  .roomie-project .roomie-mobile-post-grid > img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: center;
+    clip-path: inset(0 1px);
+    transform: none;
+  }
+
+  .roomie-project .roomie-mobile-post-grid {
+    position: relative;
+  }
+
+  .roomie-project .roomie-mobile-post-grid::after {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 24px;
+    content: "";
+    background: #ffffff;
+    pointer-events: none;
+    transform: translateX(-50%);
   }
 
   .roomie-project .roomie-editorial-desktop {
@@ -7817,18 +7832,19 @@ h3,
     position: relative;
     width: 100%;
     height: auto;
-    aspect-ratio: 1 / 2;
-    overflow: hidden;
+    aspect-ratio: auto;
+    overflow: visible;
     padding: 0;
     border-radius: 0;
   }
 
   .roomie-project .roomie-results-screen img {
+    display: block;
     width: 100%;
-    height: 100%;
+    height: auto;
     border-radius: 0;
-    object-fit: cover;
-    object-position: center bottom;
+    object-fit: contain;
+    object-position: center;
   }
 
   .roomie-project .roomie-results-phone figcaption {
