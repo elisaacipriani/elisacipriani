@@ -1389,7 +1389,8 @@ html[lang="en"] .roomie-editorial-mobile.roomie-lang-en {
   box-sizing: border-box;
   width: 100%;
   aspect-ratio: 1314 / 739;
-  container-type: inline-size;
+  overflow: hidden;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .roomie-editorial-origin-card {
@@ -1404,10 +1405,12 @@ html[lang="en"] .roomie-editorial-mobile.roomie-lang-en {
 .roomie-editorial-origin-card h3 {
   width: 58%;
   margin: 0;
-  font-size: 5.45cqw;
-  font-weight: 600;
-  line-height: 0.88;
-  letter-spacing: -0.065em;
+  color: #000000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(44px, 4.15vw, 82px);
+  font-weight: 700;
+  line-height: 0.91;
+  letter-spacing: -0.06em;
   text-transform: uppercase;
 }
 
@@ -1415,7 +1418,9 @@ html[lang="en"] .roomie-editorial-mobile.roomie-lang-en {
   width: 55%;
   max-width: none;
   margin: 0;
-  font-size: 1.55cqw;
+  color: #000000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(16px, 1.35vw, 27px);
   font-weight: 400;
   line-height: 1.02;
   letter-spacing: -0.045em;
@@ -1435,8 +1440,10 @@ html[lang="en"] .roomie-editorial-mobile.roomie-lang-en {
 }
 
 .roomie-represent-intro strong {
-  font-size: 0.82cqw;
-  font-weight: 600;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(11px, 0.7vw, 14px);
+  font-weight: 700;
   line-height: 1;
   text-transform: uppercase;
 }
@@ -1444,7 +1451,9 @@ html[lang="en"] .roomie-editorial-mobile.roomie-lang-en {
 .roomie-represent-intro p {
   max-width: none;
   margin: 1.5% 0 0;
-  font-size: 1.65cqw;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(17px, 1.45vw, 29px);
   font-weight: 400;
   line-height: 1.05;
   letter-spacing: -0.045em;
@@ -1459,12 +1468,14 @@ html[lang="en"] .roomie-editorial-mobile.roomie-lang-en {
 
 .roomie-represent-list li {
   display: flex;
-  min-height: 7.2cqw;
+  min-height: clamp(54px, 5.45vw, 106px);
   align-items: center;
   justify-content: flex-end;
   border-top: 1px solid rgba(255, 255, 255, 0.82);
-  font-size: 3.5cqw;
-  font-weight: 600;
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(27px, 2.35vw, 47px);
+  font-weight: 700;
   line-height: 0.92;
   letter-spacing: -0.055em;
   text-align: right;
@@ -1479,10 +1490,16 @@ html[lang="en"] .roomie-editorial-mobile.roomie-lang-en {
   display: grid;
   gap: clamp(18px, 2.6vw, 44px);
   margin-right: calc(var(--pad) * -1);
-  margin-bottom: calc(clamp(96px, 12vw, 180px) * -1);
+  margin-bottom: 0;
   margin-left: calc(var(--pad) * -1);
   padding: clamp(18px, 2.6vw, 44px) var(--pad) clamp(96px, 12vw, 180px);
   background: #000000;
+  overflow: hidden;
+}
+
+.roomie-project .roomie-editorial {
+  padding-bottom: 0;
+  overflow: hidden;
 }
 
 .roomie-editorial-dark {
@@ -7438,10 +7455,22 @@ h3,
   font-weight: 400 !important;
 }
 
-.roomie-project .roomie-chapter-heading h2 {
+.roomie-project .roomie-chapter-heading h2,
+.roomie-project .roomie-series-label h3,
+.roomie-project .roomie-results-context h4 {
   font-size: 25px !important;
+  font-weight: 400 !important;
   line-height: 1 !important;
+  letter-spacing: 0 !important;
   text-transform: none !important;
+  text-align: left !important;
+  justify-self: start;
+  width: 100%;
+  margin: 0;
+}
+
+.roomie-project .roomie-results-context h4 {
+  align-self: start;
 }
 
 .roomie-project .roomie-chapter-heading > p:last-child {
@@ -7486,8 +7515,14 @@ h3,
     margin-bottom: var(--roomie-copy-media-gap);
   }
 
+  .roomie-project .roomie-love-series .roomie-series-label h3 {
+    grid-column: 1 / span 4;
+    grid-row: 1;
+  }
+
   .roomie-project .roomie-love-series .roomie-series-copy {
     grid-column: 6 / span 4;
+    grid-row: 1;
     max-width: 433px;
   }
 }
@@ -7530,6 +7565,11 @@ h3,
   .roomie-project .roomie-chapter-heading h2 {
     grid-column: 1 !important;
     grid-row: 1;
+    font-size: 18px !important;
+  }
+
+  .roomie-project .roomie-series-label h3,
+  .roomie-project .roomie-results-context h4 {
     font-size: 18px !important;
   }
 
@@ -7622,13 +7662,13 @@ h3,
 
   .roomie-project .roomie-editorial-mobile .roomie-editorial-origin-card h3 {
     width: 100%;
-    font-size: 8.1cqw;
+    font-size: clamp(28px, 8.1vw, 54px);
     line-height: 0.9;
   }
 
   .roomie-project .roomie-editorial-mobile .roomie-editorial-origin-card p {
     width: 100%;
-    font-size: 3.25cqw;
+    font-size: clamp(13px, 3.25vw, 22px);
     line-height: 1.05;
   }
 
@@ -7644,12 +7684,12 @@ h3,
   }
 
   .roomie-project .roomie-editorial-mobile .roomie-represent-intro strong {
-    font-size: 2.1cqw;
+    font-size: clamp(9px, 2.1vw, 14px);
   }
 
   .roomie-project .roomie-editorial-mobile .roomie-represent-intro p {
     margin-top: 4%;
-    font-size: 4.2cqw;
+    font-size: clamp(16px, 4.2vw, 28px);
   }
 
   .roomie-project .roomie-editorial-mobile .roomie-represent-list {
@@ -7658,8 +7698,8 @@ h3,
   }
 
   .roomie-project .roomie-editorial-mobile .roomie-represent-list li {
-    min-height: 10.4cqw;
-    font-size: 5.45cqw;
+    min-height: clamp(39px, 10.4vw, 70px);
+    font-size: clamp(20px, 5.45vw, 36px);
   }
 
   .roomie-project .roomie-results-triptych {
@@ -7691,18 +7731,21 @@ h3,
   }
 
   .roomie-project .roomie-results-screen {
-    position: static;
+    position: relative;
     width: 100%;
     height: auto;
+    aspect-ratio: 1 / 2;
+    overflow: hidden;
     padding: 0;
     border-radius: 0;
   }
 
   .roomie-project .roomie-results-screen img {
     width: 100%;
-    height: auto;
+    height: 100%;
     border-radius: 0;
-    object-fit: contain;
+    object-fit: cover;
+    object-position: center bottom;
   }
 
   .roomie-project .roomie-results-phone figcaption {
