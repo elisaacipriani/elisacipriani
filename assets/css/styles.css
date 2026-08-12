@@ -1884,7 +1884,23 @@ html[lang="en"] .roomie-editorial-mobile.roomie-lang-en {
   }
 
   .roomie-moodboard-grid {
-    columns: 2;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-flow: row;
+    align-items: start;
+    gap: clamp(8px, 2.4vw, 14px);
+    columns: auto;
+  }
+
+  .roomie-moodboard-grid img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin: 0;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
   }
 
   .roomie-editorial-grid,
@@ -7544,6 +7560,10 @@ h3,
     text-align: right;
   }
 
+  .roomie-project .roomie-love-series .roomie-series-credit a {
+    margin-right: 14px;
+  }
+
   .roomie-project .roomie-kicker {
     font-size: 18px !important;
   }
@@ -7647,6 +7667,12 @@ h3,
     height: auto;
   }
 
+  .roomie-project .roomie-editorial-mobile > img:last-child {
+    aspect-ratio: 9 / 15.2;
+    object-fit: cover;
+    object-position: center bottom;
+  }
+
   .roomie-project .roomie-editorial-mobile figure {
     margin: 0;
   }
@@ -7716,8 +7742,11 @@ h3,
 
   .roomie-project .roomie-results-context h4 {
     width: 100%;
-    font-size: 28px;
-    line-height: 1.05;
+    font-size: 18px !important;
+    font-weight: 400 !important;
+    line-height: 1 !important;
+    letter-spacing: 0 !important;
+    text-align: left !important;
   }
 
   .roomie-project .roomie-results-device {
