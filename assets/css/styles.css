@@ -168,6 +168,10 @@
   margin-top: 22px;
 }
 
+.tre-sorelle-project :where(.tre-sorelle-intro-copy, .tre-sorelle-section-heading) strong {
+  font-weight: 600;
+}
+
 .tre-sorelle-direction,
 .tre-sorelle-social,
 .tre-sorelle-objects {
@@ -1388,6 +1392,10 @@ html[lang="en"] .roomie-lang-es {
 }
 
 html[lang="en"] .roomie-editorial-selection.roomie-lang-en {
+  display: grid !important;
+}
+
+html[lang="en"] .roomie-new-intro.roomie-lang-en {
   display: grid !important;
 }
 
