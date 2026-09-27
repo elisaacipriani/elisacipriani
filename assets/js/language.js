@@ -60,7 +60,7 @@
       "journey.copy2": "En 2025 se graduó como Licenciada en Diseño en la Universidad Torcuato Di Tella. Su trabajo pone un fuerte énfasis en el proceso creativo.<br><br>A través de sus diseños expresa libertad y creatividad, dando especial valor a la dimensión conceptual de los proyectos. Le interesa conectar el diseño con las artes visuales y plásticas, el cine, la fotografía y la música.",
       "experience.title": "Experiencia",
       "experience.dateGarfunkel": "2026 - Present",
-      "experience.itemGarfunkel": "Diseño gráfico & Fashion Branding en Estudio Garfunkel.",
+      "experience.itemGarfunkel": "Diseño gráfico y branding de moda en Estudio Garfunkel.",
       "experience.date0": "2026 - Presente",
       "experience.dateRoomie": "2026",
       "experience.item0": "Diseñadora de identidad visual y editorial en Roomie Design.",
