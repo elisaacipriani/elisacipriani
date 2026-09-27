@@ -2431,9 +2431,14 @@ h1 {
 }
 
 @media (min-width: 901px) {
+  .tools-section {
+    align-content: center;
+  }
+
   .statement-portraits,
   .statement-side-copy {
     grid-row: 1;
+    align-self: start;
   }
 }
 
