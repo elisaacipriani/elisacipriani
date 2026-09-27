@@ -2420,7 +2420,7 @@ h1 {
 
 .statement-side-copy {
   grid-column: 6 / span 3;
-  align-self: center;
+  align-self: start;
   width: min(433px, 100%);
   max-width: 433px;
   color: #000000;
