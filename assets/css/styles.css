@@ -2430,6 +2430,13 @@ h1 {
   letter-spacing: 0.04em;
 }
 
+@media (min-width: 901px) {
+  .statement-portraits,
+  .statement-side-copy {
+    grid-row: 1;
+  }
+}
+
 .donkeys-section {
   display: block;
   min-height: 100svh;
