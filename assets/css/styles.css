@@ -7905,6 +7905,7 @@ h3,
 
   .roomie-project .roomie-results-screen {
     position: relative;
+    inset: auto;
     width: 100%;
     height: auto;
     aspect-ratio: auto;
