@@ -232,9 +232,7 @@ button, fieldset, h1, p { margin: 0; }
   .nire-panel { max-height: calc(100dvh - var(--studio-tools-top) - 16px); }
   .nire-bottom { bottom: 18px; }
 }
-@media (min-width: 901px) {
-  .nire-intro .nire-art-space { inset: auto; top: 50%; left: 50%; width: max(100%, 120dvh); height: 130dvh; transform: translate(-50%, -50%); }
-}
+.nire-intro .nire-art-space { inset: auto; top: 50%; left: 50%; width: max(100%, 120dvh); height: 130dvh; transform: translate(-50%, -50%); }
 @media (pointer: coarse) { .nire-transform-handle { width: 30px; height: 30px; font-size: 16px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
 
