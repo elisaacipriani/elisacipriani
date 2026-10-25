@@ -1,0 +1,22 @@
+{
+  "yellow": {
+    "beads": 133
+  },
+  "pink": {
+    "bodies": 1,
+    "openEdges": 0,
+    "triangles": 61112,
+    "thicknessInSourcePixels": 42
+  },
+  "orange": {
+    "bodies": 15,
+    "openEdges": 0,
+    "triangles": 174390,
+    "thicknessInSourcePixels": 17.0
+  },
+  "batches": 83,
+  "sourceSize": [
+    2262,
+    3200
+  ]
+}

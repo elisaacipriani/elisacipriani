@@ -11,7 +11,9 @@
     const resizeHandle = $("nire-resize-object"), rotateHandle = $("nire-rotate-object");
     const size = $("nire-object-size"), angle = $("nire-object-angle"), opacity = $("nire-object-opacity");
     const fileInput = $("nire-photo-input"), gallery = $("nire-photo-gallery"), photoMessage = $("nire-photo-message");
-    const fonts = { sans: '"Helvetica Neue", Helvetica, Arial, sans-serif', serif: 'Georgia, "Times New Roman", serif', mono: '"Courier New", Courier, monospace' };
+    const fontFamily = '"Helvetica Neue", Helvetica, Arial, sans-serif';
+    const fontWeights = { light: 300, regular: 400, bold: 700 };
+    const fontFor = (key, size) => `${fontWeights[key] || fontWeights.light} ${size}px ${fontFamily}`;
     const assets = new Map();
     const measure = document.createElement("canvas").getContext("2d");
     let objects = [], selectedId = null, panel = null, mode = "draw", gesture = null, pending = null;
@@ -153,7 +155,7 @@
       canvas.focus({ preventScroll: true });
     }
     function textMetrics(text, fontKey, fontSize, maxWidth) {
-      measure.font = `300 ${fontSize}px ${fonts[fontKey]}`;
+      measure.font = fontFor(fontKey, fontSize);
       const lines = [];
       for (const paragraph of text.split("\n")) {
         let line = "";
@@ -175,7 +177,7 @@
       flushPending();
       const existing = selected()?.kind === "text" ? selected() : null;
       const view = host.view();
-      const fontKey = fonts[font.value] ? font.value : "sans";
+      const fontKey = fontWeights[font.value] ? font.value : "light";
       let fontSize = existing ? existing.fontSize : Math.min(52, view.width * .1) / view.scale;
       const maxWidth = Math.min(620, view.width * .63) / view.scale;
       let metrics = textMetrics(text, fontKey, fontSize, maxWidth);
@@ -462,7 +464,7 @@
             const asset = assets.get(object.assetId);
             if (asset) ctx.drawImage(asset.image, -object.width / 2, -object.height / 2, object.width, object.height);
           } else {
-            ctx.font = `300 ${object.fontSize}px ${fonts[object.font]}`;
+            ctx.font = fontFor(object.font, object.fontSize);
             ctx.fillStyle = object.color; ctx.textBaseline = "top";
             (object.lines || object.text.split("\n")).forEach((line, index) => ctx.fillText(line, -object.width / 2 + object.fontSize * .1, -object.height / 2 + index * object.fontSize * 1.2));
           }

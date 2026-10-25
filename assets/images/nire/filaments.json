@@ -1,0 +1,20 @@
+{
+  "sourceSize": [
+    7020,
+    9928
+  ],
+  "traceSize": [
+    2262,
+    3200
+  ],
+  "bodies": 1,
+  "meshComponents": 1,
+  "openEdges": 0,
+  "connectedGaps": 35,
+  "centerlinePixels": 37497,
+  "vertices": 220908,
+  "triangles": 444300,
+  "batches": 69,
+  "diameterInSourcePixels": 2.36,
+  "format": "NIRV v2: one closed vascular skin, spatial batches with welded boundaries"
+}

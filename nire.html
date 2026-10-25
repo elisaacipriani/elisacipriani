@@ -5,23 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="description" content="ÑIRE — creá tu universo. Un lienzo negro para dibujar y crear, por Elisa Cipriani.">
     <meta name="theme-color" content="#000000">
-    <title>ÑIRE — ELISA CIPRIANI</title>
-    <link rel="icon" type="image/svg+xml" href="assets/images/nire/favicon.svg">
-    <link rel="stylesheet" href="assets/css/nire.css?v=11">
+    <title>ELISA CIPRIANI</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=11">
+    <link rel="stylesheet" href="assets/css/nire.css?v=27">
     <link rel="stylesheet" href="assets/css/nire-nav.css?v=1">
     <script src="assets/js/language.js?v=76" defer></script>
-    <script src="assets/js/nire-scene.js?v=5" defer></script>
-    <script src="assets/js/nire-collage.js?v=8" defer></script>
+    <script src="assets/js/nire-filaments.js?v=5" defer></script>
+    <script src="assets/js/nire-volume.js?v=2" defer></script>
+    <script src="assets/js/nire-materials.js?v=2" defer></script>
+    <script src="assets/js/nire-scene.js?v=13" defer></script>
+    <script src="assets/js/nire-collage.js?v=9" defer></script>
     <script src="assets/js/nire-color.js?v=8" defer></script>
-    <script src="assets/js/nire.js?v=11" defer></script>
+    <script src="assets/js/nire-entry.js?v=5" defer></script>
+    <script src="assets/js/nire.js?v=20" defer></script>
   </head>
   <body class="nire-page nire-intro">
     <main class="nire-studio" aria-labelledby="nire-title">
       <div id="nire-art-space" class="nire-art-space" aria-hidden="true"></div>
-      <img id="nire-tree" class="nire-tree" src="assets/images/nire/arbol.jpg" alt="Un ñire sobre negro, intervenido con líneas violetas y pinturas rosas, amarillas y verdes." width="2262" height="3200" fetchpriority="high" draggable="false">
+      <div id="nire-intro-content" class="nire-intro-content">
+        <div class="nire-intro-texts">
+          <p class="nire-intro-copy" data-nire-copy="introduction">Este proyecto experimental parte de un encuentro con el ñire, árbol nativo del bosque andino patagónico de Argentina. El encuentro y la reconstrucción de la imagen de ese árbol fueron llevados a la digitalidad.</p>
+          <p class="nire-note nire-intro-note" data-nire-copy="note">Un árbol. Infinitos universos.</p>
+        </div>
+      </div>
+      <img id="nire-tree" class="nire-tree" src="assets/images/nire/arbol.jpg" alt="" width="2262" height="3200" fetchpriority="high" aria-hidden="true" hidden draggable="false">
       <canvas id="nire-canvas" class="nire-canvas" tabindex="-1" aria-hidden="true" inert aria-label="Lienzo negro para crear tu universo" aria-describedby="nire-keyboard">Tu navegador necesita admitir canvas para dibujar.</canvas>
       <div id="nire-cursor" class="nire-cursor" aria-hidden="true"></div>
       <svg id="nire-selection" class="nire-selection" aria-hidden="true" hidden><polygon id="nire-selection-outline"/></svg>
+      <svg id="nire-volume-selection" class="nire-selection nire-volume-selection" aria-hidden="true" hidden><polygon id="nire-volume-outline"/></svg>
       <button type="button" id="nire-resize-object" class="nire-transform-handle" aria-label="Cambiar tamaño del elemento" data-collage-label="resizeHandle" hidden>↘</button>
       <button type="button" id="nire-rotate-object" class="nire-transform-handle" aria-label="Girar elemento" data-collage-label="rotateHandle" hidden>↻</button>
 
@@ -44,7 +55,21 @@
         <p data-nire-copy="subtitle">creá tu universo</p>
       </div>
 
-      <button type="button" id="nire-start" class="nire-start" aria-label="Comenzar mi propia pieza" data-nire-label="startLabel" data-nire-copy="startText" aria-controls="nire-canvas nire-sidebar">COMENZAR</button>
+      <button type="button" id="nire-start" class="nire-start" aria-label="Tocá una parte del árbol para explorar sus detalles" data-nire-label="startLabel" aria-controls="nire-detail"><span class="sr-only" data-nire-copy="startHint">Tocá una parte del árbol para explorar sus detalles.</span></button>
+
+      <section id="nire-detail" class="nire-detail" aria-label="Detalle del árbol" data-nire-label="detailLabel" hidden>
+        <div id="nire-detail-pan" class="nire-detail-pan" tabindex="0" role="region" aria-label="Detalle del árbol" data-nire-label="detailLabel" aria-describedby="nire-detail-keyboard"></div>
+        <p id="nire-detail-keyboard" class="sr-only" data-nire-copy="detailKeyboard">Arrastrá o usá las flechas para recorrer. Acercá con +, la rueda o dos dedos. Escape vuelve al árbol completo.</p>
+        <button id="nire-back-tree" class="nire-back-tree" type="button"><span aria-hidden="true">←</span> <span data-nire-copy="backTree">Volver al árbol</span></button>
+        <div class="nire-detail-navigation">
+          <button id="nire-locator" class="nire-locator" type="button" aria-label="Ubicar otra parte del árbol" data-nire-label="locatorLabel"><img src="assets/images/nire/arbol.jpg" alt="" draggable="false"><span id="nire-locator-window" class="nire-locator-window" aria-hidden="true"></span></button>
+          <div class="nire-zoom-controls"><button id="nire-zoom-out" type="button" aria-label="Alejar" data-nire-label="zoomOut">−</button><button id="nire-zoom-in" type="button" aria-label="Acercar" data-nire-label="zoomIn">+</button></div>
+        </div>
+        <div class="nire-detail-actions">
+          <button id="nire-develop" class="nire-develop" type="button" data-nire-copy="develop" aria-controls="nire-canvas nire-sidebar">DEVELOP YOUR OWN ÑIRE</button>
+          <p class="nire-detail-hint" data-nire-copy="detailHint">Arrastrá para recorrer. Acercá para ver más.</p>
+        </div>
+      </section>
 
       <aside id="nire-sidebar" class="nire-sidebar" hidden>
         <div class="nire-tools" role="region" aria-label="Pinturas y herramientas" data-nire-label="tools">
@@ -52,6 +77,7 @@
             <button type="button" id="nire-text-tool" class="nire-collage-tool" aria-label="Menú de texto" data-collage-label="textMenu" aria-expanded="false" aria-controls="nire-text-panel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6V3h16v3M12 3v18m-4 0h8"/></svg><span data-collage-copy="text">Texto</span></button>
             <button type="button" id="nire-photo-tool" class="nire-collage-tool" aria-label="Menú de fotos" data-collage-label="photoMenu" aria-expanded="false" aria-controls="nire-photo-panel"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8" cy="8" r="2"/><path d="m3 18 6-6 4 4 4-5 4 5"/></svg><span data-collage-copy="photos">Fotos</span></button>
             <button type="button" id="nire-move-tool" class="nire-collage-tool" aria-label="Seleccionar y mover elementos" data-collage-label="moveTool" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 3 14 10-7 1-3 7z"/></svg><span data-collage-copy="move">Mover</span></button>
+            <button type="button" id="nire-volume-tool" class="nire-collage-tool" aria-label="Dar volumen a una zona de tu pieza" data-volume-label="tool" aria-expanded="false" aria-controls="nire-volume-panel nire-volume-picking"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 9 5v10l-9 5-9-5V7Zm0 10 9-5M12 12 3 7m9 5v10"/></svg><span>3D</span></button>
           </div>
           <fieldset class="nire-brushes">
             <legend class="sr-only" data-nire-copy="brushes">Pinturas</legend>
@@ -90,6 +116,17 @@
         </div>
       </aside>
 
+      <div id="nire-volume-picking" class="nire-volume-picking" role="status" hidden><p data-volume-copy="picking">Marcá una zona sobre tu dibujo.</p><button type="button" id="nire-volume-cancel-pick" data-volume-copy="cancel">Cancelar</button></div>
+      <section id="nire-volume-panel" class="nire-panel nire-volume-panel" role="region" aria-labelledby="nire-volume-title" hidden>
+        <header class="nire-panel-header"><h2 id="nire-volume-title" data-volume-copy="title">Volumen 3D</h2><button type="button" id="nire-volume-close" class="nire-panel-close" aria-label="Cerrar volumen 3D" data-volume-label="close">×</button></header>
+        <p class="nire-volume-hint" data-volume-copy="hint">Marcá sobre el dibujo la zona que quieras llevar a 3D, o elegí toda la pieza.</p>
+        <div class="nire-volume-options"><button type="button" id="nire-volume-pick" class="nire-panel-link" data-volume-copy="pick">Elegir zona</button><button type="button" id="nire-volume-all" class="nire-panel-link" data-volume-copy="all">Toda la pieza</button></div>
+        <label class="nire-panel-field" for="nire-volume-depth"><span><span data-volume-copy="depth">Profundidad</span><output id="nire-volume-depth-value">55%</output></span><input id="nire-volume-depth" type="range" min="1" max="100" value="55" aria-label="Profundidad" data-volume-label="depth"></label>
+        <button type="button" id="nire-volume-apply" class="nire-panel-primary" data-volume-copy="apply" disabled>Aplicar 3D</button>
+        <button type="button" id="nire-volume-flatten" class="nire-panel-link" data-volume-copy="flatten" disabled>Volver a plano</button>
+        <p id="nire-volume-message" class="nire-panel-message" role="status" aria-live="polite"></p>
+      </section>
+
       <section id="nire-color-panel" class="nire-panel nire-color-panel" role="region" aria-labelledby="nire-color-panel-title" hidden>
         <header class="nire-panel-header"><h2 id="nire-color-panel-title" data-picker-copy="color">Color</h2><button type="button" id="nire-close-color" class="nire-panel-close" aria-label="Cerrar selector de color" data-picker-label="close">×</button></header>
         <div id="nire-color-sv" class="nire-color-sv" tabindex="0" role="group" aria-label="Saturación y brillo" data-picker-label="svLabel" aria-describedby="nire-color-help"><span id="nire-color-marker" class="nire-color-marker" aria-hidden="true"></span></div>
@@ -115,7 +152,7 @@
         <form id="nire-text-form">
           <label class="nire-panel-field" for="nire-text-content"><span data-collage-copy="yourWords">Tus palabras</span><textarea id="nire-text-content" rows="3" maxlength="500" placeholder="Escribí lo que quieras…" data-collage-placeholder="textPlaceholder" required></textarea></label>
           <div class="nire-text-style">
-            <label class="nire-panel-field" for="nire-text-font"><span data-collage-copy="font">Tipografía</span><select id="nire-text-font"><option value="sans">Sans</option><option value="serif">Serif</option><option value="mono">Mono</option></select></label>
+            <label class="nire-panel-field" for="nire-text-font"><span data-collage-copy="font">Tipografía</span><select id="nire-text-font"><option value="light">Light</option><option value="regular">Regular</option><option value="bold">Bold</option></select></label>
             <label class="nire-panel-field" for="nire-text-color"><span data-collage-copy="color">Color</span><input id="nire-text-color" type="color" value="#f3efe9"></label>
           </div>
           <button id="nire-add-text" class="nire-panel-primary" type="submit" data-collage-copy="addText">Agregar texto</button>

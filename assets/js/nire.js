@@ -14,6 +14,10 @@
   const sizeInput = document.getElementById("nire-size");
   const rotation = document.getElementById("nire-rotation");
   const start = document.getElementById("nire-start");
+  const detailContent = document.getElementById("nire-detail");
+  const develop = document.getElementById("nire-develop");
+  const backToTree = document.getElementById("nire-back-tree");
+  const introContent = document.getElementById("nire-intro-content");
   const sidebar = document.getElementById("nire-sidebar");
   const layer = document.createElement("canvas");
   const paint = layer.getContext("2d");
@@ -30,7 +34,7 @@
   paint.setTransform(inkBounds.scale, 0, 0, inkBounds.scale, -inkBounds.x * inkBounds.scale, -inkBounds.y * inkBounds.scale);
   const state = {
     brush: "paint", color: "#ed75ac", size: 24,
-    history: [], head: 0, stroke: null, renderer: null, started: false,
+    history: [], head: 0, stroke: null, renderer: null, started: false, entering: false, detail: false,
     pointer: null, keyboard: false,
     keyPosition: { x: 0, y: 0 },
     view: { width: 1, height: 1, scale: 1, x: 0, y: 0, dpr: 1 }
@@ -40,16 +44,19 @@
   let language = "es";
   let collage = null;
   let colorPicker = null;
+  let volume = null;
   let scene = window.createNireScene ? window.createNireScene(tree, composite, world, inkBounds) : null;
   const copy = {
     es: {
       homeLabel: "ELISA CIPRIANI: ir al menú principal", subtitle: "creá tu universo", rotation: "Giro", pauseRotation: "Pausar giro", resumeRotation: "Activar giro",
       tools: "Pinturas y herramientas",
+      introduction: "Este proyecto experimental parte de un encuentro con el ñire, árbol nativo del bosque andino patagónico de Argentina. El encuentro y la reconstrucción de la imagen de ese árbol fueron llevados a la digitalidad.",
       brushes: "Pinturas", paint: "Pincel", thread: "Hilo", pigment: "Pigmento",
       colors: "Colores", pink: "Rosa", violet: "Violeta", yellow: "Amarillo",
       coral: "Terracota", green: "Verde", chalk: "Tiza", size: "Grosor", sizeLabel: "Grosor del trazo",
       undo: "Deshacer", redo: "Rehacer", clear: "Clear", clearLabel: "Borrar todo y empezar de cero", save: "Guardar",
-      startText: "COMENZAR", startLabel: "Comenzar mi propia pieza", pieceStarted: "Lienzo listo. Elegí una pintura o agregá tus textos y fotos para crear tu propia pieza.",
+      startHint: "Tocá una parte del árbol para explorar sus detalles.", startLabel: "Tocá una parte del árbol para explorar sus detalles",
+      develop: "DEVELOP YOUR OWN ÑIRE", backTree: "Volver al árbol", detailLabel: "Detalle del árbol", detailHint: "Arrastrá para recorrer. Acercá para ver más.", zoomIn: "Acercar", zoomOut: "Alejar", locatorLabel: "Ubicar otra parte del árbol", detailKeyboard: "Arrastrá o usá las flechas para recorrer. Acercá con +, la rueda o dos dedos. Escape vuelve al árbol completo.", detailOpened: "Detalle del árbol. Podés recorrerlo o elegir DEVELOP YOUR OWN ÑIRE para dibujar.", pieceStarted: "Lienzo listo. Elegí una pintura o agregá tus textos y fotos para crear tu propia pieza.",
       note: "Un árbol. Infinitos universos.",
       canvas: "Lienzo negro para crear tu universo",
       keyboard: "Con el lienzo enfocado, usá las flechas para moverte y espacio para empezar o terminar un trazo. Deshacé con Control o Comando y Z.",
@@ -62,11 +69,13 @@
     en: {
       homeLabel: "ELISA CIPRIANI: main menu", subtitle: "create your universe", rotation: "Rotate", pauseRotation: "Pause rotation", resumeRotation: "Start rotation",
       tools: "Paints and tools",
+      introduction: "This experimental project began with an encounter with the ñire, a tree native to Argentina’s Andean Patagonian forest. That encounter and the reconstruction of the tree’s image were brought into the digital world.",
       brushes: "Paints", paint: "Brush", thread: "Thread", pigment: "Pigment",
       colors: "Colors", pink: "Pink", violet: "Violet", yellow: "Yellow",
       coral: "Terracotta", green: "Green", chalk: "Chalk", size: "Size", sizeLabel: "Stroke size",
       undo: "Undo", redo: "Redo", clear: "Clear", clearLabel: "Clear canvas and start again", save: "Save",
-      startText: "START", startLabel: "Start my own piece", pieceStarted: "Canvas ready. Choose a paint or add your words and photos to create your own piece.",
+      startHint: "Touch a part of the tree to explore its details.", startLabel: "Touch a part of the tree to explore its details",
+      develop: "DEVELOP YOUR OWN ÑIRE", backTree: "Back to the tree", detailLabel: "Tree close-up", detailHint: "Drag to explore. Zoom in to see more.", zoomIn: "Zoom in", zoomOut: "Zoom out", locatorLabel: "Locate another part of the tree", detailKeyboard: "Drag or use the arrow keys to explore. Zoom with +, the wheel or two fingers. Escape returns to the whole tree.", detailOpened: "Tree close-up. Explore it or choose DEVELOP YOUR OWN ÑIRE to draw.", pieceStarted: "Canvas ready. Choose a paint or add your words and photos to create your own piece.",
       note: "One tree. Infinite universes.",
       canvas: "Black canvas for creating your universe",
       keyboard: "Focus the canvas, use the arrow keys to move, and press space to start or finish a stroke. Undo with Control or Command and Z.",
@@ -98,8 +107,10 @@
     syncTree();
   }
   function syncTree() {
-    tree.hidden = state.started;
-    if (scene) scene.setTreeVisible(!state.started);
+    const showTree = !state.started;
+    tree.hidden = !showTree;
+    if (scene) scene.setTreeVisible(showTree);
+    syncHold();
   }
   function syncRotation() {
     rotation.hidden = !scene;
@@ -270,12 +281,13 @@
     }
     context.setTransform(view.dpr, 0, 0, view.dpr, 0, 0);
     context.clearRect(0, 0, view.width, view.height);
+    if (volume) volume.update(composite);
     if (scene) scene.update();
     else context.drawImage(composite, view.x + inkBounds.x * view.scale, view.y + inkBounds.y * view.scale, inkBounds.width * view.scale, inkBounds.height * view.scale);
   }
   function scheduleView() { if (!frame) frame = requestAnimationFrame(renderView); }
   function syncHold() {
-    if (scene) scene.hold(Boolean(state.stroke || state.keyboard || state.pointer !== null || collage && collage.holdsMotion() || colorPicker && colorPicker.isOpen()));
+    if (scene) scene.hold(Boolean(state.entering || state.detail || state.stroke || state.keyboard || state.pointer !== null || volume && volume.holdsMotion() || collage && collage.holdsMotion() || colorPicker && colorPicker.isOpen()));
   }
   function resize() {
     const rect = canvas.getBoundingClientRect();
@@ -320,11 +332,13 @@
     paint.clearRect(0, 0, layer.width, layer.height);
     paint.restore();
     if (collage) collage.reset();
+    if (volume) volume.reset();
     let first = state.head - 1;
     while (first >= 0 && state.history[first].type !== "clear") first--;
     for (let i = first + 1; i < state.head; i++) {
       const stroke = state.history[i];
       if (collage && collage.apply(stroke)) continue;
+      if (volume && volume.apply(stroke)) continue;
       const renderer = rendererFor(stroke);
       segment(stroke, stroke.points[0], stroke.points[0], renderer, true);
       for (let j = 1; j < stroke.points.length; j++) segment(stroke, stroke.points[j - 1], stroke.points[j], renderer, false);
@@ -384,6 +398,7 @@
     if (!state.started) return;
     if (colorPicker) colorPicker.close(false);
     if (state.pointer !== null || event.button !== 0 || !event.isPrimary) return;
+    if (volume && volume.pointerDown(event)) return;
     if (collage && collage.pointerDown(event)) { cursor.classList.remove("is-visible"); return; }
     event.preventDefault();
     canvas.classList.remove("is-keyboard-active");
@@ -396,6 +411,7 @@
   });
   canvas.addEventListener("pointermove", (event) => {
     if (!state.started) return;
+    if (volume && volume.pointerMove(event)) return;
     if (collage && collage.pointerMove(event)) return;
     if (event.pointerType !== "touch") showCursor(event.clientX, event.clientY);
     if (event.pointerId !== state.pointer) return;
@@ -404,6 +420,7 @@
   });
   function releasePointer(event) {
     if (!state.started) return;
+    if (volume && volume.pointerUp(event)) return;
     if (collage && collage.pointerUp(event)) return;
     if (event.pointerId !== state.pointer) return;
     if (event.type === "pointerup") extend(pointerPoint(event));
@@ -423,6 +440,7 @@
 
   function undoStroke() {
     if (!state.started) return;
+    if (volume) volume.close(false);
     if (collage) collage.flush();
     finish();
     if (state.head === 0) return;
@@ -432,6 +450,7 @@
   }
   function redoStroke() {
     if (!state.started) return;
+    if (volume) volume.close(false);
     if (collage) collage.flush();
     finish();
     if (state.head === state.history.length) return;
@@ -443,6 +462,7 @@
   redo.addEventListener("click", redoStroke);
   clear.addEventListener("click", () => {
     if (!state.started) return;
+    if (volume) volume.close(false);
     if (colorPicker) colorPicker.close(false);
     finish();
     if (!hasPaint() && !(collage && collage.hasContent())) return;
@@ -453,14 +473,70 @@
     replay();
     announce("cleared");
   });
-  start.addEventListener("click", () => {
-    if (state.started) return;
+  const entrance = window.createNireEntrance ? window.createNireEntrance({
+    image: tree, world, container: document.querySelector(".nire-studio"),
+    view: () => state.view, scene: () => scene,
+    pointAt: (x, y) => pointAt(x, y, .65)
+  }) : null;
+  start.addEventListener("pointermove", (event) => {
+    if (state.entering || state.started || state.detail) return;
+    const rect = canvas.getBoundingClientRect();
+    const hit = !entrance || entrance.hitTest(event.clientX - rect.left, event.clientY - rect.top, 20);
+    start.style.cursor = hit ? "zoom-in" : "default";
+  });
+  start.addEventListener("click", async (event) => {
+    if (state.started || state.entering || state.detail) return;
+    const rect = canvas.getBoundingClientRect();
+    const origin = event.detail === 0
+      ? { x: rect.width / 2, y: rect.height / 2 }
+      : { x: event.clientX - rect.left, y: event.clientY - rect.top };
+    const tolerance = window.matchMedia("(pointer: coarse)").matches ? 32 : 20;
+    if (event.detail !== 0 && entrance && !entrance.hitTest(origin.x, origin.y, tolerance)) return;
+    state.entering = state.detail = true;
+    start.hidden = true;
+    introContent.hidden = true;
+    detailContent.hidden = false;
+    detailContent.classList.add("is-zooming");
+    develop.disabled = backToTree.disabled = true;
+    document.body.classList.add("nire-detail-open");
+    syncHold();
+    try { if (entrance) await entrance.open(origin); } catch (_) { /* The drawing action remains available if graphics fail. */ }
+    state.entering = false;
+    detailContent.classList.remove("is-zooming");
+    develop.disabled = backToTree.disabled = false;
+    document.getElementById("nire-detail-pan").focus({ preventScroll: true });
+    announce("detailOpened");
+  });
+  async function returnToTree() {
+    if (!state.detail || state.entering) return;
+    state.entering = true;
+    develop.disabled = backToTree.disabled = true;
+    detailContent.classList.add("is-zooming");
+    try { if (entrance) await entrance.close(); } catch (_) { if (entrance) entrance.reset(); }
+    state.detail = state.entering = false;
+    detailContent.hidden = true;
+    detailContent.classList.remove("is-zooming");
+    introContent.hidden = false;
+    start.hidden = false;
+    document.body.classList.remove("nire-detail-open");
+    syncHold();
+    start.focus({ preventScroll: true });
+  }
+  backToTree.addEventListener("click", returnToTree);
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && state.detail) { event.preventDefault(); returnToTree(); }
+  });
+  develop.addEventListener("click", () => {
+    if (state.started || state.entering) return;
     state.started = true;
+    state.detail = false;
+    if (entrance) entrance.reset();
     if (colorPicker) colorPicker.close(false);
     state.history = [];
     state.head = 0;
     if (collage) collage.clearInteraction();
-    document.body.classList.remove("nire-intro");
+    document.body.classList.remove("nire-intro", "nire-detail-open");
+    introContent.hidden = detailContent.hidden = true;
     start.hidden = true;
     sidebar.hidden = false;
     canvas.removeAttribute("inert");
@@ -468,6 +544,9 @@
     canvas.tabIndex = 0;
     resize();
     replay();
+    if (frame) cancelAnimationFrame(frame);
+    renderView();
+    if (scene) scene.flush();
     imageReady();
     canvas.focus({ preventScroll: true });
     announce("pieceStarted");
@@ -476,6 +555,7 @@
   canvas.addEventListener("keydown", (event) => {
     if (!state.started) return;
     if (event.metaKey || event.ctrlKey || event.altKey) return;
+    if (volume && volume.keyDown(event)) return;
     if (collage && collage.keyDown(event)) return;
     if (event.key === " " || event.key.startsWith("Arrow")) canvas.classList.add("is-keyboard-active");
     if (event.key === " ") {
@@ -526,6 +606,7 @@
     button.addEventListener("click", () => {
       if (colorPicker) colorPicker.close(false);
       finish();
+      if (volume) volume.close(false);
       if (collage) collage.activateDraw();
       state.brush = button.dataset.brush;
       document.querySelectorAll("[data-brush]").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
@@ -562,6 +643,7 @@
     try {
       if (frame) cancelAnimationFrame(frame);
       renderView();
+      if (volume) volume.flush();
       const output = document.createElement("canvas");
       const view = state.view;
       const ratio = 2;
@@ -609,6 +691,16 @@
       state.head = state.history.length;
       syncControls();
     }
+  });
+  if (window.createNireVolume) volume = window.createNireVolume({
+    canvas,world,inkBounds,view:()=>state.view,canEdit:()=>state.started,
+    supported:()=>Boolean(scene&&scene.hasSculpture()),
+    point:(x,y)=>pointAt(x,y,.65),
+    project:p=>scene?scene.projectPoint(p):{x:state.view.x+p.x*state.view.scale,y:state.view.y+p.y*state.view.scale},
+    set:model=>{if(scene)scene.setSculpture(model);},
+    prepare:()=>{cursor.classList.remove("is-visible");if(collage)collage.clearInteraction();if(colorPicker)colorPicker.close(false);},
+    finish,hold:syncHold,render:scheduleView,notify:message=>{status.textContent=message;},
+    commit:operation=>{state.history.splice(state.head);state.history.push(operation);state.head=state.history.length;replay();}
   });
   if (window.createNireColorPicker) colorPicker = window.createNireColorPicker({
     initial: state.color, canEdit: () => state.started, change: applyColor, hold: syncHold,
