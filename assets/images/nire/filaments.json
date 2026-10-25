@@ -13,11 +13,11 @@
   "connectedGaps": 10,
   "junctions": 30,
   "tracedPaths": 61,
-  "style": "Original drawing, united into one white spatial body",
+  "style": "White spatial body with an integrated, fractured slate formation",
   "centerlinePixels": 15559,
-  "vertices": 646636,
-  "triangles": 1293280,
-  "batches": 117,
+  "vertices": 633113,
+  "triangles": 1266230,
+  "batches": 115,
   "diameterInSourcePixels": 14.4,
   "spatialBounds": {
     "min": [
@@ -33,13 +33,13 @@
   },
   "depthRatio": 1,
   "surfaceReliefRatio": 0.085,
-  "format": "NIRV v4: one closed spatial solid",
-  "maxEdgeInSourcePixels": 9.28941088663515,
+  "format": "NIRV v4: one closed spatial solid; red channel marks slate",
+  "maxEdgeInSourcePixels": 10.575628718392514,
   "integratedSourceMarks": 16,
   "sourceContacts": [
     {
       "mark": "2:1",
-      "contactGap": 1.202
+      "contactGap": 1.203
     },
     {
       "mark": "3:1",
@@ -101,5 +101,18 @@
       "mark": "3:15",
       "contactGap": 8.47
     }
-  ]
+  ],
+  "rockVertices": 29917,
+  "rockBounds": {
+    "min": [
+      848.1272804294723,
+      1101.0422604818423,
+      112.23558657652488
+    ],
+    "max": [
+      1329.9290416747015,
+      1401.7597357705286,
+      372.02575120566775
+    ]
+  }
 }

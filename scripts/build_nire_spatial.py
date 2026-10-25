@@ -51,13 +51,17 @@ def original_paint_volumes(output,paths,radius):
         center=a+delta*t;along=np.r_[delta[:2]/length,0];side=np.array([-along[1],along[0],0.])
         tangent=delta/np.linalg.norm(delta);normal=np.cross(tangent,side)
         basis=np.column_stack([tangent,side,normal]);flat=np.column_stack([along,side,[0,0,1.]])
-        transform=basis@flat.T;depth=1.6 if kind==2 else 1.3
+        transform=basis@flat.T;depth=3.8 if kind==2 else 1.3
         local=vertices-center;local[:,2]=vertices[:,2]*depth
         positions=local@transform.T+center
         normals=n.copy();normals[:,2]/=depth;normals=normals@transform.T
         volume=np.einsum('ij,ij->i',positions[faces[:,0]],np.cross(positions[faces[:,1]],positions[faces[:,2]])).sum()/6
         if volume<0:faces=faces[:,[0,2,1]]
         shape=m.Manifold(m.Mesh(np.asarray(positions,dtype=np.float32),np.asarray(faces,dtype=np.uint32))).simplify(.13)
+        if kind==2:
+            # Broad fracture planes replace the soft, inflated painted surface.
+            # The shape remains the same connected gesture within the tree.
+            shape=shape.simplify(2.8)
         assert shape.status()==m.Error.NoError,f'Original mark {kind}:{island}: {shape.status()}'
         q=int(np.linalg.norm(positions-center,axis=1).argmin());end=positions[q];d=end-center;gap=float(np.linalg.norm(d));r=float(radius(center))
         joins=[shape]
@@ -68,6 +72,8 @@ def original_paint_volumes(output,paths,radius):
             joins.append(m.Manifold.sphere(max(2.8,r*.8),16).translate(end))
         joined=m.Manifold.batch_boolean(joins,m.OpType.Add)
         assert len(joined.decompose())==1,f'Original mark {kind}:{island} must meet its branch contact'
+        material=1.0 if kind==2 else 0.0
+        joined=joined.set_properties(1,lambda position,properties,value=material:[value])
         solids.append(joined);contacts.append({'mark':f'{kind}:{island}','contactGap':round(gap,3)})
     print(json.dumps({'sourceMarks':contacts}),flush=True)
     return solids,contacts
@@ -90,6 +96,7 @@ def build_spatial_tree(output,source_size=None,trace_metadata=None):
             transform=np.column_stack([side,other,axis,a])
             parts.append(m.Manifold.cylinder(float(length),float(radius(a)),float(radius(b)),24).transform(transform))
     for point,r in joints.items():parts.append(m.Manifold.sphere(float(r),16).translate(point))
+    parts=[part.set_properties(1,lambda position,properties:[0.0]) for part in parts]
     paint,contacts=original_paint_volumes(output,data['paths'],radius)
     parts.extend(paint)
     solid=m.Manifold.batch_boolean(parts,m.OpType.Add)
@@ -97,7 +104,8 @@ def build_spatial_tree(output,source_size=None,trace_metadata=None):
     assert len(solid.decompose())==1,'The spatial sculpture must be one body'
     solid=solid.simplify(.015).refine_to_length(3.8)
     mesh=solid.to_mesh()
-    vertices=np.asarray(mesh.vert_properties)[:,:3].astype(np.float64)
+    properties=np.asarray(mesh.vert_properties)
+    vertices=properties[:,:3].astype(np.float64)
     faces=np.asarray(mesh.tri_verts).astype(np.int32)
     # Respect the Boolean kernel's topology. Equal coordinates can be separate
     # vertices at a tangential contact and must not be blindly welded together.
@@ -105,7 +113,7 @@ def build_spatial_tree(output,source_size=None,trace_metadata=None):
     for a,b in zip(mesh.merge_from_vert,mesh.merge_to_vert):parent[a]=b
     while np.any(parent[parent]!=parent):parent=parent[parent]
     used,inverse=np.unique(parent,return_inverse=True)
-    vertices=vertices[used];faces=inverse[faces]
+    vertices=vertices[used];material=properties[used,3];faces=inverse[faces]
     edges=np.sort(np.concatenate([faces[:,[0,1]],faces[:,[1,2]],faces[:,[2,0]]]),axis=1)
     unique,counts=np.unique(edges,axis=0,return_counts=True)
     assert np.all(counts==2),'The Boolean surface must be closed'
@@ -144,7 +152,7 @@ def build_spatial_tree(output,source_size=None,trace_metadata=None):
             positions=vertices[used];records=np.zeros((len(used),28),np.uint8)
             records[:,:12]=np.ascontiguousarray(positions,dtype='<f4').view(np.uint8).reshape(-1,12)
             records[:,12:24]=np.ascontiguousarray(normals[used],dtype='<f4').view(np.uint8).reshape(-1,12)
-            records[:,24:27]=[245,245,245]
+            records[:,24]=np.rint(np.clip(material[used],0,1)*255).astype(np.uint8)
             bounds=[positions[:,0].min()/width,positions[:,1].min()/height,positions[:,0].max()/width,positions[:,1].max()/height]
             batches.append((records,indices.astype('<u2'),bounds))
     binary=bytearray(struct.pack('<4sIHHII',b'NIRV',4,width,height,len(batches),1))
@@ -153,7 +161,8 @@ def build_spatial_tree(output,source_size=None,trace_metadata=None):
     (output/'filaments.bin').write_bytes(binary)
     (output/'filaments.bin.gz').write_bytes(gzip.compress(bytes(binary),compresslevel=9,mtime=0))
     previous=json.loads((output/'filaments.json').read_text()) if (output/'filaments.json').exists() else {}
-    meta={**previous,**(trace_metadata or {}),'sourceSize':list(source_size or previous.get('sourceSize',[7020,9928])),'traceSize':[width,height],'bodies':1,'meshComponents':1,'openEdges':0,'integratedSourceMarks':len(paint),'sourceContacts':contacts,'style':'Original drawing, united into one white spatial body','vertices':len(vertices),'triangles':len(faces),'batches':len(batches),'maxEdgeInSourcePixels':max_edge,'spatialBounds':{'min':vertices.min(axis=0).tolist(),'max':vertices.max(axis=0).tolist()},'format':'NIRV v4: one closed spatial solid'}
+    rock=vertices[material>.5]
+    meta={**previous,**(trace_metadata or {}),'sourceSize':list(source_size or previous.get('sourceSize',[7020,9928])),'traceSize':[width,height],'bodies':1,'meshComponents':1,'openEdges':0,'integratedSourceMarks':len(paint),'sourceContacts':contacts,'style':'White spatial body with an integrated, fractured slate formation','rockVertices':len(rock),'rockBounds':{'min':rock.min(axis=0).tolist(),'max':rock.max(axis=0).tolist()},'vertices':len(vertices),'triangles':len(faces),'batches':len(batches),'maxEdgeInSourcePixels':max_edge,'spatialBounds':{'min':vertices.min(axis=0).tolist(),'max':vertices.max(axis=0).tolist()},'format':'NIRV v4: one closed spatial solid; red channel marks slate'}
     (output/'filaments.json').write_text(json.dumps(meta,indent=2)+'\n')
     print(json.dumps(meta,indent=2),flush=True)
 

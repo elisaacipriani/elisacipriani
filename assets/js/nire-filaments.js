@@ -1,12 +1,13 @@
 (function () {
   "use strict";
 
-  // The source contours and broad painted marks form one continuous white body.
+  // One body: a white spatial frame with a fractured slate formation.
   window.createNireFilaments = function (gl, changed) {
     const derivatives=gl.getExtension("OES_standard_derivatives");
     const vertex = `
       attribute vec3 aPosition;
       attribute vec3 aNormal;
+      attribute float aRock;
       uniform vec2 uViewport;
       uniform vec2 uCenter;
       uniform float uWidth;
@@ -14,6 +15,7 @@
       uniform float uTilt;
       varying vec3 vLocalNormal;
       varying vec3 vLocalPosition;
+      varying float vRock;
       vec3 rotate(vec3 p) {
         float c = cos(uAngle), s = sin(uAngle);
         p = vec3(c*p.x+s*p.z, p.y, -s*p.x+c*p.z);
@@ -27,6 +29,7 @@
         gl_Position = vec4(center*w+p.xy*uWidth*8.0/uViewport, -p.z*.6, w);
         vLocalNormal = aNormal;
         vLocalPosition = aPosition*2262.0;
+        vRock = aRock;
       }`;
     const fragment = `${derivatives?'#extension GL_OES_standard_derivatives : enable\n':''}
       precision highp float;
@@ -35,6 +38,7 @@
       uniform vec2 uLight;
       varying vec3 vLocalNormal;
       varying vec3 vLocalPosition;
+      varying float vRock;
       float mineralHash(vec3 p){
         p=fract(p*.1031);p+=dot(p,p.yzx+33.33);
         return fract((p.x+p.y)*p.z);
@@ -70,6 +74,11 @@
         float pit=(1.0-t*t*(3.0-2.0*t))*poreWeight;
         float pitSlope=-6.0*t*(1.0-t)/.38*poreWeight;
         vec3 gradient=strata.yzw*.015*.38+grain.yzw*.035*1.7*grainWeight+dust.yzw*.015*5.1*dustWeight-pores.yzw*pitSlope*.07*2.8;
+        float rock=smoothstep(.05,.85,vRock);
+        vec4 beds=mineralNoise(p*vec3(.055,.012,.055));
+        vec4 fractures=mineralNoise(p*.075);
+        vec3 rockGradient=fractures.yzw*.12+beds.yzw*vec3(.035,.008,.035)+grain.yzw*.095*grainWeight-pores.yzw*pitSlope*.22*poreWeight;
+        gradient=mix(gradient,rockGradient,rock);
         vec3 normal=normalize(vLocalNormal);
         normal=normalize(normal-(gradient-normal*dot(gradient,normal)));
         vec3 n=normalize(rotate(normal));
@@ -85,6 +94,14 @@
         float cavities=1.0-pit*.18;
         vec3 color=stone*mineral*cavities*(.40+.62*diffuse+.10*soft);
         color+=vec3(1.0)*specular*.025+stone*rim*.018;
+        vec3 slate=mix(vec3(.155,.16,.195),vec3(.40,.41,.435),beds.x*.60+fractures.x*.40);
+        float quartz=smoothstep(.57,.78,beds.x)*smoothstep(.34,.70,strata.x);
+        slate=mix(slate,vec3(.56,.565,.575),quartz*.58);
+        float seam=1.0-smoothstep(.008,.040,abs(beds.x-.46));
+        slate*=1.0-seam*.17;
+        vec3 mineralColor=slate*(1.0+(grain.x-.5)*.26*grainWeight)*(1.0-pit*.48)*(.27+.87*diffuse+.16*soft);
+        mineralColor+=vec3(.66,.68,.72)*specular*.045+slate*rim*.10;
+        color=mix(color,mineralColor,rock);
         gl_FragColor = vec4(color,uStrength);
       }`;
     function compile(type, source) {
@@ -103,7 +120,7 @@
     } catch (_) { return null; }
     const uniform = {}, attributes = {};
     ["uViewport","uCenter","uWidth","uAngle","uTilt","uStrength","uLight","uTexelFootprint"].forEach(key => uniform[key] = gl.getUniformLocation(program,key));
-    ["aPosition","aNormal"].forEach(key => attributes[key] = gl.getAttribLocation(program,key));
+    ["aPosition","aNormal","aRock"].forEach(key => attributes[key] = gl.getAttribLocation(program,key));
     let loaded = false, loading = null;
     const batches = [];
     let pickData = new Float32Array(0);
@@ -145,7 +162,7 @@
     }
     async function geometry() {
       const compressed=typeof DecompressionStream==="function";
-      const response=await fetch(`assets/images/nire/filaments.bin${compressed?".gz":""}?v=13`);
+      const response=await fetch(`assets/images/nire/filaments.bin${compressed?".gz":""}?v=14`);
       if(!response.ok)throw new Error("ÑIRE skin unavailable");
       const raw=await response.arrayBuffer();
       const header=new Uint8Array(raw,0,Math.min(2,raw.byteLength));
@@ -177,7 +194,7 @@
         const b=batch.bounds;
         if(area&&(b[2]<area.left-.06||b[0]>area.right+.06||b[3]<area.top-.06||b[1]>area.bottom+.06))continue;
         gl.bindBuffer(gl.ARRAY_BUFFER,batch.vertexBuffer);gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,batch.indexBuffer);
-        [["aPosition",3,0],["aNormal",3,3]].forEach(([name,size,offset])=>{
+        [["aPosition",3,0],["aNormal",3,3],["aRock",1,6]].forEach(([name,size,offset])=>{
           gl.enableVertexAttribArray(attributes[name]);gl.vertexAttribPointer(attributes[name],size,gl.FLOAT,false,stride*4,offset*4);
         });
         gl.drawElements(gl.TRIANGLES,batch.count,gl.UNSIGNED_SHORT,0);
