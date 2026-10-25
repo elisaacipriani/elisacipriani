@@ -10,11 +10,96 @@
   "bodies": 1,
   "meshComponents": 1,
   "openEdges": 0,
-  "connectedGaps": 35,
-  "centerlinePixels": 37497,
-  "vertices": 220908,
-  "triangles": 444300,
-  "batches": 69,
-  "diameterInSourcePixels": 2.36,
-  "format": "NIRV v2: one closed vascular skin, spatial batches with welded boundaries"
+  "connectedGaps": 10,
+  "junctions": 30,
+  "tracedPaths": 61,
+  "style": "Original drawing, united into one white spatial body",
+  "centerlinePixels": 15559,
+  "vertices": 646636,
+  "triangles": 1293280,
+  "batches": 117,
+  "diameterInSourcePixels": 14.4,
+  "spatialBounds": {
+    "min": [
+      329.35564827712676,
+      -2.0803957453886737,
+      -1053.8169475997777
+    ],
+    "max": [
+      2260.7668272492206,
+      2395.1306994930474,
+      1043.2061202642983
+    ]
+  },
+  "depthRatio": 1,
+  "surfaceReliefRatio": 0.085,
+  "format": "NIRV v4: one closed spatial solid",
+  "maxEdgeInSourcePixels": 9.28941088663515,
+  "integratedSourceMarks": 16,
+  "sourceContacts": [
+    {
+      "mark": "2:1",
+      "contactGap": 1.202
+    },
+    {
+      "mark": "3:1",
+      "contactGap": 14.707
+    },
+    {
+      "mark": "3:2",
+      "contactGap": 58.758
+    },
+    {
+      "mark": "3:3",
+      "contactGap": 268.639
+    },
+    {
+      "mark": "3:4",
+      "contactGap": 0.919
+    },
+    {
+      "mark": "3:5",
+      "contactGap": 75.082
+    },
+    {
+      "mark": "3:6",
+      "contactGap": 10.621
+    },
+    {
+      "mark": "3:7",
+      "contactGap": 86.967
+    },
+    {
+      "mark": "3:8",
+      "contactGap": 22.513
+    },
+    {
+      "mark": "3:9",
+      "contactGap": 5.685
+    },
+    {
+      "mark": "3:10",
+      "contactGap": 1.274
+    },
+    {
+      "mark": "3:11",
+      "contactGap": 1.667
+    },
+    {
+      "mark": "3:12",
+      "contactGap": 7.87
+    },
+    {
+      "mark": "3:13",
+      "contactGap": 1.965
+    },
+    {
+      "mark": "3:14",
+      "contactGap": 12.394
+    },
+    {
+      "mark": "3:15",
+      "contactGap": 8.47
+    }
+  ]
 }

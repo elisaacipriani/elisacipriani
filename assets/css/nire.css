@@ -21,12 +21,11 @@ button, fieldset, h1, p { margin: 0; }
 .nire-intro-copy { width: min(var(--portfolio-copy-width), 100%); max-width: var(--portfolio-copy-width); color: #fff; }
 .nire-note.nire-intro-note { justify-self: end; width: max-content; max-width: 100%; text-align: right; }
 .nire-intro .nire-heading, .nire-intro .nire-note { color: #fff; }
+.nire-intro .nire-header, .nire-intro .nire-intro-copy, .nire-intro .nire-heading, .nire-intro .nire-note { text-shadow:0 1px 3px #000,0 0 7px #000; }
 .nire-intro .nire-bottom { display: none; }
 .nire-art-space { position: absolute; inset: 92px clamp(220px, 18vw, 270px) 56px 64px; visibility: hidden; pointer-events: none; }
 .nire-intro .nire-art-space { inset: 135px 80px 64px; }
 .nire-scene, .nire-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-.nire-tree { position: absolute; object-fit: fill; pointer-events: none; user-select: none; }
-.has-nire-scene .nire-tree { visibility: hidden; }
 .nire-canvas { z-index: 1; touch-action: none; cursor: crosshair; outline: none; }
 .nire-canvas.is-keyboard-active:focus-visible { outline: 1px solid #ed75ac66; outline-offset: -5px; }
 .nire-intro .nire-canvas { pointer-events: none; }
@@ -34,9 +33,15 @@ button, fieldset, h1, p { margin: 0; }
 .nire-start { position: absolute; z-index: 1; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; background: transparent; color: #fff; cursor: default; touch-action: manipulation; }
 .nire-start:focus-visible { outline: 1px solid #ffffff66; outline-offset: -12px; }
 .nire-start[hidden], .nire-sidebar[hidden] { display: none !important; }
-.nire-intro .nire-scene, .nire-intro .nire-tree { transition: opacity 180ms ease-out; }
-.nire-detail[hidden], .nire-closeup[hidden] { display: none !important; }
-.nire-closeup { position: absolute; z-index: 1; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.nire-tree-rotation { position:absolute;z-index:3;bottom:max(18px,env(safe-area-inset-bottom));left:50%;display:grid;place-items:center;width:44px;height:44px;padding:10px;transform:translateX(-50%);border:0;background:transparent;color:#fff;opacity:.72; }
+.nire-tree-rotation:hover, .nire-tree-rotation:focus-visible { opacity:1; }
+.nire-tree-rotation[hidden] { display:none; }
+.nire-tree-rotation svg { width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.4; }
+.nire-tree-rotation .nire-play-symbol { display:none; }
+.nire-tree-rotation[aria-pressed="false"] .nire-pause-symbol { display:none; }
+.nire-tree-rotation[aria-pressed="false"] .nire-play-symbol { display:block; }
+.nire-intro .nire-scene { transition: opacity 180ms ease-out; }
+.nire-detail[hidden] { display: none !important; }
 .nire-detail { position: absolute; z-index: 2; inset: 0; color: #fff; pointer-events: none; }
 .nire-detail-pan { position: absolute; inset: 0; pointer-events: auto; touch-action: none; cursor: grab; outline: none; }
 .nire-detail-pan:focus-visible { outline: 1px solid #ffffff55; outline-offset: -12px; }
@@ -51,9 +56,6 @@ button, fieldset, h1, p { margin: 0; }
 .nire-zoom-controls button { width: 50%; min-height: 36px; padding: 0; border: 0; background: transparent; color: #fff; font: 300 22px/1 "Helvetica Neue", sans-serif; }
 .nire-zoom-controls button + button { border-left: 1px solid #ffffff45; }
 .nire-zoom-controls button:hover { background: #ffffff18; }
-.nire-locator { position: relative; width: 78px; aspect-ratio: 2262 / 3200; padding: 0; border: 1px solid #ffffff45; background: #000; pointer-events: auto; }
-.nire-locator img { display: block; width: 100%; height: 100%; object-fit: fill; pointer-events: none; }
-.nire-locator-window { position: absolute; border: 1px solid #fff; box-shadow: 0 0 0 1px #0007; pointer-events: none; }
 .nire-detail .nire-back-tree, .nire-detail .nire-detail-actions, .nire-detail .nire-detail-navigation { transition: opacity 200ms ease; }
 .nire-detail.is-zooming .nire-back-tree, .nire-detail.is-zooming .nire-detail-actions, .nire-detail.is-zooming .nire-detail-navigation { opacity: 0; pointer-events: none; }
 .nire-detail.is-zooming .nire-develop, .nire-detail.is-zooming .nire-zoom-controls { pointer-events: none; }
@@ -61,13 +63,11 @@ button, fieldset, h1, p { margin: 0; }
 @media (max-width: 600px) {
   .nire-back-tree { top: calc(var(--portfolio-header-height) + 24px); left: 42px; }
   .nire-detail-navigation { top: calc(var(--portfolio-header-height) + 24px); right: 16px; bottom: auto; left: auto; width: 72px; }
-  .nire-locator { width: 52px; }
   .nire-develop { padding: 16px 18px; }
   .nire-detail-actions { bottom: max(30px, env(safe-area-inset-bottom)); }
 }
 @media (max-height: 480px) and (min-width: 601px) {
   .nire-detail-navigation { bottom: 20px; }
-  .nire-locator { width: 52px; }
   .nire-detail-actions { bottom: 20px; }
 }
 .nire-header { position: absolute; z-index: 3; top: 0; right: 0; left: 0; display: grid; grid-template-columns: minmax(110px, 1fr) auto auto; align-items: center; gap: 28px; min-height: var(--portfolio-header-height); padding: 0 clamp(18px, 3.4vw, 52px); pointer-events: none; color: #fff; font: 300 14px/1 "Neue Haas Grotesk Display", "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0; text-transform: uppercase; }

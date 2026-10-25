@@ -7,17 +7,18 @@
     <meta name="theme-color" content="#000000">
     <title>ELISA CIPRIANI</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=11">
-    <link rel="stylesheet" href="assets/css/nire.css?v=28">
+    <link rel="stylesheet" href="assets/css/nire.css?v=32">
     <link rel="stylesheet" href="assets/css/nire-nav.css?v=1">
     <script src="assets/js/language.js?v=76" defer></script>
-    <script src="assets/js/nire-filaments.js?v=5" defer></script>
+    <script src="assets/js/nire-form.js?v=2" defer></script>
+    <script src="assets/js/nire-filaments.js?v=15" defer></script>
     <script src="assets/js/nire-volume.js?v=2" defer></script>
-    <script src="assets/js/nire-materials.js?v=2" defer></script>
-    <script src="assets/js/nire-scene.js?v=13" defer></script>
+    <script src="assets/js/nire-materials.js?v=11" defer></script>
+    <script src="assets/js/nire-scene.js?v=22" defer></script>
     <script src="assets/js/nire-collage.js?v=9" defer></script>
     <script src="assets/js/nire-color.js?v=8" defer></script>
-    <script src="assets/js/nire-entry.js?v=5" defer></script>
-    <script src="assets/js/nire.js?v=20" defer></script>
+    <script src="assets/js/nire-entry.js?v=11" defer></script>
+    <script src="assets/js/nire.js?v=22" defer></script>
   </head>
   <body class="nire-page nire-intro">
     <main class="nire-studio" aria-labelledby="nire-title">
@@ -28,7 +29,6 @@
           <p class="nire-note nire-intro-note" data-nire-copy="note">Un árbol. Infinitos universos.</p>
         </div>
       </div>
-      <img id="nire-tree" class="nire-tree" src="assets/images/nire/arbol.jpg" alt="" width="2262" height="3200" fetchpriority="high" aria-hidden="true" hidden draggable="false">
       <canvas id="nire-canvas" class="nire-canvas" tabindex="-1" aria-hidden="true" inert aria-label="Lienzo negro para crear tu universo" aria-describedby="nire-keyboard">Tu navegador necesita admitir canvas para dibujar.</canvas>
       <div id="nire-cursor" class="nire-cursor" aria-hidden="true"></div>
       <svg id="nire-selection" class="nire-selection" aria-hidden="true" hidden><polygon id="nire-selection-outline"/></svg>
@@ -56,13 +56,13 @@
       </div>
 
       <button type="button" id="nire-start" class="nire-start" aria-label="Tocá una parte del árbol para explorar sus detalles" data-nire-label="startLabel" aria-controls="nire-detail"><span class="sr-only" data-nire-copy="startHint">Tocá una parte del árbol para explorar sus detalles.</span></button>
+      <button type="button" id="nire-tree-rotation" class="nire-tree-rotation" aria-pressed="true" aria-label="Pausar giro" title="Pausar giro"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="nire-pause-symbol" d="M9 6v12M15 6v12"/><path class="nire-play-symbol" d="m9 6 9 6-9 6z"/></svg></button>
 
       <section id="nire-detail" class="nire-detail" aria-label="Detalle del árbol" data-nire-label="detailLabel" hidden>
         <div id="nire-detail-pan" class="nire-detail-pan" tabindex="0" role="region" aria-label="Detalle del árbol" data-nire-label="detailLabel" aria-describedby="nire-detail-keyboard"></div>
         <p id="nire-detail-keyboard" class="sr-only" data-nire-copy="detailKeyboard">Arrastrá o usá las flechas para recorrer. Acercá con +, la rueda o dos dedos. Escape vuelve al árbol completo.</p>
         <button id="nire-back-tree" class="nire-back-tree" type="button"><span aria-hidden="true">←</span> <span data-nire-copy="backTree">Volver al árbol</span></button>
         <div class="nire-detail-navigation">
-          <button id="nire-locator" class="nire-locator" type="button" aria-label="Ubicar otra parte del árbol" data-nire-label="locatorLabel"><img src="assets/images/nire/arbol.jpg" alt="" draggable="false"><span id="nire-locator-window" class="nire-locator-window" aria-hidden="true"></span></button>
           <div class="nire-zoom-controls"><button id="nire-zoom-out" type="button" aria-label="Alejar" data-nire-label="zoomOut">−</button><button id="nire-zoom-in" type="button" aria-label="Acercar" data-nire-label="zoomIn">+</button></div>
         </div>
         <div class="nire-detail-actions">

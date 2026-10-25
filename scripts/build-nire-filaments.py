@@ -1,27 +1,22 @@
-"""Build a connected vascular skin from the original ÑIRE drawing.
+"""Trace the original ÑIRE drawing and embed its connected branches in space.
 
-Development dependencies: Pillow, numpy, scipy, scikit-image, fast-simplification.
+Development dependencies: Pillow, numpy, scipy, scikit-image, manifold3d.
 Usage: python build-nire-filaments.py ORIGINAL_IMAGE [OUTPUT_DIRECTORY]
 Run build-nire-materials.py first to exclude those pigments from the veins.
 The browser reads the finished mesh; no Python dependencies are used by the site.
 """
-import gzip
 import json
-import math
 from pathlib import Path
-import struct
 import sys
 
-import fast_simplification
 import numpy as np
 from PIL import Image, ImageFilter
-from scipy.ndimage import distance_transform_edt, gaussian_filter, label, convolve, map_coordinates
+from scipy.ndimage import distance_transform_edt, gaussian_filter, label
 from scipy.spatial import cKDTree
 from scipy.sparse import coo_matrix
-from scipy.sparse.csgraph import connected_components
+from scipy.sparse.csgraph import minimum_spanning_tree
 from skimage.filters import apply_hysteresis_threshold
-from skimage.graph import route_through_array
-from skimage.measure import marching_cubes
+from skimage.measure import approximate_polygon
 from skimage.morphology import skeletonize
 
 source = Path(sys.argv[1])
@@ -36,148 +31,184 @@ light = gaussian_filter(rgb.max(axis=2).astype(np.float32), .55)
 # Colored paint is reconstructed as its own material. It must not also create
 # vein skeletons, connecting beads or filling the broad rose and copper bodies.
 material_path=output/'material-mask.png'
+if not material_path.exists():material_path=Path(__file__).resolve().parents[1]/'assets/images/nire/material-mask.png'
 if material_path.exists():
     material=np.asarray(Image.open(material_path).convert('RGB'))
     r,g,b=[rgb[:,:,i].astype(np.float32) for i in range(3)]
     pigment=((material[:,:,0]>32)&(b<np.minimum(r,g)*.82))|((material[:,:,1]>32)&(r>g*1.35)&(b>g*1.1))|((material[:,:,2]>32)&(r>b*1.1)&(g<r*.88))
     light[pigment]=0
 
-# Hysteresis follows the faint connecting lines instead of cutting them wherever
-# their brightness changes. Broad painted areas may carry the underlying veins.
-original_ink = apply_hysteresis_threshold(light, 7, 22)
+# Trace the source marks before reducing them to a connected linear frame.
+original_ink = apply_hysteresis_threshold(light, 5, 20)
 skeleton = skeletonize(original_ink)
 labels, _ = label(skeleton, np.ones((3, 3)))
 sizes = np.bincount(labels.ravel()); sizes[0] = 0
-main_id = int(sizes.argmax())
-network = labels == main_id
-candidates = [int(i) for i in np.argsort(-sizes) if i != main_id and sizes[i] >= 60]
-bridges = 0
-# Restore the few remaining interruptions along the original faint paint. Small
-# isolated pigment fragments are omitted from the vascular body.
-for component in candidates:
-    points = np.argwhere(labels == component)
-    target = np.argwhere(network)
-    distances, indices = cKDTree(target[::2]).query(points)
-    nearest = int(distances.argmin())
-    if distances[nearest] > 110:
-        continue
-    a = points[nearest]; b = target[::2][indices[nearest]]
-    low = np.maximum(0, np.minimum(a, b)-16)
-    high = np.minimum([height, width], np.maximum(a, b)+17)
-    region = light[low[0]:high[0], low[1]:high[1]]
-    cost = 1 + 12*np.exp(-region/11)
-    route, _ = route_through_array(cost, tuple(a-low), tuple(b-low), fully_connected=True)
-    route = np.asarray(route)+low
-    network[route[:, 0], route[:, 1]] = True
-    network[points[:, 0], points[:, 1]] = True
-    bridges += 1
-network = skeletonize(network)
-# Remove short terminal hairs while keeping every connection and closed loop.
-for _ in range(2):
-    degree = convolve(network.astype(np.uint8), np.ones((3, 3), np.uint8), mode='constant')-network
-    tips = np.argwhere(network & (degree == 1))
-    remove = []
-    for tip in tips:
-        path = [tuple(tip)]; previous = None; current = tuple(tip)
-        while len(path) <= 9:
-            neighbours = [(y, x) for y in range(max(0,current[0]-1), min(height,current[0]+2)) for x in range(max(0,current[1]-1), min(width,current[1]+2)) if network[y,x] and (y,x) != current and (y,x) != previous]
-            if len(neighbours) != 1:
+skeleton = np.isin(labels, np.flatnonzero(sizes >= 350))
+ys, xs = np.nonzero(skeleton)
+coords = np.column_stack([ys, xs])
+lookup = {tuple(point): i for i, point in enumerate(coords)}
+rows, cols, weights = [], [], []
+for i, (y, x) in enumerate(coords):
+    for dy, dx in ((0,1),(1,-1),(1,0),(1,1)):
+        neighbour = (y+dy,x+dx)
+        if neighbour not in lookup:
+            continue
+        rows.append(i); cols.append(lookup[neighbour])
+        weights.append(np.hypot(dx,dy)/(10+(float(light[y,x])+float(light[neighbour]))/2))
+graph = coo_matrix((weights,(rows,cols)),shape=(len(coords),len(coords))).tocsr()
+forest = minimum_spanning_tree(graph+graph.T).tocoo()
+neighbours = [set() for _ in coords]
+for a,b in zip(forest.row,forest.col):
+    neighbours[a].add(b); neighbours[b].add(a)
+# Keep the long gesture of each contour; remove the small twigs and rungs.
+for _ in range(12):
+    remove = set()
+    for start in [i for i,n in enumerate(neighbours) if len(n)==1]:
+        path = [start]; previous = -1; current = start; length = 0
+        while len(neighbours[current]) <= 2:
+            choices = neighbours[current]-{previous}
+            if not choices:
                 break
-            previous, current = current, neighbours[0]
-            path.append(current)
-            if degree[current] != 2:
+            following = next(iter(choices))
+            length += np.linalg.norm(coords[following]-coords[current])
+            previous,current = current,following; path.append(current)
+            if length >= 180 or len(neighbours[current]) != 2:
                 break
-        if len(path) <= 9 and degree[current] > 2:
-            remove.extend(path[:-1])
-    if remove:
-        coords = np.asarray(remove); network[coords[:,0], coords[:,1]] = False
-_, body_count = label(network, np.ones((3, 3)))
-assert body_count == 1, f'Expected one vascular network, got {body_count}'
-Image.fromarray((network*255).astype(np.uint8)).save(output/'vein-network.png', optimize=True)
+        if length < 180 and len(neighbours[current]) > 2:
+            remove.update(path[:-1])
+    if not remove:
+        break
+    for i in remove:
+        for j in neighbours[i]: neighbours[j].discard(i)
+        neighbours[i].clear()
+# Treat the main source contours as one frame, across the gaps hidden by paint.
+seen=set();structures=[]
+for start,links in enumerate(neighbours):
+    if not links or start in seen:continue
+    stack=[start];component=[];seen.add(start)
+    while stack:
+        current=stack.pop();component.append(current)
+        for following in neighbours[current]:
+            if following not in seen:seen.add(following);stack.append(following)
+    structures.append(component)
+structures.sort(key=len,reverse=True)
+structure=set(structures[0])
+remaining=[component for component in structures[1:] if len(component)>=260]
+bridges=0
+while remaining:
+    core=np.array(sorted(structure));tree=cKDTree(coords[core])
+    choices=[]
+    for index,component in enumerate(remaining):
+        distance,nearest=tree.query(coords[component])
+        best=int(np.argmin(distance))
+        choices.append((distance[best],index,component[best],core[nearest[best]]))
+    distance,index,a,b=min(choices)
+    if distance>420:break
+    neighbours[a].add(b);neighbours[b].add(a)
+    structure.update(remaining.pop(index));bridges+=1
+# Small detached ornaments stay out of the shared frame.
+for i in range(len(neighbours)):
+    if i not in structure:neighbours[i].clear()
 
-ys, xs = np.nonzero(network)
-pad = 4
-origin = np.array([int(ys.min())-pad, int(xs.min())-pad])
-end = np.array([int(ys.max())+pad+1, int(xs.max())+pad+1])
-shape = tuple(end-origin)
-local = np.zeros(shape, bool)
-local[ys-origin[0], xs-origin[1]] = True
-distance = distance_transform_edt(~local).astype(np.float32)
-# One gently varying diameter replaces thick isolated cylindrical fragments.
-radius = 1.18
-field2d = gaussian_filter(radius*radius-distance*distance, .38) + .29
-levels = np.linspace(-1.8, 1.8, 13, dtype=np.float32)
-field = field2d[:, :, None]-levels[None, None, :]**2
-vertices, faces, normals, _ = marching_cubes(field, level=0, spacing=(1,1,float(levels[1]-levels[0])), allow_degenerate=False)
-del field, distance, field2d
-# Keep the continuous skin, while removing redundant surface triangles.
-vertices, faces = fast_simplification.simplify(vertices, faces, target_reduction=.8, agg=5)
-vertices = vertices.astype(np.float32)
-vertices[:,2] += levels[0]
-vertices[:,:2] += origin
-# Taubin smoothing rounds the shared surface without shrinking the thin veins.
-edges = np.sort(np.concatenate([faces[:,[0,1]], faces[:,[1,2]], faces[:,[2,0]]]),axis=1)
-unique_edges, occurrences = np.unique(edges, axis=0, return_counts=True)
-boundary_edges = int(np.count_nonzero(occurrences != 2))
-assert boundary_edges == 0, f'Open vascular surface: {boundary_edges} edges'
-rows = np.r_[unique_edges[:,0],unique_edges[:,1]]
-cols = np.r_[unique_edges[:,1],unique_edges[:,0]]
-adjacency = coo_matrix((np.ones(len(rows),np.float32),(rows,cols)),shape=(len(vertices),len(vertices))).tocsr()
-mesh_components = connected_components(adjacency, directed=False, return_labels=False)
-assert mesh_components == 1, f'Expected one mesh, got {mesh_components}'
-weight = np.asarray(adjacency.sum(axis=1)).ravel()
-for _ in range(3):
-    for step in (.33,-.34):
-        average = adjacency @ vertices / weight[:,None]
-        vertices += step*(average-vertices)
-# Recompute normals after smoothing; the whole skin shares welded junctions.
-triangles = vertices[faces]
-face_normals = np.cross(triangles[:,1]-triangles[:,0],triangles[:,2]-triangles[:,0])
-normals = np.zeros_like(vertices)
-for corner in range(3):
-    np.add.at(normals, faces[:,corner], face_normals)
-normals /= np.maximum(1e-10,np.linalg.norm(normals,axis=1,keepdims=True))
-if np.mean(normals[:,2]*vertices[:,2]) < 0:
-    normals *= -1
-# Use local source pigment, with smooth color through the repaired connections.
-ink_weight = gaussian_filter(original_ink.astype(np.float32),2)
-color_image = np.stack([gaussian_filter(rgb[:,:,c].astype(np.float32)*original_ink,2)/np.maximum(.001,ink_weight) for c in range(3)],axis=2)
-color = np.stack([map_coordinates(color_image[:,:,c],[vertices[:,0],vertices[:,1]],order=1,mode='nearest') for c in range(3)],axis=1)
-color = np.clip(color,0,255).astype(np.uint8)
-# Remove the flat, broken thin marks beneath the continuous modeled surface.
-ink_distance = distance_transform_edt(original_ink)
-thin = original_ink & (ink_distance < 7)
-mask = Image.fromarray((thin*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.GaussianBlur(.7))
-mask.save(output/'filament-mask.png', optimize=True)
-# Split only for WebGL's 16-bit indices. Shared boundary vertices have exactly
-# the same quantized positions and normals, so there are no visible batch seams.
-centers = vertices[faces,:2].mean(axis=1)
-keys = (np.floor(centers[:,0]/192).astype(int)*32+np.floor(centers[:,1]/192).astype(int))
-order = np.argsort(keys,kind='stable')
-keys = keys[order]
-breaks = np.r_[0,np.flatnonzero(keys[1:]!=keys[:-1])+1,len(order)]
-batches = []
-for first,last in zip(breaks,breaks[1:]):
-    selected = faces[order[first:last]]
-    # Dense fine cracks in the painted crown can exceed one index buffer.
-    for start in range(0,len(selected),16000):
-        selected_faces = selected[start:start+16000]
-        used, indices = np.unique(selected_faces.ravel(), return_inverse=True)
-        assert len(used) <= 65535
-        positions = vertices[used]
-        records = np.zeros((len(used),12),np.uint8)
-        packed = np.column_stack([positions[:,1]*8,positions[:,0]*8,positions[:,2]*8192])
-        records[:,:6] = np.rint(packed).astype('<i2').view(np.uint8).reshape(-1,6)
-        records[:,6:9] = np.rint(normals[used][:,[1,0,2]]*127).astype(np.int8).view(np.uint8)
-        records[:,9:12] = color[used]
-        bounds = [float(positions[:,1].min()/width),float(positions[:,0].min()/height),float(positions[:,1].max()/width),float(positions[:,0].max()/height)]
-        batches.append((records, indices.astype('<u2'), bounds))
-mesh = bytearray(struct.pack('<4sIHHII',b'NIRV',2,width,height,len(batches),mesh_components))
-for records,indices,bounds in batches:
-    mesh += struct.pack('<II4f',len(records),len(indices),*bounds)
-    mesh += records.tobytes()+indices.tobytes()
-(output/'filaments.bin').write_bytes(mesh)
-(output/'filaments.bin.gz').write_bytes(gzip.compress(bytes(mesh),compresslevel=9,mtime=0))
-meta = {'sourceSize':list(source_size),'traceSize':[width,height],'bodies':body_count,'meshComponents':int(mesh_components),'openEdges':boundary_edges,'connectedGaps':bridges,'centerlinePixels':int(network.sum()),'vertices':len(vertices),'triangles':len(faces),'batches':len(batches),'diameterInSourcePixels':radius*2,'format':'NIRV v2: one closed vascular skin, spatial batches with welded boundaries'}
-(output/'filaments.json').write_text(json.dumps(meta,ensure_ascii=False,indent=2)+'\n')
-print(json.dumps(meta,indent=2))
+def sample_segment(a,b):
+    count=max(2,int(np.ceil(np.linalg.norm(b-a)/.35))+1)
+    return np.linspace(a,b,count)
+
+def restrained_path(points):
+    # Long straight runs, with only a small quadratic fillet at each corner.
+    # There is no interpolating spline, so no overshoot, S-curves or extra loops.
+    parts=[];last=points[0]
+    for i in range(1,len(points)-1):
+        a,b,c=points[i-1:i+2]
+        incoming=b-a;outgoing=c-b
+        before=np.linalg.norm(incoming);after=np.linalg.norm(outgoing)
+        cut=min(2.5,before*.12,after*.12)
+        enter=b-incoming/before*cut;leave=b+outgoing/after*cut
+        parts.append(sample_segment(last,enter)[:-1])
+        t=np.linspace(0,1,max(5,int(np.ceil(cut*2/.25))+1))[:,None]
+        parts.append(((1-t)**2*enter+2*(1-t)*t*b+t*t*leave)[:-1])
+        last=leave
+    parts.append(sample_segment(last,points[-1]))
+    return np.concatenate(parts)
+
+# Simplify the gesture itself, rather than smoothing every small source wiggle.
+visited = set(); strokes = []
+for start, links in enumerate(neighbours):
+    if not links or len(links)==2:
+        continue
+    for following in links:
+        key = tuple(sorted((start,following)))
+        if key in visited:
+            continue
+        path = [start]; previous,current = start,following; visited.add(key)
+        while True:
+            path.append(current)
+            if len(neighbours[current])!=2:
+                break
+            following = next(iter(neighbours[current]-{previous}))
+            key = tuple(sorted((current,following)))
+            if key in visited:
+                break
+            visited.add(key); previous,current = current,following
+        raw = coords[path].astype(float)
+        points = approximate_polygon(raw,tolerance=26.0)
+        if len(points)<2:
+            continue
+        arc = np.r_[0,np.cumsum(np.linalg.norm(np.diff(points,axis=0),axis=1))]
+        if arc[-1]<3:
+            continue
+        smooth = restrained_path(points)
+        strokes.append(smooth)
+samples = np.concatenate(strokes)
+# Embed the connected source graph in space. Each branch keeps its long, straight
+# gesture while forks leave the drawing plane in alternating directions.
+node_lookup={};nodes=[];links=[]
+def node_index(point):
+    key=tuple(np.round(point,3))
+    if key not in node_lookup:node_lookup[key]=len(nodes);nodes.append(point)
+    return node_lookup[key]
+for i,stroke in enumerate(strokes):
+    a,b=node_index(stroke[0]),node_index(stroke[-1])
+    length=float(np.linalg.norm(np.diff(stroke,axis=0),axis=1).sum())
+    links.append((a,b,i,length))
+node_links=[[] for _ in nodes]
+for a,b,i,length in links:node_links[a].append((b,i,length));node_links[b].append((a,i,length))
+root=max(range(len(nodes)),key=lambda i:nodes[i][0])
+depth=np.full(len(nodes),np.nan);depth[root]=0
+queue=[(root,.0)];fork=0
+while queue:
+    at,slope=queue.pop(0)
+    children=sorted([link for link in node_links[at] if np.isnan(depth[link[0]])],key=lambda link:-link[2])
+    if len(children)>1:fork+=1
+    for rank,(other,index,length) in enumerate(children):
+        lean=slope if len(children)==1 or rank==0 else 1.1*np.sin(fork*2.399963+rank*2.1)
+        if rank>0 and abs(lean)<.45:lean=.65 if fork%2 else -.65
+        depth[other]=depth[at]+length*lean
+        queue.append((other,lean))
+assert np.all(np.isfinite(depth)),'The spatial branch graph must stay connected'
+depth=(depth-(depth.max()+depth.min())*.5)*(width*.92/max(1,depth.max()-depth.min()))
+stroke_depth=[];form_paths=[]
+for a,b,i,length in links:
+    stroke=strokes[i];arc=np.r_[0,np.cumsum(np.linalg.norm(np.diff(stroke,axis=0),axis=1))]
+    z=depth[a]+(depth[b]-depth[a])*arc/max(1e-10,arc[-1]);stroke_depth.append(z)
+    simple=approximate_polygon(stroke,tolerance=.25)
+    _,kept=cKDTree(stroke).query(simple)
+    path=np.column_stack([simple[:,1],simple[:,0],z[kept]])
+    form_paths.append(np.round(path,4).tolist())
+(output/'form.json').write_text(json.dumps({'width':width,'height':height,'depthSpan':float(np.ptp(depth)),'paths':form_paths},separators=(',',':'))+'\n')
+network = np.zeros((height,width),bool)
+rounded = np.rint(samples).astype(int)
+network[np.clip(rounded[:,0],0,height-1),np.clip(rounded[:,1],0,width-1)] = True
+_, body_count = label(network,np.ones((3,3)))
+Image.fromarray((network*255).astype(np.uint8)).save(output/'vein-network.png',optimize=True)
+if '--outline-only' in sys.argv:
+    (output/'outline.json').write_text(json.dumps({'paths':[stroke.tolist() for stroke in strokes],'connectedComponents':body_count,'junctions':sum(len(n)>2 for n in neighbours)},separators=(',',':')))
+    print(json.dumps({'paths':len(strokes),'connectedComponents':body_count,'junctions':sum(len(n)>2 for n in neighbours),'joinedInterruptions':bridges}))
+    sys.exit(0)
+
+# Keep the source-photo transition clean while the spatial solid loads.
+ink_distance=distance_transform_edt(original_ink)
+thin=original_ink&(ink_distance<7)
+Image.fromarray((thin*255).astype(np.uint8)).filter(ImageFilter.MaxFilter(5)).filter(ImageFilter.GaussianBlur(.7)).save(output/'filament-mask.png',optimize=True)
+from build_nire_spatial import build_spatial_tree
+build_spatial_tree(output,source_size,{'connectedGaps':bridges,'junctions':sum(len(n)>2 for n in neighbours),'tracedPaths':len(strokes),'centerlinePixels':int(network.sum())})

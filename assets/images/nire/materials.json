@@ -1,20 +1,21 @@
 {
   "yellow": {
-    "beads": 133
+    "beads": 133,
+    "surface": "analytic sphere; rigid center; no surface shear"
   },
   "pink": {
     "bodies": 1,
     "openEdges": 0,
-    "triangles": 61112,
-    "thicknessInSourcePixels": 42
+    "triangles": 177622,
+    "thicknessInSourcePixels": 28
   },
   "orange": {
     "bodies": 15,
     "openEdges": 0,
-    "triangles": 174390,
-    "thicknessInSourcePixels": 17.0
+    "triangles": 535966,
+    "thicknessInSourcePixels": 14
   },
-  "batches": 83,
+  "batches": 80,
   "sourceSize": [
     2262,
     3200

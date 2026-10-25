@@ -4,7 +4,6 @@
   const canvas = document.getElementById("nire-canvas");
   if (!canvas) return;
   const context = canvas.getContext("2d");
-  const tree = document.getElementById("nire-tree");
   const cursor = document.getElementById("nire-cursor");
   const status = document.getElementById("nire-status");
   const undo = document.getElementById("nire-undo");
@@ -13,6 +12,7 @@
   const save = document.getElementById("nire-save");
   const sizeInput = document.getElementById("nire-size");
   const rotation = document.getElementById("nire-rotation");
+  const treeRotation = document.getElementById("nire-tree-rotation");
   const start = document.getElementById("nire-start");
   const detailContent = document.getElementById("nire-detail");
   const develop = document.getElementById("nire-develop");
@@ -25,7 +25,7 @@
   const composition = composite.getContext("2d");
   // Strokes live in the photograph's coordinates, so they stay on the same
   // branches when the screen is resized or the phone is rotated.
-  const world = { width: 1600, height: 1600 * Number(tree.getAttribute("height")) / Number(tree.getAttribute("width")) };
+  const world = { width: 1600, height: 1600 * 3200 / 2262 };
   const inkBounds = { x: -world.width * 1.5, y: -world.height * 2, width: world.width * 4, height: world.height * 5, scale: .32 };
   layer.width = Math.round(inkBounds.width * inkBounds.scale);
   layer.height = Math.round(inkBounds.height * inkBounds.scale);
@@ -45,7 +45,7 @@
   let collage = null;
   let colorPicker = null;
   let volume = null;
-  let scene = window.createNireScene ? window.createNireScene(tree, composite, world, inkBounds) : null;
+  let scene = window.createNireScene ? window.createNireScene(composite, world, inkBounds) : null;
   const copy = {
     es: {
       homeLabel: "ELISA CIPRIANI: ir al menú principal", subtitle: "creá tu universo", rotation: "Giro", pauseRotation: "Pausar giro", resumeRotation: "Activar giro",
@@ -108,7 +108,6 @@
   }
   function syncTree() {
     const showTree = !state.started;
-    tree.hidden = !showTree;
     if (scene) scene.setTreeVisible(showTree);
     syncHold();
   }
@@ -118,9 +117,14 @@
     rotation.setAttribute("aria-pressed", String(Boolean(enabled)));
     rotation.setAttribute("aria-label", t(enabled ? "pauseRotation" : "resumeRotation"));
     rotation.title = t(enabled ? "pauseRotation" : "resumeRotation");
+    treeRotation.hidden=!scene||state.started||state.detail;
+    treeRotation.setAttribute("aria-pressed",String(Boolean(enabled)));
+    treeRotation.setAttribute("aria-label",t(enabled?"pauseRotation":"resumeRotation"));
+    treeRotation.title=t(enabled?"pauseRotation":"resumeRotation");
   }
   rotation.addEventListener("click", () => { if (scene) { scene.setEnabled(!scene.enabled()); syncRotation(); } });
   rotation.addEventListener("click", () => { if (colorPicker) colorPicker.close(false); });
+  treeRotation.addEventListener("click",()=>{if(scene){scene.setEnabled(!scene.enabled());syncRotation();}});
   document.addEventListener("nire-motion-change", syncRotation);
   new MutationObserver(localize).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
   localize();
@@ -300,7 +304,6 @@
     const cx = sceneView ? sceneView.cx : space.left + space.width / 2;
     const cy = sceneView ? sceneView.cy : space.top + space.height / 2 + world.height * scale * .13;
     state.view = { width, height, scale, dpr, x: cx - world.width * scale / 2, y: cy - world.height * scale / 2 };
-    Object.assign(tree.style, { left: `${state.view.x}px`, top: `${state.view.y}px`, width: `${world.width * scale}px`, height: `${world.height * scale}px` });
     canvas.width = Math.max(1, Math.round(width * dpr));
     canvas.height = Math.max(1, Math.round(height * dpr));
     state.keyPosition.x = Math.min(width, state.keyPosition.x || width * .5);
@@ -474,7 +477,7 @@
     announce("cleared");
   });
   const entrance = window.createNireEntrance ? window.createNireEntrance({
-    image: tree, world, container: document.querySelector(".nire-studio"),
+    world, container: document.querySelector(".nire-studio"),
     view: () => state.view, scene: () => scene,
     pointAt: (x, y) => pointAt(x, y, .65)
   }) : null;
@@ -486,6 +489,8 @@
   });
   start.addEventListener("click", async (event) => {
     if (state.started || state.entering || state.detail) return;
+    if(!scene){develop.click();return;}
+    if(!scene.modelVisible())return;
     const rect = canvas.getBoundingClientRect();
     const origin = event.detail === 0
       ? { x: rect.width / 2, y: rect.height / 2 }
@@ -493,6 +498,7 @@
     const tolerance = window.matchMedia("(pointer: coarse)").matches ? 32 : 20;
     if (event.detail !== 0 && entrance && !entrance.hitTest(origin.x, origin.y, tolerance)) return;
     state.entering = state.detail = true;
+    syncRotation();
     start.hidden = true;
     introContent.hidden = true;
     detailContent.hidden = false;
@@ -514,6 +520,7 @@
     detailContent.classList.add("is-zooming");
     try { if (entrance) await entrance.close(); } catch (_) { if (entrance) entrance.reset(); }
     state.detail = state.entering = false;
+    syncRotation();
     detailContent.hidden = true;
     detailContent.classList.remove("is-zooming");
     introContent.hidden = false;
@@ -529,6 +536,7 @@
   develop.addEventListener("click", () => {
     if (state.started || state.entering) return;
     state.started = true;
+    syncRotation();
     state.detail = false;
     if (entrance) entrance.reset();
     if (colorPicker) colorPicker.close(false);
@@ -547,7 +555,7 @@
     if (frame) cancelAnimationFrame(frame);
     renderView();
     if (scene) scene.flush();
-    imageReady();
+    updateSave();
     canvas.focus({ preventScroll: true });
     announce("pieceStarted");
   });
@@ -623,13 +631,8 @@
     if (collage) collage.useColor(color, commit);
   }
 
-  function imageReady() { save.disabled = !state.started; }
-  tree.addEventListener("load", imageReady);
-  tree.addEventListener("error", () => {
-    imageReady();
-    announce("loadError");
-  });
-  imageReady();
+  function updateSave(){save.disabled=!state.started;}
+  updateSave();
 
   save.addEventListener("click", async () => {
     if (!state.started) return;
@@ -676,7 +679,7 @@
     } finally {
       syncHold();
       label.textContent = t("save");
-      imageReady();
+      updateSave();
     }
   });
   if (window.createNireCollage) collage = window.createNireCollage({

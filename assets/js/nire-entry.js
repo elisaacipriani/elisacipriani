@@ -1,171 +1,39 @@
 (function () {
   "use strict";
 
-  // All positions use the source photograph's coordinates, including the locator.
-  // Only the visible original-resolution tiles are decoded for each close-up.
+  // Explore the actual spatial model; no flat drawing or photograph is shown.
   window.createNireEntrance = function (host) {
-    const image = host.image;
     const surface = document.getElementById("nire-detail-pan");
-    const locator = document.getElementById("nire-locator");
     const zoomIn = document.getElementById("nire-zoom-in");
     const zoomOut = document.getElementById("nire-zoom-out");
     const pointers = new Map();
     let pinch = null, magnification = 1;
-    const marker = document.getElementById("nire-locator-window");
-    const fallback = document.createElement("canvas");
-    fallback.className = "nire-closeup";
-    fallback.setAttribute("aria-hidden", "true");
-    fallback.hidden = true;
-    host.container.prepend(fallback);
-    const ctx = fallback.getContext("2d");
     const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-    const original = { width: 7020, height: 9928, tileWidth: 1755, tileHeight: 1986 };
-    const tiles = new Map();
-    let mask = null, active = false, moving = false, focus = null;
-    let zoom = 1, progress = 0, raf = 0, generation = 0, refresh = 0, drag = null;
-    let detail = null, detailBounds = null, animationEnd = null;
+    let active = false, moving = false, focus = null;
+    let zoom = 1, progress = 0, raf = 0, drag = null;
+    let animationEnd = null;
 
-    function prepareMask() {
-      if (mask || !image.naturalWidth) return;
-      const canvas = document.createElement("canvas");
-      canvas.width = Math.min(768, image.naturalWidth);
-      canvas.height = Math.round(canvas.width * image.naturalHeight / image.naturalWidth);
-      const c = canvas.getContext("2d", { willReadFrequently: true });
-      c.drawImage(image, 0, 0, canvas.width, canvas.height);
-      const pixels = c.getImageData(0, 0, canvas.width, canvas.height).data;
-      const ink = new Uint8Array(canvas.width * canvas.height);
-      for (let i = 0; i < ink.length; i++) ink[i] = Math.max(pixels[i * 4], pixels[i * 4 + 1], pixels[i * 4 + 2]) > 10 ? 1 : 0;
-      mask = { width: canvas.width, height: canvas.height, ink };
-    }
-    function hitTest(x, y, tolerance) {
-      if (!image.naturalWidth) return image.complete;
-      prepareMask();
-      if (!mask) return true;
-      const point = host.pointAt(x, y);
-      const px = Math.round(point.x / host.world.width * mask.width);
-      const py = Math.round(point.y / host.world.height * mask.height);
-      const radius = Math.max(2, Math.ceil((tolerance || 20) * mask.width / (host.view().scale * host.world.width)));
-      for (let dy = -radius; dy <= radius; dy++) {
-        const row = py + dy;
-        if (row < 0 || row >= mask.height) continue;
-        for (let dx = -radius; dx <= radius; dx++) {
-          const column = px + dx;
-          if (column < 0 || column >= mask.width || dx * dx + dy * dy > radius * radius) continue;
-          if (mask.ink[row * mask.width + column]) return true;
-        }
-      }
-      return false;
+    function hitTest(x,y,tolerance){
+      const scene=host.scene();
+      return Boolean(scene&&scene.modelVisible()&&scene.pickPoint(x,y,tolerance));
     }
     function baseView() { return host.scene() ? host.scene().baseView() : host.view(); }
     function targetZoom() {
       const v = baseView();
       return Math.max(6.2, v.width * 2.6 / (v.scale * host.world.width), v.height * 3 / (v.scale * host.world.height));
     }
-    function flatView() {
-      const v = host.view();
-      const anchor = { x: v.x + focus.x * v.scale, y: v.y + focus.y * v.scale };
-      const center = { x: anchor.x + (v.width / 2 - anchor.x) * progress, y: anchor.y + (v.height / 2 - anchor.y) * progress };
-      return { ...v, scale: v.scale * zoom, x: (v.x - anchor.x) * zoom + center.x, y: (v.y - anchor.y) * zoom + center.y };
-    }
-    function pointAt(x, y) {
-      if (host.scene()) return host.scene().pointAt(x, y);
-      const v = flatView();
-      return { x: (x - v.x) / v.scale, y: (y - v.y) / v.scale };
-    }
-    function viewportBounds() {
-      const v = baseView();
-      const corners = [[0, 0], [v.width, 0], [0, v.height], [v.width, v.height]].map(([x, y]) => pointAt(x, y));
-      return {
-        left: Math.min(...corners.map(p => p.x)) / host.world.width,
-        top: Math.min(...corners.map(p => p.y)) / host.world.height,
-        right: Math.max(...corners.map(p => p.x)) / host.world.width,
-        bottom: Math.max(...corners.map(p => p.y)) / host.world.height
-      };
-    }
-    function updateLocator() {
-      const b = viewportBounds();
-      const left = Math.max(0, b.left), top = Math.max(0, b.top);
-      Object.assign(marker.style, {
-        left: `${left * 100}%`, top: `${top * 100}%`,
-        width: `${Math.max(0, Math.min(1, b.right) - left) * 100}%`,
-        height: `${Math.max(0, Math.min(1, b.bottom) - top) * 100}%`
-      });
-      locator.dataset.focusX = (focus.x / host.world.width).toFixed(5);
-      locator.dataset.focusY = (focus.y / host.world.height).toFixed(5);
+    function pointAt(x,y){
+      const scene=host.scene();
+      return scene?scene.pointAt(x,y):host.pointAt(x,y);
     }
     function draw() {
       if (!active || !focus) return;
       const scene = host.scene();
-      fallback.hidden = Boolean(scene);
-      if (scene) scene.setFocus(focus, zoom, progress);
-      else {
-        const v = flatView(), dpr = Math.min(devicePixelRatio || 1, 2);
-        if (fallback.width !== Math.round(v.width * dpr) || fallback.height !== Math.round(v.height * dpr)) {
-          fallback.width = Math.round(v.width * dpr); fallback.height = Math.round(v.height * dpr);
-        }
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        ctx.fillStyle = "#000"; ctx.fillRect(0, 0, v.width, v.height);
-        const width = host.world.width * v.scale, height = host.world.height * v.scale;
-        if (image.naturalWidth) ctx.drawImage(image, v.x, v.y, width, height);
-        if (detail) ctx.drawImage(detail, v.x + detailBounds.x * width, v.y + detailBounds.y * height, detailBounds.width * width, detailBounds.height * height);
-      }
+      if(scene)scene.setFocus(focus,zoom,progress);
       zoomIn.disabled = zoom >= targetZoom()*5-.01;
       zoomOut.disabled = zoom <= targetZoom()*.65+.01;
       surface.dataset.zoom = (zoom/targetZoom()).toFixed(3);
-      updateLocator();
     }
-    function tile(column, row) {
-      const key = `${column}-${row}`;
-      if (!tiles.has(key)) {
-        const picture = new Image();
-        picture.decoding = "async";
-        const loaded = new Promise(resolve => { picture.onload = () => resolve(picture); picture.onerror = () => resolve(null); });
-        picture.src = `assets/images/nire/details/${key}.jpg`;
-        tiles.set(key, loaded);
-      }
-      const loaded = tiles.get(key);
-      // Keep a small working set when the visitor explores many different parts.
-      tiles.delete(key); tiles.set(key, loaded);
-      while (tiles.size > 6) tiles.delete(tiles.keys().next().value);
-      return loaded;
-    }
-    async function loadDetail() {
-      if (!active || !focus) return;
-      const token = ++generation;
-      const b = viewportBounds();
-      const pad = .025;
-      const left = Math.max(0, Math.floor((b.left - pad) * original.width));
-      const top = Math.max(0, Math.floor((b.top - pad) * original.height));
-      const right = Math.min(original.width, Math.ceil((b.right + pad) * original.width));
-      const bottom = Math.min(original.height, Math.ceil((b.bottom + pad) * original.height));
-      if (right <= left || bottom <= top) return;
-      const requests = [];
-      for (let row = Math.floor(top / original.tileHeight); row <= Math.floor((bottom - 1) / original.tileHeight); row++) {
-        for (let col = Math.floor(left / original.tileWidth); col <= Math.floor((right - 1) / original.tileWidth); col++) {
-          requests.push(tile(col, row).then(picture => ({ picture, col, row })));
-        }
-      }
-      const loaded = await Promise.all(requests);
-      if (!active || token !== generation) return;
-      const crop = document.createElement("canvas");
-      const limit = Math.min(4096, host.scene() ? host.scene().maxTextureSize() : 4096);
-      const ratio = Math.min(1, limit / (right - left), limit / (bottom - top));
-      crop.width = Math.max(1, Math.round((right - left) * ratio));
-      crop.height = Math.max(1, Math.round((bottom - top) * ratio));
-      const c = crop.getContext("2d");
-      c.scale(crop.width / (right - left), crop.height / (bottom - top));
-      // The regular photograph is also a fallback for a tile that fails to load.
-      if (image.naturalWidth) c.drawImage(image, -left, -top, original.width, original.height);
-      loaded.forEach(({ picture, col, row }) => {
-        if (picture) c.drawImage(picture, col * original.tileWidth - left, row * original.tileHeight - top);
-      });
-      detail = crop;
-      detailBounds = { x: left / original.width, y: top / original.height, width: (right - left) / original.width, height: (bottom - top) / original.height };
-      if (host.scene()) host.scene().setDetail(crop, detailBounds);
-      surface.dataset.resolution = `${crop.width}×${crop.height}`;
-      draw();
-    }
-    function queueDetail() { clearTimeout(refresh); refresh = setTimeout(loadDetail, 100); }
     function animate(fromZoom, toZoom, fromProgress, toProgress) {
       moving = true;
       const duration = reduced.matches ? 0 : 900;
@@ -185,37 +53,42 @@
       });
     }
     async function open(origin) {
-      focus = host.pointAt(origin.x, origin.y);
+      const scene=host.scene();
+      focus = scene&&scene.modelVisible()
+        ? scene.pickPoint(origin.x,origin.y,32)||{x:host.world.width*.475,y:host.world.height*.397}
+        : host.pointAt(origin.x, origin.y);
       active = true;
       magnification = 1;
       zoom = targetZoom(); progress = 1;
-      // Determine the exact final viewport before requesting the source tiles.
+      // Keep the camera centered on the selected 3D point throughout the zoom.
       draw();
-      loadDetail();
       zoom = 1; progress = 0; draw();
       await animate(1, targetZoom(), 0, 1);
-      queueDetail();
     }
     async function close() {
-      clearTimeout(refresh); generation++;
       await animate(zoom, 1, progress, 0);
       reset();
     }
     function reset() {
-      active = moving = false; drag = pinch = null; pointers.clear(); generation++;
-      clearTimeout(refresh); cancelAnimationFrame(raf); raf = 0;
+      active = moving = false; drag = pinch = null; pointers.clear();
+      cancelAnimationFrame(raf); raf = 0;
       if (animationEnd) animationEnd();
       animationEnd = null;
-      if (host.scene()) { host.scene().setFocus(null); host.scene().setDetail(null); }
-      tiles.clear();
-      detail = detailBounds = null;
-      fallback.hidden = true;
-      delete surface.dataset.resolution;
+      if(host.scene())host.scene().setFocus(null);
     }
     function center(point) {
       if (!active || moving) return;
       focus = { x: Math.max(0, Math.min(host.world.width, point.x)), y: Math.max(0, Math.min(host.world.height, point.y)) };
-      draw(); queueDetail();
+      if(Number.isFinite(point.z))focus.z=point.z;
+      draw();
+    }
+    function shiftFocus(previous,next){
+      const point={x:focus.x+previous.x-next.x,y:focus.y+previous.y-next.y};
+      if(Number.isFinite(previous.z)&&Number.isFinite(next.z)){
+        const base=focus.z===undefined?window.NireTreeForm.depth(focus.x/host.world.width,focus.y/host.world.height)*host.world.width:focus.z;
+        point.z=base+previous.z-next.z;
+      }
+      center(point);
     }
     function zoomAt(factor, x, y) {
       if (!active || moving) return;
@@ -224,7 +97,7 @@
       magnification = zoom/targetZoom();
       draw();
       const after = pointAt(x, y);
-      center({ x: focus.x+before.x-after.x, y: focus.y+before.y-after.y });
+      shiftFocus(before,after);
     }
     function zoomCentered(factor) {
       const v = baseView();
@@ -264,13 +137,13 @@
         if (pinch && pinch.distance>4) {
           zoomAt(next.distance/pinch.distance,next.x,next.y);
           const previous=pointAt(pinch.x,pinch.y),current=pointAt(next.x,next.y);
-          center({x:focus.x+previous.x-current.x,y:focus.y+previous.y-current.y});
+          shiftFocus(previous,current);
         }
         pinch=next; return;
       }
       if (!drag || drag.id !== event.pointerId) return;
       const previous = pointAt(drag.x, drag.y), next = pointAt(event.clientX, event.clientY);
-      center({ x: focus.x + previous.x - next.x, y: focus.y + previous.y - next.y });
+      shiftFocus(previous,next);
       drag.x = event.clientX; drag.y = event.clientY;
     });
     function release(event) {
@@ -293,19 +166,13 @@
       event.preventDefault();
       const middle = pointAt(baseView().width / 2, baseView().height / 2);
       const next = pointAt(baseView().width / 2 + ({ ArrowLeft: -80, ArrowRight: 80 }[event.key] || 0), baseView().height / 2 + ({ ArrowUp: -80, ArrowDown: 80 }[event.key] || 0));
-      center({ x: focus.x + next.x - middle.x, y: focus.y + next.y - middle.y });
-    });
-    locator.addEventListener("click", event => {
-      const rect = locator.getBoundingClientRect();
-      if (event.detail === 0) center({ x: host.world.width / 2, y: host.world.height * .4 });
-      else center({ x: (event.clientX - rect.left) / rect.width * host.world.width, y: (event.clientY - rect.top) / rect.height * host.world.height });
+      shiftFocus(next,middle);
     });
     window.addEventListener("resize", () => {
       if (!active) return;
-      requestAnimationFrame(() => { if (!active) return; if (!moving) zoom = targetZoom()*magnification; draw(); queueDetail(); });
+      requestAnimationFrame(() => { if (!active) return; if (!moving) zoom = targetZoom()*magnification; draw(); });
     });
-    document.addEventListener("nire-inspection-change", () => { if(active) { updateLocator(); queueDetail(); } });
-    document.addEventListener("nire-scene-lost", () => { if (active) { draw(); queueDetail(); } });
+    document.addEventListener("nire-scene-lost", () => { if (active) { draw(); } });
     return { hitTest, open, close, reset };
   };
 }());

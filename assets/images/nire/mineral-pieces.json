@@ -1,0 +1,30 @@
+{
+  "pieces": [
+    {
+      "height": 320,
+      "vertices": 57026,
+      "triangles": 114048,
+      "openEdges": 0
+    },
+    {
+      "height": 390,
+      "vertices": 57026,
+      "triangles": 114048,
+      "openEdges": 0
+    }
+  ],
+  "bounds": {
+    "min": [
+      -202.37292223685367,
+      0.0,
+      -86.44886561159888
+    ],
+    "max": [
+      155.24893207525966,
+      422.76195030885145,
+      85.38173679121822
+    ]
+  },
+  "material": "weathered basalt base, olive cast glass, clear fractured tips",
+  "format": "NIRP v1"
+}
