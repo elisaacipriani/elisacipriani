@@ -277,7 +277,7 @@ function setupPageTransitions() {
     link.addEventListener("click", (event) => {
       const href = link.getAttribute("href");
 
-      if (!href || href.startsWith("#") || link.target) {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || !href || href.startsWith("#") || link.target || link.hasAttribute("download")) {
         return;
       }
 
@@ -293,13 +293,7 @@ function setupTopLinks() {
   document.querySelectorAll(".footer-top, .section-top-link").forEach((link) => {
     link.addEventListener("click", (event) => {
       event.preventDefault();
-      const top = document.getElementById("top");
-
-      if (top && typeof top.scrollIntoView === "function") {
-        top.scrollIntoView({ behavior: "smooth", block: "start" });
-      } else {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
   });
 }

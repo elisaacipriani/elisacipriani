@@ -7,12 +7,13 @@
     <meta name="theme-color" content="#000000">
     <title>ÑIRE — ELISA CIPRIANI</title>
     <link rel="icon" type="image/svg+xml" href="assets/images/nire/favicon.svg">
-    <link rel="stylesheet" href="assets/css/nire.css?v=9">
-    <script src="assets/js/language.js?v=74" defer></script>
+    <link rel="stylesheet" href="assets/css/nire.css?v=11">
+    <link rel="stylesheet" href="assets/css/nire-nav.css?v=1">
+    <script src="assets/js/language.js?v=76" defer></script>
     <script src="assets/js/nire-scene.js?v=5" defer></script>
     <script src="assets/js/nire-collage.js?v=8" defer></script>
     <script src="assets/js/nire-color.js?v=8" defer></script>
-    <script src="assets/js/nire.js?v=10" defer></script>
+    <script src="assets/js/nire.js?v=11" defer></script>
   </head>
   <body class="nire-page nire-intro">
     <main class="nire-studio" aria-labelledby="nire-title">
@@ -24,9 +25,15 @@
       <button type="button" id="nire-resize-object" class="nire-transform-handle" aria-label="Cambiar tamaño del elemento" data-collage-label="resizeHandle" hidden>↘</button>
       <button type="button" id="nire-rotate-object" class="nire-transform-handle" aria-label="Girar elemento" data-collage-label="rotateHandle" hidden>↻</button>
 
-      <header class="nire-header">
-        <a class="nire-brand" href="index.html#top" aria-label="ELISA CIPRIANI: ir al menú principal" data-nire-label="homeLabel">ELISA CIPRIANI</a>
-        <div class="nire-language" aria-label="Idioma">
+      <header class="nire-header site-header" aria-label="Main navigation">
+        <a class="nire-brand brand" href="index.html#top" aria-label="ELISA CIPRIANI: ir al menú principal" data-nire-label="homeLabel">ELISA CIPRIANI</a>
+        <nav class="site-nav site-nav-with-nire">
+          <a href="works.html" class="nav-link" data-i18n="nav.works">TRABAJOS</a>
+          <a href="arts-photography.html" class="nav-link" data-i18n="nav.art">ARTE Y FOTOGRAFÍA</a>
+          <a href="nire.html" class="nav-link" data-i18n="nav.create">CREAR</a>
+          <a href="contact.html" class="nav-link" data-i18n="nav.contact">CONTACTO</a>
+        </nav>
+        <div class="nire-language language-switch" aria-label="Idioma">
           <a href="?lang=es" data-lang-link="es" aria-pressed="true">ES</a>
           <a href="?lang=en" data-lang-link="en" aria-pressed="false">EN</a>
         </div>
@@ -136,7 +143,6 @@
       </div>
 
       <div class="nire-bottom">
-        <p id="nire-invitation" class="nire-invitation" data-nire-copy="invitation">Elegí una pintura. Dejá tu huella.</p>
         <p class="nire-note" data-nire-copy="note">Un árbol. Infinitos universos.</p>
       </div>
 

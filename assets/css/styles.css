@@ -5998,7 +5998,7 @@ html:not([lang="en"]) .migrar-mindmap-layered-es {
   }
 
   .statement-title {
-    font-size: clamp(74px, 21.8vw, 128px);
+    font-size: clamp(64px, 21.8vw, 128px);
     line-height: 0.9;
     overflow-wrap: normal;
   }
@@ -6185,7 +6185,7 @@ html:not([lang="en"]) .migrar-mindmap-layered-es {
 
   .journey-section h2 {
     margin-bottom: 108px;
-    font-size: clamp(70px, 20.5vw, 96px);
+    font-size: clamp(40px, 15vw, 96px);
     overflow-wrap: normal;
     white-space: nowrap;
   }

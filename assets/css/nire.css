@@ -1,5 +1,6 @@
+@font-face { font-family: "Neue Haas Grotesk Display"; src: url("../fonts/neue-haas-display-light.woff2"); font-style: normal; font-weight: 300; font-display: swap; }
 * { box-sizing: border-box; }
-:root { color-scheme: dark; --ink: #f3efe9; --paint: #ed75ac; --edge: clamp(22px, 3.4vw, 52px); --annotation-size: 10px; --ui-accent: var(--paint); }
+:root { color-scheme: dark; --ink: #f3efe9; --paint: #ed75ac; --edge: clamp(22px, 3.4vw, 52px); --annotation-size: 10px; --ui-accent: var(--paint); --portfolio-header-height: 54px; --studio-tools-top: 76px; }
 html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: #000; }
 body { color: var(--ink); font: 300 14px/1.25 "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
 button, input, a { -webkit-tap-highlight-color: transparent; }
@@ -21,19 +22,23 @@ button, fieldset, h1, p { margin: 0; }
 .nire-canvas.is-keyboard-active:focus-visible { outline: 1px solid #ed75ac66; outline-offset: -5px; }
 .nire-intro .nire-canvas { pointer-events: none; }
 .nire-intro .nire-cursor { visibility: hidden; }
-.nire-start { position: absolute; z-index: 4; top: 76px; left: 50%; min-height: 42px; padding: 12px 22px; transform: translateX(-50%); border: 1px solid #ffffff42; border-radius: 2px; background: #0009; color: var(--ink); font-size: 12px; font-weight: 300; letter-spacing: .2em; line-height: 1; text-indent: .2em; transition: border-color .2s, background .2s; }
+.nire-start { position: absolute; z-index: 4; top: var(--studio-tools-top); left: 50%; min-height: 42px; padding: 12px 22px; transform: translateX(-50%); border: 1px solid #ffffff42; border-radius: 2px; background: #0009; color: var(--ink); font-size: 12px; font-weight: 300; letter-spacing: .2em; line-height: 1; text-indent: .2em; transition: border-color .2s, background .2s; }
 .nire-start:hover { border-color: var(--ink); background: #ffffff0d; }
 .nire-start[hidden], .nire-sidebar[hidden] { display: none !important; }
-.nire-header { position: absolute; z-index: 3; inset: max(24px, env(safe-area-inset-top)) var(--edge) auto; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 24px; pointer-events: none; font-size: 12px; }
-.nire-header a { pointer-events: auto; }
-.nire-brand { justify-self: start; letter-spacing: .035em; }
-.nire-header a:hover { color: var(--ui-accent); }
-.nire-language { display: flex; justify-self: end; gap: 18px; }
-.nire-language a { opacity: .45; padding-block: 5px; }
+.nire-header { position: absolute; z-index: 3; top: 0; right: 0; left: 0; display: grid; grid-template-columns: minmax(110px, 1fr) auto auto; align-items: center; gap: 28px; min-height: var(--portfolio-header-height); padding: 0 clamp(18px, 3.4vw, 52px); pointer-events: none; color: #fff; font: 300 14px/1 "Neue Haas Grotesk Display", "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0; text-transform: uppercase; }
+.nire-header a, .nire-header nav, .nire-language { pointer-events: auto; }
+.nire-header a { color: #fff; transition: opacity 160ms ease, transform 160ms ease; }
+.nire-brand { min-width: 0; }
+.nire-header .site-nav { display: flex; flex-wrap: wrap; gap: 22px; }
+.nire-header .site-nav a { display: inline-flex; gap: 1px; font-size: inherit; line-height: inherit; white-space: nowrap; }
+.nire-header :where(.brand, .site-nav a):hover, .nire-header :where(.brand, .site-nav a):focus-visible { transform: scale(1.025); }
+.nire-language { position: relative; z-index: 2; display: flex; justify-self: end; align-items: center; gap: 0; }
+.nire-language a { display: inline-flex; align-items: center; justify-content: center; width: 36px; min-width: 36px; min-height: 32px; padding: 8px 6px; font: inherit; line-height: 1; opacity: .42; }
+.nire-language a:hover, .nire-language a:focus-visible { opacity: 1; transform: scale(1.06); }
 .nire-language a[aria-pressed="true"] { opacity: 1; }
 .nire-heading { position: absolute; z-index: 2; top: 50%; left: var(--edge); display: flex; align-items: center; gap: 16px; width: max-content; transform: translate(-50%, -50%) rotate(-90deg); color: #928c84; font-size: var(--annotation-size); font-weight: 300; letter-spacing: .035em; line-height: 1.25; pointer-events: none; }
 .nire-heading h1, .nire-heading p { margin: 0; font: inherit; letter-spacing: inherit; }
-.nire-sidebar { position: absolute; z-index: 3; top: 76px; bottom: 22px; right: var(--edge); width: 56px; pointer-events: none; }
+.nire-sidebar { position: absolute; z-index: 3; top: var(--studio-tools-top); bottom: 22px; right: var(--edge); width: 56px; pointer-events: none; }
 .nire-tools { display: flex; flex-direction: column; align-items: center; justify-content: space-between; gap: 6px; width: 100%; height: 100%; padding: 8px 5px; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #383632 transparent; border: 1px solid #ffffff24; border-radius: 7px; background: #090909eb; box-shadow: 0 8px 50px #0006; backdrop-filter: blur(16px); pointer-events: auto; }
 .nire-tools > * { flex-shrink: 0; width: 100%; }
 .nire-tools fieldset { display: flex; gap: 6px; align-items: center; min-width: 0; padding: 0; border: 0; }
@@ -93,7 +98,7 @@ button, fieldset, h1, p { margin: 0; }
 .nire-collage-tool { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; width: 100%; min-height: 32px; padding: 3px 0; border: 0; border-radius: 3px; background: transparent; color: #c7c1b8; font-size: 8.5px; }
 .nire-collage-tool svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
 .nire-collage-tool:hover, .nire-collage-tool[aria-expanded="true"], .nire-collage-tool[aria-pressed="true"] { color: var(--ui-accent); background: #ffffff08; }
-.nire-panel { position: absolute; z-index: 5; top: 76px; right: calc(var(--edge) + 68px); width: 286px; max-width: calc(100vw - var(--edge) - 108px); max-height: calc(100dvh - 102px); padding: 18px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; border: 1px solid #ffffff26; border-radius: 7px; background: #0c0c0cf5; box-shadow: 0 12px 44px #0008; backdrop-filter: blur(18px); }
+.nire-panel { position: absolute; z-index: 5; top: var(--studio-tools-top); right: calc(var(--edge) + 68px); width: 286px; max-width: calc(100vw - var(--edge) - 108px); max-height: calc(100dvh - var(--studio-tools-top) - 26px); padding: 18px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; border: 1px solid #ffffff26; border-radius: 7px; background: #0c0c0cf5; box-shadow: 0 12px 44px #0008; backdrop-filter: blur(18px); }
 .nire-panel[hidden], .nire-panel [hidden], .nire-object-settings[hidden], .nire-selection[hidden], .nire-transform-handle[hidden] { display: none !important; }
 .nire-panel-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
 .nire-panel-header h2 { margin: 0; font-size: 17px; font-weight: 300; }
@@ -135,8 +140,6 @@ button, fieldset, h1, p { margin: 0; }
 .nire-dropping .nire-studio { outline: 1px dashed var(--ui-accent); outline-offset: -8px; }
 .nire-bottom { position: absolute; z-index: 2; bottom: max(24px, env(safe-area-inset-bottom)); left: 50%; display: flex; align-items: baseline; gap: clamp(24px, 4vw, 56px); width: max-content; max-width: calc(100% - 32px); transform: translateX(-50%); text-align: left; pointer-events: none; }
 .nire-bottom > p { min-width: 0; line-height: 1.5; }
-.nire-invitation { font-size: var(--annotation-size); color: #c9c3bb; transition: opacity .6s; }
-.has-painted .nire-invitation { opacity: 0; }
 .nire-note { margin: 0; color: #928c84; font-size: var(--annotation-size); letter-spacing: .035em; }
 .nire-cursor { position: absolute; z-index: 2; width: 24px; height: 24px; top: 0; left: 0; visibility: hidden; border: 1px solid #ed75acbb; border-radius: 50%; box-shadow: 0 0 0 1px #ffffff55; pointer-events: none; transform: translate(-50%, -50%); }
 .nire-cursor.is-visible { visibility: visible; }
@@ -145,33 +148,37 @@ button, fieldset, h1, p { margin: 0; }
 @media (max-width: 1000px) {
   .nire-art-space { left: 64px; right: 210px; top: 92px; }
 }
+@media (max-width: 900px) {
+  :root { --portfolio-header-height: 86px; --studio-tools-top: 108px; }
+  .nire-header { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; gap: 14px 12px; align-content: center; padding: 12px 16px; font-size: 13px; }
+  .nire-brand { grid-column: 1; grid-row: 1; min-width: 0; }
+  .nire-language { grid-column: 2; grid-row: 1; gap: 18px; }
+  .nire-language a { justify-content: flex-end; width: auto; min-width: 0; min-height: auto; padding: 0; }
+  .nire-header .site-nav { grid-column: 1 / -1; grid-row: 2; display: grid; width: 100%; min-width: 0; }
+  .nire-header .site-nav a { grid-row: 1; min-width: 0; }
+  .nire-header .site-nav a:nth-child(1) { grid-column: 1; justify-self: start; text-align: left; }
+  .nire-header .site-nav a:nth-child(2) { grid-column: 2; justify-self: center; text-align: center; }
+  .nire-intro .nire-art-space { top: 160px; }
+}
 @media (max-width: 600px) {
   :root { --edge: 20px; --annotation-size: 9px; }
-  .nire-header { font-size: 11px; }
-  .nire-language { grid-column: 2; grid-row: 1; }
   .nire-art-space { inset: 100px 132px 70px 40px; }
   .nire-intro .nire-art-space { inset: 160px 38px 70px; }
-  .nire-start { top: 108px; }
-  .nire-sidebar { top: 108px; bottom: 20px; }
-  .nire-panel { top: 108px; max-height: calc(100dvh - 128px); padding: 14px; }
-  .nire-bottom { bottom: max(20px, env(safe-area-inset-bottom)); left: 20px; right: calc(var(--edge) + 72px); display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 20px; width: auto; max-width: none; transform: none; }
-  .nire-invitation { max-width: none; }
+  .nire-sidebar { bottom: 20px; }
+  .nire-panel { max-height: calc(100dvh - 128px); padding: 14px; }
+  .nire-bottom { bottom: max(20px, env(safe-area-inset-bottom)); left: 20px; right: calc(var(--edge) + 72px); display: grid; grid-template-columns: minmax(0, 1fr); width: auto; max-width: none; transform: none; }
 }
 @media (max-width: 350px) {
   :root { --edge: 15px; }
   .nire-art-space { right: 120px; }
 }
-@media (max-height: 620px) {
-  .nire-header { top: max(14px, env(safe-area-inset-top)); }
-}
 @media (max-height: 480px) and (min-width: 601px) {
+  :root { --studio-tools-top: calc(var(--portfolio-header-height) + 14px); }
   .nire-art-space { inset: 55px 205px 20px 180px; }
-  .nire-intro .nire-art-space { inset: 94px 80px 40px; }
-  .nire-start { top: 48px; }
-  .nire-sidebar { top: 62px; bottom: 16px; }
-  .nire-panel { top: 62px; max-height: calc(100dvh - 78px); }
+  .nire-intro .nire-art-space { inset: calc(var(--studio-tools-top) + 58px) 80px 40px; }
+  .nire-sidebar { bottom: 16px; }
+  .nire-panel { max-height: calc(100dvh - var(--studio-tools-top) - 16px); }
   .nire-bottom { left: var(--edge); transform: none; text-align: left; bottom: 18px; }
-  .nire-invitation { max-width: 145px; }
 }
 @media (pointer: coarse) { .nire-transform-handle { width: 30px; height: 30px; font-size: 16px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }

@@ -44,7 +44,7 @@
   const copy = {
     es: {
       homeLabel: "ELISA CIPRIANI: ir al menú principal", subtitle: "creá tu universo", rotation: "Giro", pauseRotation: "Pausar giro", resumeRotation: "Activar giro",
-      invitation: "Elegí una pintura. Dejá tu huella.", tools: "Pinturas y herramientas",
+      tools: "Pinturas y herramientas",
       brushes: "Pinturas", paint: "Pincel", thread: "Hilo", pigment: "Pigmento",
       colors: "Colores", pink: "Rosa", violet: "Violeta", yellow: "Amarillo",
       coral: "Terracota", green: "Verde", chalk: "Tiza", size: "Grosor", sizeLabel: "Grosor del trazo",
@@ -61,7 +61,7 @@
     },
     en: {
       homeLabel: "ELISA CIPRIANI: main menu", subtitle: "create your universe", rotation: "Rotate", pauseRotation: "Pause rotation", resumeRotation: "Start rotation",
-      invitation: "Choose a paint. Leave your mark.", tools: "Paints and tools",
+      tools: "Paints and tools",
       brushes: "Paints", paint: "Brush", thread: "Thread", pigment: "Pigment",
       colors: "Colors", pink: "Pink", violet: "Violet", yellow: "Yellow",
       coral: "Terracotta", green: "Green", chalk: "Chalk", size: "Size", sizeLabel: "Stroke size",
