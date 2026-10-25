@@ -1,0 +1,10 @@
+/* Keep the four portfolio sections on one line on smaller screens. */
+@media (max-width: 900px) {
+  .site-nav.site-nav-with-nire {
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    gap: clamp(8px, 2vw, 18px);
+  }
+  .site-nav.site-nav-with-nire a { font-size: clamp(10px, 2.8vw, 13px) !important; }
+  .site-nav.site-nav-with-nire a:nth-child(3) { grid-column: 3 !important; justify-self: center !important; }
+  .site-nav.site-nav-with-nire a:nth-child(4) { grid-column: 4 !important; justify-self: end !important; }
+}

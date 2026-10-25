@@ -4,6 +4,7 @@
     es: {
       "nav.works": "TRABAJOS",
       "nav.art": "ARTE Y FOTOGRAFÍA",
+      "nav.create": "CREAR",
       "nav.archive": "TRABAJOS",
       "nav.bio": "ARTE Y FOTOGRAFÍA",
       "nav.contact": "CONTACTO",
@@ -354,6 +355,7 @@
     en: {
       "nav.works": "WORKS",
       "nav.art": "ARTS & PHOTOGRAPHY",
+      "nav.create": "CREATE",
       "nav.archive": "WORKS",
       "nav.bio": "ARTS & PHOTOGRAPHY",
       "nav.contact": "CONTACT",

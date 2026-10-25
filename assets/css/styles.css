@@ -2318,6 +2318,11 @@ main > section,
   background: #ffffff;
 }
 
+.home-page .hero,
+.home-page .hero-image {
+  background: #1a1c1a;
+}
+
 .hero-copy {
   position: absolute;
   z-index: 1;
