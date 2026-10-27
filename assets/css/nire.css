@@ -81,7 +81,7 @@ button, fieldset, h1, p { margin: 0; }
 .nire-header { position: absolute; z-index: 3; top: 0; right: 0; left: 0; display: grid; grid-template-columns: minmax(110px, 1fr) auto auto; align-items: center; gap: 28px; min-height: var(--portfolio-header-height); padding: 0 clamp(18px, 3.4vw, 52px); pointer-events: none; color: #fff; font: 300 14px/1 "Neue Haas Grotesk Display", "Helvetica Neue", Helvetica, Arial, sans-serif; letter-spacing: 0; text-transform: uppercase; }
 .nire-header a, .nire-header nav, .nire-language { pointer-events: auto; }
 .nire-header a { color: #fff; transition: opacity 160ms ease, transform 160ms ease; }
-.nire-brand { min-width: 0; }
+.nire-brand { min-width: 0; transform-origin: left center; }
 .nire-header .site-nav { display: flex; flex-wrap: wrap; gap: 22px; }
 .nire-header .site-nav a { display: inline-flex; gap: 1px; font-size: inherit; line-height: inherit; white-space: nowrap; }
 .nire-header :where(.brand, .site-nav a):hover, .nire-header :where(.brand, .site-nav a):focus-visible { transform: scale(1.025); }
