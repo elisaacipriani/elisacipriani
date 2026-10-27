@@ -50,39 +50,67 @@
     es: {
       homeLabel: "ELISA CIPRIANI: ir al menú principal", subtitle: "creá tu universo", rotation: "Giro", pauseRotation: "Pausar giro", resumeRotation: "Activar giro",
       tools: "Pinturas y herramientas",
-      introduction: "Este proyecto experimental parte de un encuentro con el ñire, árbol nativo del bosque andino patagónico de Argentina. El encuentro y la reconstrucción de la imagen de ese árbol fueron llevados a la digitalidad.",
+      spaceTitle: "Centro de experimentación e intercambio.",
+      introduction: "Así imagino el diseño: una convivencia entre investigación, discusión, experimentación y comunicación. Un espacio para compartir preguntas, explorar elementos y aprender haciendo.",
+      origin: "Esta abstracción surrealista nace del ñire del bosque andino patagónico.",
+      rockTitle: "El agua también construye.",
+      boulderTitle: "Una roca también cambia.",
+      boulderFact: "Los líquenes también pueden crecer sobre las piedras y expandirse como raíces. Sobre ellas, también pueden morir.",
+      rockFact: "En algunas fuentes termales, el agua deposita carbonato de calcio y forma travertino. Capa a capa, esta roca construye bordes, pequeñas cuencas y terrazas: un paisaje que sigue creciendo.",
+      rockFactLabel: "Un texto sobre las piedras",
+      drawingFact: "La hoja de una planta, en el mundo de un caballito de mar.",
+      drawingFactLabel: "Un texto sobre el dibujo",
+      bubbleFact: "Algo así como una burbuja. La sensación de morder un gajito de granada, cuando explota, fucsia, adentro de la boca.",
+      bubbleFactLabel: "Un texto sobre las burbujas",
+      crystalTitle: "El llanto de una amapola.",
+      crystalFact: "A veces las plantas también lloran. En este universo, eso se llama néctar y, según como me lo imagino, tiene un gustito dulce.",
+      crystalFactLabel: "El llanto de una amapola: un texto sobre los tallos y las raíces de cristal",
       brushes: "Pinturas", paint: "Pincel", thread: "Hilo", pigment: "Pigmento",
       colors: "Colores", pink: "Rosa", violet: "Violeta", yellow: "Amarillo",
       coral: "Terracota", green: "Verde", chalk: "Tiza", size: "Grosor", sizeLabel: "Grosor del trazo",
       undo: "Deshacer", redo: "Rehacer", clear: "Clear", clearLabel: "Borrar todo y empezar de cero", save: "Guardar",
       startHint: "Tocá una parte del árbol para explorar sus detalles.", startLabel: "Tocá una parte del árbol para explorar sus detalles",
-      develop: "DEVELOP YOUR OWN ÑIRE", backTree: "Volver al árbol", detailLabel: "Detalle del árbol", detailHint: "Arrastrá para recorrer. Acercá para ver más.", zoomIn: "Acercar", zoomOut: "Alejar", locatorLabel: "Ubicar otra parte del árbol", detailKeyboard: "Arrastrá o usá las flechas para recorrer. Acercá con +, la rueda o dos dedos. Escape vuelve al árbol completo.", detailOpened: "Detalle del árbol. Podés recorrerlo o elegir DEVELOP YOUR OWN ÑIRE para dibujar.", pieceStarted: "Lienzo listo. Elegí una pintura o agregá tus textos y fotos para crear tu propia pieza.",
+      develop: "DEVELOP YOUR OWN ÑIRE", backTree: "Volver al árbol", detailLabel: "Detalle del árbol", detailHint: "Arrastrá para recorrer. Acercá para descubrir.", zoomIn: "Acercar", zoomOut: "Alejar", locatorLabel: "Ubicar otra parte del árbol", detailKeyboard: "Tocá la roca, el dibujo, las burbujas o los tallos y las raíces de cristal para descubrir un texto en un círculo. Enter o espacio abren o cierran el texto al explorar la roca, el dibujo, las burbujas o los tallos y las raíces de cristal. Arrastrá o usá las flechas para recorrer. Acercá con +, la rueda o dos dedos. Escape vuelve al árbol completo.", detailOpened: "Detalle del universo. Tocá la roca, el dibujo, las burbujas o los tallos y las raíces de cristal para descubrir un texto, o elegí DEVELOP YOUR OWN ÑIRE para crear.", pieceStarted: "Lienzo listo. Elegí una pintura o agregá tus textos y fotos para crear tu propia pieza.",
       note: "Un árbol. Infinitos universos.",
-      canvas: "Lienzo negro para crear tu universo",
+      canvas: "Lienzo para crear tu universo",
       keyboard: "Con el lienzo enfocado, usá las flechas para moverte y espacio para empezar o terminar un trazo. Deshacé con Control o Comando y Z.",
       drawn: "Trazo agregado.", undone: "Cambio deshecho.", redone: "Cambio recuperado.",
       cleared: "Todo borrado. Podés empezar de cero o deshacer para recuperar tu universo.", saved: "Tu universo está listo para descargar.",
       saving: "Guardando…", saveError: "No se pudo guardar la imagen. Intentá de nuevo.",
-      loadError: "No se pudo cargar el árbol. Podés dibujar sobre el lienzo negro.",
+      loadError: "No se pudo cargar el árbol. Podés dibujar sobre el lienzo.",
       started: "Dibujo con teclado activado. Usá las flechas para dibujar y espacio para terminar."
     },
     en: {
       homeLabel: "ELISA CIPRIANI: main menu", subtitle: "create your universe", rotation: "Rotate", pauseRotation: "Pause rotation", resumeRotation: "Start rotation",
       tools: "Paints and tools",
-      introduction: "This experimental project began with an encounter with the ñire, a tree native to Argentina’s Andean Patagonian forest. That encounter and the reconstruction of the tree’s image were brought into the digital world.",
+      spaceTitle: "A center for experimentation and exchange.",
+      introduction: "To me, design is a coexistence of research, discussion, experimentation and communication. A place to share questions, explore elements and learn by doing.",
+      origin: "This surreal abstraction begins with the ñire of the Andean Patagonian forest.",
+      rockTitle: "Water builds, too.",
+      boulderTitle: "A rock changes, too.",
+      boulderFact: "Lichens can also grow on stones and spread like roots. On those stones, they can also die.",
+      rockFact: "In some hot springs, water deposits calcium carbonate, forming travertine. Layer by layer, this rock builds rims, small basins and terraces: a landscape that keeps growing.",
+      rockFactLabel: "A reflection on stones",
+      drawingFact: "A plant’s leaf, in the world of a seahorse.",
+      drawingFactLabel: "A reflection on the drawing",
+      bubbleFact: "Something like a bubble. The feeling of biting into a pomegranate seed as it bursts, fuchsia, inside your mouth.",
+      bubbleFactLabel: "A reflection on bubbles",
+      crystalTitle: "A poppy’s tear.",
+      crystalFact: "Sometimes plants cry, too. In this universe, those tears are called nectar and, as I imagine it, they taste a little sweet.",
+      crystalFactLabel: "A poppy’s tear: a reflection on the crystal stems and roots",
       brushes: "Paints", paint: "Brush", thread: "Thread", pigment: "Pigment",
       colors: "Colors", pink: "Pink", violet: "Violet", yellow: "Yellow",
       coral: "Terracotta", green: "Green", chalk: "Chalk", size: "Size", sizeLabel: "Stroke size",
       undo: "Undo", redo: "Redo", clear: "Clear", clearLabel: "Clear canvas and start again", save: "Save",
       startHint: "Touch a part of the tree to explore its details.", startLabel: "Touch a part of the tree to explore its details",
-      develop: "DEVELOP YOUR OWN ÑIRE", backTree: "Back to the tree", detailLabel: "Tree close-up", detailHint: "Drag to explore. Zoom in to see more.", zoomIn: "Zoom in", zoomOut: "Zoom out", locatorLabel: "Locate another part of the tree", detailKeyboard: "Drag or use the arrow keys to explore. Zoom with +, the wheel or two fingers. Escape returns to the whole tree.", detailOpened: "Tree close-up. Explore it or choose DEVELOP YOUR OWN ÑIRE to draw.", pieceStarted: "Canvas ready. Choose a paint or add your words and photos to create your own piece.",
+      develop: "DEVELOP YOUR OWN ÑIRE", backTree: "Back to the tree", detailLabel: "Tree close-up", detailHint: "Drag to explore. Zoom in to discover.", zoomIn: "Zoom in", zoomOut: "Zoom out", locatorLabel: "Locate another part of the tree", detailKeyboard: "Tap the rock, the drawing, the bubbles or the crystal stems and roots to discover a reflection inside a circle. Enter or space opens or closes the reflection while exploring the rock, the drawing, the bubbles or the crystal stems and roots. Drag or use the arrow keys to explore. Zoom with +, the wheel or two fingers. Escape returns to the whole tree.", detailOpened: "Universe close-up. Tap the rock, the drawing, the bubbles or the crystal stems and roots to discover a reflection, or choose DEVELOP YOUR OWN ÑIRE to create.", pieceStarted: "Canvas ready. Choose a paint or add your words and photos to create your own piece.",
       note: "One tree. Infinite universes.",
-      canvas: "Black canvas for creating your universe",
+      canvas: "Canvas for creating your universe",
       keyboard: "Focus the canvas, use the arrow keys to move, and press space to start or finish a stroke. Undo with Control or Command and Z.",
       drawn: "Stroke added.", undone: "Change undone.", redone: "Change restored.",
       cleared: "Everything cleared. Start again, or undo to restore your universe.", saved: "Your universe is ready to download.",
       saving: "Saving…", saveError: "The image could not be saved. Please try again.",
-      loadError: "The tree could not be loaded. You can draw on the black canvas.",
+      loadError: "The tree could not be loaded. You can draw on the canvas.",
       started: "Keyboard drawing enabled. Use the arrows to draw and space to finish."
     }
   };
@@ -478,6 +506,7 @@
   });
   const entrance = window.createNireEntrance ? window.createNireEntrance({
     world, container: document.querySelector(".nire-studio"),
+    text:key=>t(key),
     view: () => state.view, scene: () => scene,
     pointAt: (x, y) => pointAt(x, y, .65)
   }) : null;
@@ -654,7 +683,7 @@
       output.height = Math.round(view.height * ratio);
       const ctx = output.getContext("2d");
       ctx.scale(ratio, ratio);
-      ctx.fillStyle = "#000";
+      ctx.fillStyle = window.NireAppearance?.background()||"#e8eae8";
       ctx.fillRect(0, 0, view.width, view.height);
       if (scene) scene.copyTo(ctx);
       else {

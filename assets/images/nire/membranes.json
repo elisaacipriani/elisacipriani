@@ -1,0 +1,117 @@
+{
+  "version": 2,
+  "collection": "continuous translucent abstractions",
+  "specimens": [
+    {
+      "id": 0,
+      "name": "membrana nacarada",
+      "anchor": [
+        0.013469639169382814,
+        0.18421136059605656,
+        0.07419428178521319
+      ],
+      "focus": [
+        -0.0024910855445283734,
+        0.20641271577918394,
+        0.07756451439902551
+      ]
+    },
+    {
+      "id": 1,
+      "name": "pliegue de ámbar",
+      "anchor": [
+        0.03919327147444124,
+        0.49254549600113273,
+        -0.15668601603081386
+      ],
+      "focus": [
+        0.004633772162610852,
+        0.5394859472152359,
+        -0.16779010651229792
+      ]
+    },
+    {
+      "id": 2,
+      "name": "cámara opalina",
+      "anchor": [
+        -0.19672855879752432,
+        0.33819628647214856,
+        -0.030189832007073387
+      ],
+      "focus": [
+        -0.1974651923154921,
+        0.3741508425235158,
+        -0.027702389479680737
+      ]
+    },
+    {
+      "id": 3,
+      "name": "lámina suspendida",
+      "anchor": [
+        0.1661075663101511,
+        0.22238543760481014,
+        0.011678263373088301
+      ],
+      "focus": [
+        0.19268436909349532,
+        0.25152901676099837,
+        0.03147207140077781
+      ]
+    },
+    {
+      "id": 4,
+      "name": "traza cobriza",
+      "anchor": [
+        0.04773011721003773,
+        0.5138876144025222,
+        -0.1733096100159515
+      ]
+    },
+    {
+      "id": 5,
+      "name": "traza ocre",
+      "anchor": [
+        -0.19456267956439224,
+        0.336490656576057,
+        -0.028581686981590627
+      ]
+    }
+  ],
+  "batches": 55,
+  "triangles": 451160,
+  "materials": {
+    "5": "fine copper",
+    "9": "closed translucent tissue",
+    "11": "rounded internal galleries"
+  },
+  "photographicMaterials": [
+    "membrane-tissue-v1.png",
+    "seed-wax-v2.png"
+  ],
+  "envelopes": [
+    {
+      "specimen": 0,
+      "closed": true,
+      "components": 1,
+      "triangles": 63232
+    },
+    {
+      "specimen": 1,
+      "closed": true,
+      "components": 1,
+      "triangles": 63232
+    },
+    {
+      "specimen": 2,
+      "closed": true,
+      "components": 1,
+      "triangles": 63232
+    },
+    {
+      "specimen": 3,
+      "closed": true,
+      "components": 1,
+      "triangles": 63232
+    }
+  ]
+}

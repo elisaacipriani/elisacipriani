@@ -1,0 +1,15 @@
+{
+  "basins": 14,
+  "waterFaces": 28,
+  "membraneFaces": 0,
+  "porousMarks": 0,
+  "triangles": {
+    "terrain": 126320,
+    "water": 25916,
+    "membranes": 0
+  },
+  "batches": 36,
+  "geometryUnchanged": true,
+  "treeGeometryHash": "c68882ea771199eb04d19c82e3d67774e1b87078848f0210bb7d0e8acefe6859",
+  "source": "macro mineral pools and clear water in the botanical herbarium"
+}

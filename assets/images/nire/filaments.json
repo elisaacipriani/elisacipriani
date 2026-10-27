@@ -13,106 +13,48 @@
   "connectedGaps": 10,
   "junctions": 30,
   "tracedPaths": 61,
-  "style": "White spatial body with an integrated, fractured slate formation",
+  "style": "Fine woody spatial frame with a separate botanical herbarium and preserved mineral specimen",
   "centerlinePixels": 15559,
-  "vertices": 633113,
-  "triangles": 1266230,
-  "batches": 115,
+  "vertices": 482692,
+  "triangles": 965380,
+  "batches": 91,
   "diameterInSourcePixels": 14.4,
   "spatialBounds": {
     "min": [
-      329.35564827712676,
-      -2.0803957453886737,
-      -1053.8169475997777
+      330.6148879568133,
+      13.668277314247897,
+      -1041.9030621841814
     ],
     "max": [
-      2260.7668272492206,
-      2395.1306994930474,
-      1043.2061202642983
+      2259.3894818703175,
+      2391.392208726855,
+      1041.9104957384257
     ]
   },
   "depthRatio": 1,
   "surfaceReliefRatio": 0.085,
-  "format": "NIRV v4: one closed spatial solid; red channel marks slate",
-  "maxEdgeInSourcePixels": 10.575628718392514,
-  "integratedSourceMarks": 16,
-  "sourceContacts": [
-    {
-      "mark": "2:1",
-      "contactGap": 1.203
-    },
-    {
-      "mark": "3:1",
-      "contactGap": 14.707
-    },
-    {
-      "mark": "3:2",
-      "contactGap": 58.758
-    },
-    {
-      "mark": "3:3",
-      "contactGap": 268.639
-    },
-    {
-      "mark": "3:4",
-      "contactGap": 0.919
-    },
-    {
-      "mark": "3:5",
-      "contactGap": 75.082
-    },
-    {
-      "mark": "3:6",
-      "contactGap": 10.621
-    },
-    {
-      "mark": "3:7",
-      "contactGap": 86.967
-    },
-    {
-      "mark": "3:8",
-      "contactGap": 22.513
-    },
-    {
-      "mark": "3:9",
-      "contactGap": 5.685
-    },
-    {
-      "mark": "3:10",
-      "contactGap": 1.274
-    },
-    {
-      "mark": "3:11",
-      "contactGap": 1.667
-    },
-    {
-      "mark": "3:12",
-      "contactGap": 7.87
-    },
-    {
-      "mark": "3:13",
-      "contactGap": 1.965
-    },
-    {
-      "mark": "3:14",
-      "contactGap": 12.394
-    },
-    {
-      "mark": "3:15",
-      "contactGap": 8.47
-    }
-  ],
-  "rockVertices": 29917,
-  "rockBounds": {
-    "min": [
-      848.1272804294723,
-      1101.0422604818423,
-      112.23558657652488
-    ],
-    "max": [
-      1329.9290416747015,
-      1401.7597357705286,
-      372.02575120566775
-    ]
-  }
+  "format": "NIRV v4: one closed spatial solid",
+  "maxEdgeInSourcePixels": 5.835595689602222,
+  "integratedSourceMarks": 0,
+  "sourceContacts": [],
+  "rockVertices": 0,
+  "rockBounds": null,
+  "replacedSourceMarks": [
+    "2:1",
+    "3:1",
+    "3:2",
+    "3:3",
+    "3:4",
+    "3:5",
+    "3:6",
+    "3:7",
+    "3:8",
+    "3:9",
+    "3:10",
+    "3:11",
+    "3:12",
+    "3:13",
+    "3:14",
+    "3:15"
+  ]
 }

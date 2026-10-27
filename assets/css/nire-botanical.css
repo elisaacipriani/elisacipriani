@@ -1,0 +1,54 @@
+/* The pale herbarium shares the portfolio's existing type, size and navigation. */
+:root { color-scheme:light; --ink:#30392f; --studio-bg:#e8eae8; --ui-accent:#617359; }
+html, body { background:var(--studio-bg); }
+.nire-page { color:var(--ink); }
+.nire-intro-copy, .nire-intro .nire-heading, .nire-intro .nire-note, .nire-heading, .nire-note,
+.nire-header, .nire-header a, .nire-start, .nire-tree-rotation, .nire-detail, .nire-rock-copy { color:var(--ink); }
+.nire-intro .nire-header, .nire-intro .nire-intro-copy, .nire-intro .nire-heading, .nire-intro .nire-note,
+.nire-detail, .nire-rock-copy { text-shadow:0 0 5px #e8eae8e6,0 1px 2px #e8eae8; }
+.nire-intro .nire-art-space { height:114dvh; width:max(100%,105dvh); }
+.nire-start:focus-visible, .nire-detail-pan:focus-visible { outline-color:#53604d66; }
+.nire-develop, .nire-zoom-controls { color:var(--ink); border-color:#46543d70; background:#eef0ebaa; -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px); }
+.nire-develop:hover, .nire-zoom-controls button:hover { background:#fafbf5c9; }
+.nire-zoom-controls button { color:var(--ink); }
+.nire-zoom-controls button + button { border-color:#46543d40; }
+.nire-mist-lens { background:rgb(238 241 234 / 66%);border-color:#6a78629e;box-shadow:inset 0 0 30px #ffffff44; }
+.nire-rock-copy { text-shadow:none; }
+.nire-tools, .nire-panel, .nire-volume-picking { background:#f3f5efeb; border-color:#5e6b522b; box-shadow:0 8px 45px #384a3420; }
+.nire-brush, .nire-brush[aria-pressed="true"], .nire-brush:hover { color:var(--ink); }
+.nire-hue-label, .nire-color-tool, .nire-size, .nire-collage-tool, .nire-rotation,
+.nire-panel-hint, .nire-panel-message, .nire-color-hex-row, .nire-panel-close, .nire-volume-hint,
+.nire-panel-field, .nire-panel-field output, .nire-panel-link, .nire-volume-picking { color:#5b6653; }
+.nire-color-controls, .nire-actions, .nire-collage-tools, .nire-color-presets, .nire-object-settings, .nire-rotation { border-color:#5e6b522b; }
+.nire-panel :is(textarea,select,input:not([type="range"]):not([type="color"])), .nire-panel .nire-color-hex-row input { color:var(--ink); background:#fcfcf8; border-color:#5e6b5240; }
+.nire-panel select { color-scheme:light; }
+.nire-panel-primary, .nire-text-style input[type="color"] { background:#fafbf6; border-color:#5e6b524d; }
+.nire-current-color, .nire-color-preview { border-color:#5e6b5266; }
+.nire-panel-delete { color:#824f3d; }
+.nire-upload, .nire-photo-thumbnail { color:var(--ink); background:#e2e7dd; border-color:#5e6b5240; }
+.nire-save:not(:disabled):hover, .nire-clear:not(:disabled):hover, .nire-color-tool:hover,
+.nire-color-tool[aria-expanded="true"], .nire-collage-tool:hover { background:#5e6b5210; }
+.nire-transform-handle, .nire-error { color:var(--ink); background:#f2f5ec; border-color:#5e6b5266; }
+.nire-volume-selection polygon { fill:#5e6b5208;stroke:#485b3e; }
+.nire-cursor { box-shadow:0 0 0 1px #e8eae8aa; }
+
+.nire-background-toggle { position:absolute;z-index:4;top:50%;right:calc(var(--edge) - 10px);display:grid;place-items:center;width:44px;height:44px;padding:10px;transform:translateY(-50%);border:0;background:transparent;color:#000;touch-action:manipulation; }
+.nire-background-toggle > span { display:block;width:24px;height:24px;box-sizing:border-box;border:1px solid #000;border-radius:50%;background:transparent; }
+.nire-background-toggle:focus-visible { outline:1px solid currentColor;outline-offset:3px;border-radius:50%; }
+body:not(.nire-intro) .nire-background-toggle { right:calc(var(--edge) + 64px); }
+
+:root[data-nire-theme="dark"] { color-scheme:dark;--ink:#f3efe9;--studio-bg:#000; }
+[data-nire-theme="dark"] .nire-background-toggle { color:#fff; }
+[data-nire-theme="dark"] .nire-background-toggle > span { border-color:#fff;background:#fff; }
+[data-nire-theme="dark"] :is(.nire-header,.nire-intro-copy,.nire-heading,.nire-note,.nire-detail) { text-shadow:0 1px 3px #000,0 0 7px #000; }
+[data-nire-theme="dark"] :is(.nire-start,.nire-detail-pan):focus-visible { outline-color:#ffffff66; }
+[data-nire-theme="dark"] :is(.nire-develop,.nire-zoom-controls) { border-color:#ffffff70;background:#050605b8; }
+[data-nire-theme="dark"] .nire-develop:hover { background:#ffffff16; }
+[data-nire-theme="dark"] .nire-zoom-controls button + button { border-color:#ffffff40; }
+[data-nire-theme="dark"] .nire-mist-lens { background:rgb(116 119 112 / 46%);border-color:#ffffffad;box-shadow:inset 0 0 30px #ffffff0a; }
+[data-nire-theme="dark"] :is(.nire-tools,.nire-panel,.nire-volume-picking) { background:#0b0d0aeb;border-color:#ffffff29;box-shadow:0 8px 45px #0005; }
+[data-nire-theme="dark"] :is(.nire-hue-label,.nire-color-tool,.nire-size,.nire-collage-tool,.nire-rotation,.nire-panel-hint,.nire-panel-message,.nire-color-hex-row,.nire-panel-close,.nire-volume-hint,.nire-panel-field,.nire-panel-field output,.nire-panel-link,.nire-volume-picking) { color:#bfc5b8; }
+[data-nire-theme="dark"] :is(.nire-color-controls,.nire-actions,.nire-collage-tools,.nire-color-presets,.nire-object-settings,.nire-rotation) { border-color:#ffffff29; }
+[data-nire-theme="dark"] .nire-panel :is(textarea,select,input:not([type="range"]):not([type="color"])),[data-nire-theme="dark"] .nire-panel .nire-color-hex-row input,[data-nire-theme="dark"] .nire-panel-primary,[data-nire-theme="dark"] .nire-text-style input[type="color"] { color:var(--ink);background:#171a15;border-color:#ffffff36; }
+[data-nire-theme="dark"] .nire-panel select { color-scheme:dark; }
+[data-nire-theme="dark"] :is(.nire-upload,.nire-photo-thumbnail,.nire-transform-handle,.nire-error) { color:var(--ink);background:#171a15;border-color:#ffffff40; }

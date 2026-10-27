@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  // A white spatial tree and a separate surface for the visitor's own artwork.
+  // A spatial herbarium and a separate surface for the visitor's own artwork.
   window.createNireScene = function (ink, world, inkBounds) {
     const canvas = document.createElement("canvas");
     canvas.className = "nire-scene";
@@ -19,6 +19,7 @@
     let inkDirty = true;
     let treeVisible = false;
     let modelReveal = 0;
+    let universeReveal = 0;
     let treeAngle = .045;
     const turnDuration = 30;
     let time = 0;
@@ -144,7 +145,7 @@
     gl.uniform1i(locations.uVolumeMask, 4);
     gl.uniform1f(locations.uAspect, aspect);
     gl.uniform4f(locations.uInkBounds, inkBounds.x / world.width, inkBounds.y / world.height, inkBounds.width / world.width, inkBounds.height / world.height);
-    gl.clearColor(0, 0, 0, 1);
+    gl.clearColor(232/255,234/255,232/255,1);
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
     const filaments = window.createNireFilaments ? window.createNireFilaments(gl, (stats) => {
@@ -154,14 +155,34 @@
       dirty = true; request();
     }) : null;
     const materials = window.createNireMaterials ? window.createNireMaterials(gl, (stats) => {
-      if(stats){canvas.dataset.materials="white";canvas.dataset.materialTriangles=String(stats.triangles);}
+      if(stats){canvas.dataset.materials="coral";canvas.dataset.materialTriangles=String(stats.triangles);}
       dirty=true;request();
     }) : null;
     const modelReady=()=>Boolean(filaments&&filaments.ready()&&materials&&materials.ready());
+    // The herbarium replaces the earlier broad painted / terrace objects.
+    const universe=null;
+    const boulder=window.createNireBoulder?window.createNireBoulder(gl,stats=>{
+      canvas.dataset.boulder='ready';canvas.dataset.boulderTriangles=String(stats.triangles);dirty=true;request();
+    }):null;
+    const artistDrawing=window.createNireArtistDrawing?window.createNireArtistDrawing(gl,stats=>{
+      canvas.dataset.artistDrawing='ready';canvas.dataset.artistDrawingStrokes=String(stats.strokes);canvas.dataset.artistDrawingTriangles=String(stats.triangles);dirty=true;request();
+    }):null;
+    const stage=window.createNireStage?window.createNireStage(gl):null;
+    const botany=window.createNireBotany?window.createNireBotany(gl,stats=>{
+      canvas.dataset.botany=String(stats.specimens.length);canvas.dataset.bubbles=String(stats.bubbles?.length||0);canvas.dataset.botanicalTriangles=String(stats.triangles);dirty=true;request();
+      canvas.dataset.crystal=stats.crystal?'ready':'unavailable';canvas.dataset.crystalTriangles=String(stats.crystal?.triangles||0);
+      canvas.dataset.crystalRoots=String(stats.crystal?.roots||0);canvas.dataset.crystalRootTips=String(stats.crystal?.tips||0);
+    }):null;
+    function discoveryAmount(){
+      return treeVisible&&focus&&focus.point.feature!=='boulder'&&universe&&universe.ready()?focus.progress*universeReveal*Math.max(0,Math.min(1,(focus.zoom-2)/2)):0;
+    }
     const sculpture = window.createNireSculpture ? window.createNireSculpture(gl) : null;
     if (!sculpture) texture(4);
     if(filaments)filaments.load();
     if(materials)materials.load();
+    if(boulder)boulder.load();
+    if(artistDrawing)artistDrawing.load();
+    if(botany)botany.load();
 
     function draw(ratio) {
       if (gl.isContextLost()) return;
@@ -185,7 +206,14 @@
       const height = Math.round(view.height * dpr);
       if (canvas.width !== width || canvas.height !== height) { canvas.width = width; canvas.height = height; }
       gl.viewport(0, 0, canvas.width, canvas.height);
+      const dark=Boolean(window.NireAppearance?.isDark());
+      gl.clearColor(dark?0:232/255,dark?0:234/255,dark?0:232/255,1);
       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      if(stage)stage.draw(view,world,treeVisible,dark);
+      // The backdrop uses its own full-screen program; restore the paint surface.
+      gl.useProgram(program);
+      for(let i=0;i<attributeCount;i++)gl.disableVertexAttribArray(i);
+      gl.bindBuffer(gl.ARRAY_BUFFER,surfaceBuffer);gl.enableVertexAttribArray(attribute);gl.vertexAttribPointer(attribute,2,gl.FLOAT,false,0,0);gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,surfaceIndex);
       gl.uniform2f(locations.uViewport, view.width, view.height);
       gl.uniform2f(locations.uCenter, view.cx, view.cy);
       gl.uniform1f(locations.uWidth, view.scale * world.width);
@@ -194,6 +222,7 @@
       gl.uniform1f(locations.uRelief, treeVisible ? .32 : 1);
       const sculpt = treeVisible && modelReady() ? modelReveal : 0;
       const materialStrength=sculpt;
+      const discovery=discoveryAmount();
       gl.uniform1f(locations.uVolume,!treeVisible&&sculpture&&sculpture.active()?1:0);
       gl.uniform4fv(locations.uVolumeBounds,sculpture?sculpture.bounds():[0,0,0,0]);
       // Close relief shells give the fine lines a little physical thickness.
@@ -207,23 +236,30 @@
         // Culling by an inverse photograph is invalid at the side and rear.
         // The closed geometry itself handles every viewing direction.
         const area = null;
-        if(sculpt>0)filaments.draw(view, world, angle, tilt, sculpt, inspection, area);
-        if(materialStrength>0)materials.draw(view,world,angle,tilt,materialStrength,inspection);
+        if(sculpt>0)filaments.draw(view, world, angle, tilt, sculpt, inspection, area,discovery);
+        if(boulder)boulder.draw(view,baseView,world,angle,tilt,sculpt);
+        if(artistDrawing)artistDrawing.draw(view,world,angle,tilt,sculpt);
+        if(materialStrength>0)materials.draw(view,world,angle,tilt,materialStrength,inspection,discovery,botany?.waxTexture());
+        if(discovery>0)universe.draw(view,world,angle,tilt,sculpt*discovery,inspection);
+        if(botany)botany.draw(view,world,angle,tilt,sculpt);
       }
       if(!treeVisible&&sculpture)sculpture.draw(view,world,angle,tilt);
       canvas.dataset.renderMode=treeVisible?(modelReveal>=1?'model':'loading'):'surface';
+      canvas.dataset.universe=discovery>.99?'revealed':discovery>0?'revealing':'hidden';
       dirty = false;
     }
     function inspectionMoving() {
       return focus && !reduced.matches && Math.abs(inspection.x-inspection.targetX)+Math.abs(inspection.y-inspection.targetY) > .001;
     }
     function revealPending(){return treeVisible&&modelReady()&&modelReveal<1;}
+    function universePending(){return treeVisible&&focus&&universe&&universe.ready()&&universeReveal<1;}
     function orbitMoving(){return !held&&(treeVisible?treeMotion&&modelReady()&&modelReveal>=1:enabled);}
     function tick(now) {
       raf = 0;
       if (visible && now - lastFrame >= 32) {
         const elapsed = previous ? Math.min((now - previous) / 1000, .15) : 0;
         if(revealPending()){modelReveal=Math.min(1,modelReveal+elapsed/.8);dirty=true;}
+        if(universePending()){universeReveal=Math.min(1,universeReveal+elapsed/.65);dirty=true;}
         if (orbitMoving()) {
           if(treeVisible){
             treeAngle+=elapsed*Math.PI*2/turnDuration;
@@ -247,7 +283,7 @@
         lastFrame = now;
         if (dirty) draw();
       }
-      if (visible && (orbitMoving() || dirty || inspectionMoving() || revealPending())) raf = requestAnimationFrame(tick);
+      if (visible && (orbitMoving() || dirty || inspectionMoving() || revealPending() || universePending())) raf = requestAnimationFrame(tick);
     }
     function request() { if (!raf && visible) raf = requestAnimationFrame(tick); }
     function resize() {
@@ -257,13 +293,14 @@
       view = {
         width: studio.width, height: studio.height,
         cx: space.left - studio.left + space.width / 2,
-        cy: space.top - studio.top + space.height / 2 + imageWidth * aspect * .13,
+        cy: space.top - studio.top + space.height / 2 + imageWidth * aspect * .075,
         scale: imageWidth / world.width, dpr: Math.min(devicePixelRatio || 1, 3)
       };
       baseView = { ...view };
       applyFocus();
       dirty = true;
       request();
+      document.dispatchEvent(new Event('nire-scene-resize'));
       return view;
     }
     function project(u, v, height) {
@@ -312,9 +349,11 @@
       if(!treeVisible||!modelReady()||modelReveal<.5)return null;
       const c=Math.cos(angle),s=Math.sin(angle),ct=Math.cos(tilt),st=Math.sin(tilt);
       let nearest=null,best=tolerance*tolerance,nearestDepth=-Infinity;
-      const groups=[...filaments.pickPoints(),...materials.pickPoints()];
-      for(const points of groups){
+      const discovery=discoveryAmount();
+      const groups=[...filaments.pickPoints().map(points=>({points,kinds:filaments.pickMaterials()})),...materials.pickPoints().map(points=>({points,material:'bubble'}))];
+      for(const {points,kinds,material} of groups){
         for(let i=0;i<points.length;i+=4){
+          if(discovery>.99&&kinds&&kinds[i/4])continue;
           const px=points[i],py=points[i+1],pz=points[i+2],r=points[i+3];
           const rx=c*px+s*pz,rz=-s*px+c*pz,ry=ct*py-st*rz,depth=st*py+ct*rz;
           const scale=view.scale*world.width*4/(4-depth);
@@ -322,9 +361,30 @@
           const distance=r?Math.max(0,Math.hypot(dx,dy)-r*scale)**2:dx*dx+dy*dy;
           if(distance<best || distance===best&&depth>nearestDepth){
             best=distance;nearestDepth=depth;
-            nearest={x:(px+.5)*world.width,y:(aspect*.5-py)*world.width,z:pz*world.width};
+            nearest={x:(px+.5)*world.width,y:(aspect*.5-py)*world.width,z:pz*world.width,material:material||(kinds&&kinds[i/4]?'rock':'white')};
           }
         }
+      }
+      if(discovery>.5){
+        const hit=universe.pickPoint(view,world,angle,tilt,x,y);
+        if(hit&&(!nearest||best>16||hit.depth>=nearestDepth-.0003)){
+          const p=hit.point;nearestDepth=hit.depth;best=0;nearest={x:(p[0]+.5)*world.width,y:(aspect*.5-p[1])*world.width,z:p[2]*world.width,material:'rock'};
+        }
+      }
+      const stone=boulder&&boulder.pickPoint(view,baseView,world,angle,tilt,x,y);
+      if(stone&&(!nearest||best>16||stone.depth>=nearestDepth-.0003)){
+        const p=stone.point;nearestDepth=stone.depth;best=0;nearest={x:(p[0]+.5)*world.width,y:(aspect*.5-p[1])*world.width,z:p[2]*world.width,material:'boulder',feature:'boulder'};
+      }
+      const plant=botany&&botany.pickPoint(view,world,angle,tilt,x,y);
+      // The narrow glass surface has an exact ray hit. A nearby sampled branch
+      // should occlude that hit only when it is actually under the pointer.
+      if(plant&&(!nearest||best>(plant.kind===13?1:16)||plant.depth>=nearestDepth-.0003)){
+        const p=plant.point;nearestDepth=plant.depth;best=0;nearest={x:(p[0]+.5)*world.width,y:(aspect*.5-p[1])*world.width,z:p[2]*world.width,material:plant.kind===13?'crystal':plant.kind===12?'bubble':'botanical',specimen:plant.id};
+        if(plant.kind===13)nearest.feature='poppyTear';
+      }
+      const drawing=artistDrawing&&artistDrawing.pickPoint(view,world,angle,tilt,x,y,Math.min(9,tolerance));
+      if(drawing&&(!nearest||drawing.distance<best||(drawing.distance<=best&&drawing.depth>=nearestDepth-.0003))){
+        const p=drawing.point;nearest={x:(p[0]+.5)*world.width,y:(aspect*.5-p[1])*world.width,z:p[2]*world.width,material:'drawing',feature:'elisaDrawing'};
       }
       return nearest;
     }
@@ -341,6 +401,7 @@
     document.querySelector(".nire-studio").prepend(canvas);
     document.body.classList.add("has-nire-scene");
     document.addEventListener("visibilitychange", () => { visible = !document.hidden; previous = 0; request(); });
+    document.addEventListener('nire-appearance-change',()=>{dirty=true;request();});
     reduced.addEventListener("change", (event) => { if (event.matches&&!treeVisible) api.setEnabled(false); });
     canvas.addEventListener("webglcontextlost", (event) => {
       event.preventDefault();
@@ -351,9 +412,11 @@
     });
     const api = {
       resize, pointAt, pickPoint,
+      featureInfo: name=>name==='boulder'&&boulder&&boulder.ready()?boulder.feature(baseView,world,angle,tilt):name==='elisaDrawing'&&artistDrawing&&artistDrawing.ready()?artistDrawing.feature(baseView,world,angle,tilt):name==='poppyTear'&&botany?botany.crystalFeature(baseView,world,angle,tilt):null,
       modelVisible:()=>treeVisible&&modelReveal>=.5,
       baseView: () => ({ ...baseView }),
       setFocus(point, zoom, progress) {
+        if(point&&point.feature!=='boulder'&&universe)universe.load();
         if (point && !focus) {
           focusStartAngle=angle;focusStartTilt=tilt;
           // Keep the selected part in the same spatial orientation when zooming.

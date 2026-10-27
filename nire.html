@@ -1,35 +1,47 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-nire-theme="light">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="description" content="ÑIRE — creá tu universo. Un lienzo negro para dibujar y crear, por Elisa Cipriani.">
-    <meta name="theme-color" content="#000000">
+    <meta name="description" content="Un centro de experimentación e intercambio entre arte, diseño y naturaleza, por Elisa Cipriani. Un universo surrealista inspirado en el ñire para explorar, descubrir y crear.">
+    <meta name="theme-color" content="#e8eae8">
+    <script>try{if(localStorage.getItem('ec-nire-appearance')==='dark')document.documentElement.dataset.nireTheme='dark';}catch(_){}</script>
     <title>ELISA CIPRIANI</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=11">
-    <link rel="stylesheet" href="assets/css/nire.css?v=32">
+    <link rel="stylesheet" href="assets/css/nire.css?v=36">
     <link rel="stylesheet" href="assets/css/nire-nav.css?v=1">
+    <link rel="stylesheet" href="assets/css/nire-botanical.css?v=4">
     <script src="assets/js/language.js?v=76" defer></script>
+    <script src="assets/js/nire-appearance.js?v=1" defer></script>
     <script src="assets/js/nire-form.js?v=2" defer></script>
-    <script src="assets/js/nire-filaments.js?v=15" defer></script>
+    <script src="assets/js/nire-filaments.js?v=22" defer></script>
     <script src="assets/js/nire-volume.js?v=2" defer></script>
-    <script src="assets/js/nire-materials.js?v=11" defer></script>
-    <script src="assets/js/nire-scene.js?v=22" defer></script>
+    <script src="assets/js/nire-materials.js?v=16" defer></script>
+    <script src="assets/js/nire-boulder.js?v=4" defer></script>
+    <script src="assets/js/nire-stage.js?v=2" defer></script>
+    <script src="assets/js/nire-crystal.js?v=3" defer></script>
+    <script src="assets/js/nire-botany.js?v=15" defer></script>
+    <script src="assets/js/nire-artist-drawing.js?v=4" defer></script>
+    <script src="assets/js/nire-scene.js?v=36" defer></script>
     <script src="assets/js/nire-collage.js?v=9" defer></script>
     <script src="assets/js/nire-color.js?v=8" defer></script>
-    <script src="assets/js/nire-entry.js?v=11" defer></script>
-    <script src="assets/js/nire.js?v=22" defer></script>
+    <script src="assets/js/nire-entry.js?v=23" defer></script>
+    <script src="assets/js/nire.js?v=37" defer></script>
   </head>
   <body class="nire-page nire-intro">
     <main class="nire-studio" aria-labelledby="nire-title">
       <div id="nire-art-space" class="nire-art-space" aria-hidden="true"></div>
       <div id="nire-intro-content" class="nire-intro-content">
         <div class="nire-intro-texts">
-          <p class="nire-intro-copy" data-nire-copy="introduction">Este proyecto experimental parte de un encuentro con el ñire, árbol nativo del bosque andino patagónico de Argentina. El encuentro y la reconstrucción de la imagen de ese árbol fueron llevados a la digitalidad.</p>
+          <section class="nire-intro-copy" aria-labelledby="nire-space-title">
+            <h2 id="nire-space-title" class="nire-space-title" data-nire-copy="spaceTitle">Centro de experimentación e intercambio.</h2>
+            <p data-nire-copy="introduction">Así imagino el diseño: una convivencia entre investigación, discusión, experimentación y comunicación. Un espacio para compartir preguntas, explorar elementos y aprender haciendo.</p>
+            <p data-nire-copy="origin">Esta abstracción surrealista nace del ñire del bosque andino patagónico.</p>
+          </section>
           <p class="nire-note nire-intro-note" data-nire-copy="note">Un árbol. Infinitos universos.</p>
         </div>
       </div>
-      <canvas id="nire-canvas" class="nire-canvas" tabindex="-1" aria-hidden="true" inert aria-label="Lienzo negro para crear tu universo" aria-describedby="nire-keyboard">Tu navegador necesita admitir canvas para dibujar.</canvas>
+      <canvas id="nire-canvas" class="nire-canvas" tabindex="-1" aria-hidden="true" inert aria-label="Lienzo claro para crear tu universo" aria-describedby="nire-keyboard">Tu navegador necesita admitir canvas para dibujar.</canvas>
       <div id="nire-cursor" class="nire-cursor" aria-hidden="true"></div>
       <svg id="nire-selection" class="nire-selection" aria-hidden="true" hidden><polygon id="nire-selection-outline"/></svg>
       <svg id="nire-volume-selection" class="nire-selection nire-volume-selection" aria-hidden="true" hidden><polygon id="nire-volume-outline"/></svg>
@@ -50,6 +62,7 @@
         </div>
       </header>
 
+      <button id="nire-background-toggle" class="nire-background-toggle" type="button" aria-label="Cambiar a fondo negro" aria-pressed="false"><span aria-hidden="true"></span></button>
       <div class="nire-heading">
         <h1 id="nire-title">ÑIRE</h1>
         <p data-nire-copy="subtitle">creá tu universo</p>
@@ -67,7 +80,7 @@
         </div>
         <div class="nire-detail-actions">
           <button id="nire-develop" class="nire-develop" type="button" data-nire-copy="develop" aria-controls="nire-canvas nire-sidebar">DEVELOP YOUR OWN ÑIRE</button>
-          <p class="nire-detail-hint" data-nire-copy="detailHint">Arrastrá para recorrer. Acercá para ver más.</p>
+          <p class="nire-detail-hint" data-nire-copy="detailHint">Arrastrá para recorrer. Acercá para descubrir.</p>
         </div>
       </section>
 
@@ -153,7 +166,7 @@
           <label class="nire-panel-field" for="nire-text-content"><span data-collage-copy="yourWords">Tus palabras</span><textarea id="nire-text-content" rows="3" maxlength="500" placeholder="Escribí lo que quieras…" data-collage-placeholder="textPlaceholder" required></textarea></label>
           <div class="nire-text-style">
             <label class="nire-panel-field" for="nire-text-font"><span data-collage-copy="font">Tipografía</span><select id="nire-text-font"><option value="light">Light</option><option value="regular">Regular</option><option value="bold">Bold</option></select></label>
-            <label class="nire-panel-field" for="nire-text-color"><span data-collage-copy="color">Color</span><input id="nire-text-color" type="color" value="#f3efe9"></label>
+            <label class="nire-panel-field" for="nire-text-color"><span data-collage-copy="color">Color</span><input id="nire-text-color" type="color" value="#30392f"></label>
           </div>
           <button id="nire-add-text" class="nire-panel-primary" type="submit" data-collage-copy="addText">Agregar texto</button>
           <button id="nire-new-text" class="nire-panel-link" type="button" data-collage-copy="newText" hidden>Crear otro texto</button>

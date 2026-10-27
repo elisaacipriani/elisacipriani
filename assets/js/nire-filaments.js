@@ -1,13 +1,14 @@
 (function () {
   "use strict";
 
-  // One body: a white spatial frame with a fractured slate formation.
+  // One continuous, finely textured woody frame for the spatial herbarium.
   window.createNireFilaments = function (gl, changed) {
     const derivatives=gl.getExtension("OES_standard_derivatives");
     const vertex = `
       attribute vec3 aPosition;
       attribute vec3 aNormal;
       attribute float aRock;
+      attribute float aPorous;
       uniform vec2 uViewport;
       uniform vec2 uCenter;
       uniform float uWidth;
@@ -16,6 +17,7 @@
       varying vec3 vLocalNormal;
       varying vec3 vLocalPosition;
       varying float vRock;
+      varying float vPorous;
       vec3 rotate(vec3 p) {
         float c = cos(uAngle), s = sin(uAngle);
         p = vec3(c*p.x+s*p.z, p.y, -s*p.x+c*p.z);
@@ -30,15 +32,18 @@
         vLocalNormal = aNormal;
         vLocalPosition = aPosition*2262.0;
         vRock = aRock;
+        vPorous = aPorous;
       }`;
     const fragment = `${derivatives?'#extension GL_OES_standard_derivatives : enable\n':''}
       precision highp float;
       uniform float uStrength;
+      uniform float uDetail;
       uniform float uAngle,uTilt,uTexelFootprint;
       uniform vec2 uLight;
       varying vec3 vLocalNormal;
       varying vec3 vLocalPosition;
       varying float vRock;
+      varying float vPorous;
       float mineralHash(vec3 p){
         p=fract(p*.1031);p+=dot(p,p.yzx+33.33);
         return fract((p.x+p.y)*p.z);
@@ -77,32 +82,40 @@
         float rock=smoothstep(.05,.85,vRock);
         vec4 beds=mineralNoise(p*vec3(.055,.012,.055));
         vec4 fractures=mineralNoise(p*.075);
-        vec3 rockGradient=fractures.yzw*.12+beds.yzw*vec3(.035,.008,.035)+grain.yzw*.095*grainWeight-pores.yzw*pitSlope*.22*poreWeight;
+        vec3 rockGradient=fractures.yzw*.08+beds.yzw*vec3(.035,.008,.035)+grain.yzw*.075*grainWeight-pores.yzw*pitSlope*.18*poreWeight;
         gradient=mix(gradient,rockGradient,rock);
         vec3 normal=normalize(vLocalNormal);
         normal=normalize(normal-(gradient-normal*dot(gradient,normal)));
         vec3 n=normalize(rotate(normal));
-        vec3 key = normalize(vec3(-.48+uLight.x*.18,.68-uLight.y*.16,1.0));
+        vec3 key = normalize(vec3(-.72,1.05,.58));
         vec3 fill = normalize(vec3(.8,-.25,.6));
         vec3 eye = vec3(0.0,0.0,1.0);
         float diffuse = max(0.0,dot(n,key));
         float soft = max(0.0,dot(n,fill));
         float specular = pow(max(0.0,dot(n,normalize(key+eye))),9.0);
         float rim = pow(1.0-max(0.0,dot(n,eye)),3.0);
-        vec3 stone=vec3(mix(.88,.97,strata.x));
+        vec3 stone=mix(vec3(.31,.325,.24),vec3(.53,.49,.35),strata.x);
         float mineral=1.0+(grain.x-.5)*.08*grainWeight+(dust.x-.5)*.05*dustWeight;
         float cavities=1.0-pit*.18;
-        vec3 color=stone*mineral*cavities*(.40+.62*diffuse+.10*soft);
-        color+=vec3(1.0)*specular*.025+stone*rim*.018;
-        vec3 slate=mix(vec3(.155,.16,.195),vec3(.40,.41,.435),beds.x*.60+fractures.x*.40);
-        float quartz=smoothstep(.57,.78,beds.x)*smoothstep(.34,.70,strata.x);
-        slate=mix(slate,vec3(.56,.565,.575),quartz*.58);
-        float seam=1.0-smoothstep(.008,.040,abs(beds.x-.46));
-        slate*=1.0-seam*.17;
-        vec3 mineralColor=slate*(1.0+(grain.x-.5)*.26*grainWeight)*(1.0-pit*.48)*(.27+.87*diffuse+.16*soft);
-        mineralColor+=vec3(.66,.68,.72)*specular*.045+slate*rim*.10;
+        vec3 color=stone*mineral*cavities*(.34+.70*diffuse+.085*soft);
+        color+=vec3(1.0)*specular*.018+stone*rim*.006;
+        vec3 slate=mix(vec3(.37,.405,.37),vec3(.62,.64,.57),.25+beds.x*.35+fractures.x*.25);
+        float quartz=smoothstep(.74,.90,grain.x)*grainWeight;
+        slate=mix(slate,vec3(.60,.61,.63),quartz*.18);
+        vec3 mineralColor=slate*(1.0+(grain.x-.5)*.25*grainWeight)*(1.0-pit*.36)*(.24+.83*diffuse+.08*soft);
+        mineralColor+=vec3(.66,.68,.72)*specular*.025+slate*rim*.012;
         color=mix(color,mineralColor,rock);
-        gl_FragColor = vec4(color,uStrength);
+        if(uDetail>.001&&vPorous>.001){
+          vec2 q=p.xy*.62;q.x+=mod(floor(q.y),2.0)*.5;
+          vec2 cell=floor(q),f=fract(q)-.5;
+          f-=vec2(mineralHash(vec3(cell,2.0)),mineralHash(vec3(cell+17.0,3.0)))*.22-.11;
+          float d=length(f),aa=${derivatives?'max(fwidth(d),.014)':'max(.014,uTexelFootprint*.62)'};
+          float pore=1.0-smoothstep(.025+aa,.10+aa,d);
+          vec3 porcelain=vec3(.955,.94,.885)*mineral*(.095+1.04*diffuse+.018*soft)*(1.0-pore*.25*grainWeight);
+          color=mix(color,porcelain,vPorous*uDetail);
+        }
+        if(uDetail>.99&&rock>.95)discard;
+        gl_FragColor = vec4(color,uStrength*(1.0-rock*uDetail));
       }`;
     function compile(type, source) {
       const shader = gl.createShader(type);
@@ -119,11 +132,12 @@
       if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return null;
     } catch (_) { return null; }
     const uniform = {}, attributes = {};
-    ["uViewport","uCenter","uWidth","uAngle","uTilt","uStrength","uLight","uTexelFootprint"].forEach(key => uniform[key] = gl.getUniformLocation(program,key));
-    ["aPosition","aNormal","aRock"].forEach(key => attributes[key] = gl.getAttribLocation(program,key));
+    ["uViewport","uCenter","uWidth","uAngle","uTilt","uStrength","uLight","uTexelFootprint","uDetail"].forEach(key => uniform[key] = gl.getUniformLocation(program,key));
+    ["aPosition","aNormal","aRock","aPorous"].forEach(key => attributes[key] = gl.getAttribLocation(program,key));
     let loaded = false, loading = null;
     const batches = [];
     let pickData = new Float32Array(0);
+    let pickKinds = new Uint8Array(0);
     const stats = { paths: 1, bodies: 1, vertices: 0, triangles: 0 };
     const stride = 11;
     const attributeCount = gl.getParameter(gl.MAX_VERTEX_ATTRIBS);
@@ -135,7 +149,7 @@
       if(stats.bodies!==1)throw new Error("ÑIRE frame must be continuous");
       stats.paths=stats.bodies;
       const aspect=height/width;
-      const picking=[];
+      const picking=[],kinds=[];
       let offset=20;
       for(let batch=0;batch<count;batch++) {
         const vertexCount=data.getUint32(offset,true),indexCount=data.getUint32(offset+4,true);
@@ -148,7 +162,10 @@
           const normal=[nx,-ny,nz];
           const length=Math.hypot(...normal)||1;
           vertices.set([u-.5,(.5-v)*aspect,h/width,...normal.map(n=>n/length),data.getUint8(offset+24)/255,data.getUint8(offset+25)/255,data.getUint8(offset+26)/255,x*.7+y*.3,Math.atan2(nz,nx+ny)],i*stride);
-          if(i%8===0)picking.push(vertices[i*stride],vertices[i*stride+1],vertices[i*stride+2],0);
+          if(i%8===0){
+            picking.push(vertices[i*stride],vertices[i*stride+1],vertices[i*stride+2],0);
+            kinds.push(vertices[i*stride+6]>.5?1:0);
+          }
         }
         const indices=new Uint16Array(buffer,offset,indexCount);offset+=indexCount*2;
         const vertexBuffer=gl.createBuffer(),indexBuffer=gl.createBuffer();
@@ -159,10 +176,11 @@
       }
       if(offset!==buffer.byteLength)throw new Error("Incomplete ÑIRE vascular skin");
       pickData=new Float32Array(picking);
+      pickKinds=new Uint8Array(kinds);
     }
     async function geometry() {
       const compressed=typeof DecompressionStream==="function";
-      const response=await fetch(`assets/images/nire/filaments.bin${compressed?".gz":""}?v=14`);
+      const response=await fetch(`assets/images/nire/filaments.bin${compressed?".gz":""}?v=18`);
       if(!response.ok)throw new Error("ÑIRE skin unavailable");
       const raw=await response.arrayBuffer();
       const header=new Uint8Array(raw,0,Math.min(2,raw.byteLength));
@@ -181,12 +199,13 @@
       })().catch(()=>{loaded=false;});
       return loading;
     }
-    function draw(view,world,angle,tilt,strength,light,area) {
+    function draw(view,world,angle,tilt,strength,light,area,detail=0) {
       if(!loaded||strength<.001||gl.isContextLost())return;
       gl.useProgram(program);
       gl.uniform2f(uniform.uViewport,view.width,view.height);gl.uniform2f(uniform.uCenter,view.cx,view.cy);
       gl.uniform1f(uniform.uWidth,view.scale*world.width);gl.uniform1f(uniform.uAngle,angle);gl.uniform1f(uniform.uTilt,tilt);
       gl.uniform1f(uniform.uStrength,strength);gl.uniform2f(uniform.uLight,light.x,light.y);
+      gl.uniform1f(uniform.uDetail,detail);
       gl.uniform1f(uniform.uTexelFootprint,2262/(view.scale*world.width*gl.drawingBufferWidth/view.width));
       gl.clear(gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LESS);
       for(let i=0;i<attributeCount;i++)gl.disableVertexAttribArray(i);
@@ -194,13 +213,13 @@
         const b=batch.bounds;
         if(area&&(b[2]<area.left-.06||b[0]>area.right+.06||b[3]<area.top-.06||b[1]>area.bottom+.06))continue;
         gl.bindBuffer(gl.ARRAY_BUFFER,batch.vertexBuffer);gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,batch.indexBuffer);
-        [["aPosition",3,0],["aNormal",3,3],["aRock",1,6]].forEach(([name,size,offset])=>{
+        [["aPosition",3,0],["aNormal",3,3],["aRock",1,6],["aPorous",1,7]].forEach(([name,size,offset])=>{
           gl.enableVertexAttribArray(attributes[name]);gl.vertexAttribPointer(attributes[name],size,gl.FLOAT,false,stride*4,offset*4);
         });
         gl.drawElements(gl.TRIANGLES,batch.count,gl.UNSIGNED_SHORT,0);
       }
       gl.disable(gl.DEPTH_TEST);
     }
-    return {load,draw,ready:()=>loaded,stats,pickPoints:()=>[pickData]};
+    return {load,draw,ready:()=>loaded,stats,pickPoints:()=>[pickData],pickMaterials:()=>pickKinds};
   };
 }());

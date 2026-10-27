@@ -14,7 +14,7 @@ import numpy as np
 from scipy.sparse import coo_matrix
 from scipy.spatial import cKDTree
 
-def original_paint_volumes(output,paths,radius):
+def original_paint_volumes(output,paths,radius,slots=None,exclude=()):
     """Attach the source drawing's broad marks to the same spatial branches.
 
     Each mark keeps its original contour in a rigid branch frame. Its closest
@@ -57,6 +57,10 @@ def original_paint_volumes(output,paths,radius):
         normals=n.copy();normals[:,2]/=depth;normals=normals@transform.T
         volume=np.einsum('ij,ij->i',positions[faces[:,0]],np.cross(positions[faces[:,1]],positions[faces[:,2]])).sum()/6
         if volume<0:faces=faces[:,[0,2,1]]
+        if slots is not None:
+            slots.append({'kind':kind,'island':island,'vertices':vertices.copy(),'faces':faces.copy(),'center':center.copy(),'transform':transform.copy(),'depth':depth})
+        if (kind,island) in exclude:
+            continue
         shape=m.Manifold(m.Mesh(np.asarray(positions,dtype=np.float32),np.asarray(faces,dtype=np.uint32))).simplify(.13)
         if kind==2:
             # Broad fracture planes replace the soft, inflated painted surface.
@@ -85,7 +89,7 @@ def build_spatial_tree(output,source_size=None,trace_metadata=None):
     parts=[];joints={}
     def radius(point):
         x,y=point[0]/width,point[1]/height
-        return 2.65+np.exp(-((x-.5)/.065)**2)*np.clip((y-.29)/.22,0,1)*3.8+np.clip((y-.28)/.5,0,1)*.7
+        return 1.35+np.exp(-((x-.5)/.065)**2)*np.clip((y-.29)/.22,0,1)*1.8+np.clip((y-.28)/.5,0,1)*.3
     for path in data['paths']:
         for point in path:joints[tuple(point)]=radius(point)
         for a,b in zip(path[:-1],path[1:]):
@@ -97,7 +101,9 @@ def build_spatial_tree(output,source_size=None,trace_metadata=None):
             parts.append(m.Manifold.cylinder(float(length),float(radius(a)),float(radius(b)),24).transform(transform))
     for point,r in joints.items():parts.append(m.Manifold.sphere(float(r),16).translate(point))
     parts=[part.set_properties(1,lambda position,properties:[0.0]) for part in parts]
-    paint,contacts=original_paint_volumes(output,data['paths'],radius)
+    # This small source mark is now a mineral specimen in the same branch frame.
+    # Omit its old white body and connector; the remaining tree stays closed.
+    paint,contacts=original_paint_volumes(output,data['paths'],radius,exclude={(2,1),*((3,island) for island in range(1,16))})
     parts.extend(paint)
     solid=m.Manifold.batch_boolean(parts,m.OpType.Add)
     assert solid.status()==m.Error.NoError,str(solid.status())
@@ -133,7 +139,7 @@ def build_spatial_tree(output,source_size=None,trace_metadata=None):
         return np.mod((q[:,0]+q[:,1])*q[:,2],1)
     mix=lambda a,b,t:a+(b-a)*t
     noise=mix(mix(mix(h(0,0,0),h(1,0,0),u[:,0]),mix(h(0,1,0),h(1,1,0),u[:,0]),u[:,1]),mix(mix(h(0,0,1),h(1,0,1),u[:,0]),mix(h(0,1,1),h(1,1,1),u[:,0]),u[:,1]),u[:,2])
-    vertices+=normals*((noise-.5)*.30)[:,None]
+    vertices+=normals*((noise-.5)*.15)[:,None]
     normals=normals_at(vertices)
     normals=normals*.8+(adjacency@normals/degree[:,None])*.2
     normals/=np.maximum(1e-12,np.linalg.norm(normals,axis=1,keepdims=True))
@@ -162,7 +168,7 @@ def build_spatial_tree(output,source_size=None,trace_metadata=None):
     (output/'filaments.bin.gz').write_bytes(gzip.compress(bytes(binary),compresslevel=9,mtime=0))
     previous=json.loads((output/'filaments.json').read_text()) if (output/'filaments.json').exists() else {}
     rock=vertices[material>.5]
-    meta={**previous,**(trace_metadata or {}),'sourceSize':list(source_size or previous.get('sourceSize',[7020,9928])),'traceSize':[width,height],'bodies':1,'meshComponents':1,'openEdges':0,'integratedSourceMarks':len(paint),'sourceContacts':contacts,'style':'White spatial body with an integrated, fractured slate formation','rockVertices':len(rock),'rockBounds':{'min':rock.min(axis=0).tolist(),'max':rock.max(axis=0).tolist()},'vertices':len(vertices),'triangles':len(faces),'batches':len(batches),'maxEdgeInSourcePixels':max_edge,'spatialBounds':{'min':vertices.min(axis=0).tolist(),'max':vertices.max(axis=0).tolist()},'format':'NIRV v4: one closed spatial solid; red channel marks slate'}
+    meta={**previous,**(trace_metadata or {}),'sourceSize':list(source_size or previous.get('sourceSize',[7020,9928])),'traceSize':[width,height],'bodies':1,'meshComponents':1,'openEdges':0,'integratedSourceMarks':len(paint),'replacedSourceMarks':['2:1',*[f'3:{i}' for i in range(1,16)]],'sourceContacts':contacts,'style':'Fine woody spatial frame with a separate botanical herbarium and preserved mineral specimen','rockVertices':len(rock),'rockBounds':{'min':rock.min(axis=0).tolist(),'max':rock.max(axis=0).tolist()} if len(rock) else None,'vertices':len(vertices),'triangles':len(faces),'batches':len(batches),'maxEdgeInSourcePixels':max_edge,'spatialBounds':{'min':vertices.min(axis=0).tolist(),'max':vertices.max(axis=0).tolist()},'format':'NIRV v4: one closed spatial solid'}
     (output/'filaments.json').write_text(json.dumps(meta,indent=2)+'\n')
     print(json.dumps(meta,indent=2),flush=True)
 
