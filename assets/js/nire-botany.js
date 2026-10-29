@@ -15,37 +15,25 @@
       void main(){vec3 p=rotate(aPosition);float w=4.0-p.z;vec2 centre=vec2(2.0*uCenter.x/uViewport.x-1.0,1.0-2.0*uCenter.y/uViewport.y);gl_Position=vec4(centre*w+p.xy*uWidth*8.0/uViewport,-p.z*.6,w);vNormal=rotate(aNormal);vLocalNormal=aNormal;vColor=aColor;vPosition=aPosition*2262.0;vView=p;vUV=aUV;vAO=aAO;}`;
     const fragment=`${derivatives?'#extension GL_OES_standard_derivatives : enable\n':''}
       precision highp float;
-      uniform float uKind,uStrength,uRefraction,uSphereRadius,uWidth,uDark;
+      uniform float uKind,uStrength,uRefraction,uSphereRadius,uWidth,uDark,uAngle,uTilt;
       uniform vec3 uSphereCenter;
+      uniform mat3 uSeedInverse;
       uniform vec2 uRenderSize,uViewport;
       uniform sampler2D uBehind,uSkin;
       varying vec3 vNormal,vColor,vPosition,vView,vLocalNormal;
       varying vec2 vUV;
       varying float vAO;
-      vec3 skin(vec3 p){
-        vec3 w=pow(abs(normalize(vLocalNormal)),vec3(5));w/=w.x+w.y+w.z;
-        return texture2D(uSkin,p.yz*.42+.17).rgb*w.x+
-          texture2D(uSkin,p.zx*.42+.31).rgb*w.y+
-          texture2D(uSkin,p.xy*.42+.52).rgb*w.z;
-      }
-      vec3 background(vec2 uv,vec2 blur){
-        vec2 lo=vec2(.001),hi=vec2(.999);
-        vec3 c=texture2D(uBehind,clamp(uv,lo,hi)).rgb*.50;
-        c+=texture2D(uBehind,clamp(uv+vec2(blur.x,blur.y),lo,hi)).rgb*.125;
-        c+=texture2D(uBehind,clamp(uv+vec2(-blur.x,blur.y),lo,hi)).rgb*.125;
-        c+=texture2D(uBehind,clamp(uv+vec2(blur.x,-blur.y),lo,hi)).rgb*.125;
-        c+=texture2D(uBehind,clamp(uv-blur,lo,hi)).rgb*.125;
-        return c;
-      }
+      vec3 unrotate(vec3 p){float c=cos(uTilt),s=sin(uTilt);p=vec3(p.x,c*p.y+s*p.z,-s*p.y+c*p.z);c=cos(uAngle);s=sin(uAngle);return vec3(c*p.x-s*p.z,p.y,s*p.x+c*p.z);}
+      ${window.nireCoralMaterialGLSL(derivatives)}
       void main(){
         vec3 n=normalize(vNormal);if(!gl_FrontFacing)n=-n;
         vec3 key=normalize(vec3(-.72,1.05,.58)),eye=normalize(vec3(0,0,4)-vView);
         float diffuse=max(0.0,dot(n,key)),backlight=max(0.0,dot(-n,key));
         vec3 color=vColor*(.30+.78*diffuse);
         if(uKind>12.5){
-          // Clear optical glass, separate from the cloudy coral skin. Refraction
+          // Clear optical glass, separate from the coral fruit flesh. Refraction
           // follows the actual curved surface and samples the scene behind it.
-          float facing=max(.001,dot(n,eye));
+          float facing=clamp(dot(n,eye),.001,1.0);
           float fresnel=.036+.964*pow(1.0-facing,5.0);
           // The camera is outside the crystal: the incident medium is air.
           vec3 ray=refract(-eye,n,1.0/1.47);
@@ -67,32 +55,8 @@
           color+=vec3(1.0,.98,.93)*(glint*.38+panel*.09+strip*.035);
           color=mix(mix(vec3(.79,.82,.81),vec3(.11,.15,.17),uDark),color,uRefraction);
         }else if(uKind>11.5){
-          vec3 local=(vPosition/2262.0-uSphereCenter)/uSphereRadius;
-          vec3 coat=skin(local);
-          float grain=dot(coat,vec3(.2126,.7152,.0722));
-          float height=(grain-.60)*uSphereRadius*.0012;
-          ${derivatives?`vec3 q0=dFdx(vView),q1=dFdy(vView),r1=cross(q1,n),r2=cross(n,q0);float determinant=dot(q0,r1);vec3 gradient=(r1*dFdx(height)+r2*dFdy(height))*sign(determinant)/max(abs(determinant),1.e-12);n=normalize(n-gradient);`:''}
-          diffuse=max(0.0,dot(n,key));backlight=max(0.0,dot(-n,key));
-          float facing=max(0.0,dot(n,eye));
-          float fresnel=.026+.974*pow(1.0-facing,5.0);
-          float optical=.20+1.45*facing;
-          // A coral, slightly cloudy interior: pale at thin edges and more
-          // saturated through the centre. All bubbles share the same material.
-          vec3 albedo=mix(vec3(.99,.57,.46),coat,.52);
-          vec3 body=albedo*(.50+.47*diffuse+.26*backlight);
-          vec3 transmission=exp(-vec3(.035,.39,.49)*optical);
-          float pixels=uSphereRadius*uWidth*4.0/(4.0-vView.z);
-          vec2 offset=-n.xy*pixels*.19*facing/uViewport;
-          vec2 blur=vec2(.14+pixels*.018)/uViewport;
-          vec3 behind=background(gl_FragCoord.xy/uRenderSize+offset,blur);
-          float haze=.24+.24*facing+(1.0-grain)*.15;
-          color=mix(behind*transmission,body,haze);
-          vec3 reflected=reflect(-eye,n);
-          float panel=exp(-pow((reflected.x+.50)/.28,2.0)-pow((reflected.y-.55)/.78,2.0));
-          float shine=pow(max(0.0,dot(n,normalize(key+eye))),68.0);
-          color=mix(color,vec3(.92,.89,.82),fresnel*.28);
-          color+=vec3(1.0,.95,.84)*(panel*.055+shine*.065);
-          color=mix(body,color,uRefraction);
+          vec3 local=uSeedInverse*(vPosition/2262.0-uSphereCenter)/uSphereRadius;
+          color=coralMaterial(n,uSeedInverse*vLocalNormal,local,vView,uSphereRadius,normalize(uSeedInverse*unrotate(eye)));
         }
         gl_FragColor=vec4(color,uStrength);
       }`;
@@ -100,7 +64,7 @@
     let program;try{program=gl.createProgram();gl.attachShader(program,shader(gl.VERTEX_SHADER,vertex));gl.attachShader(program,shader(gl.FRAGMENT_SHADER,fragment));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(program));}catch(_){return null;}
     const attributes={},uniforms={},attributeCount=gl.getParameter(gl.MAX_VERTEX_ATTRIBS);
     for(const k of ['aPosition','aNormal','aColor','aUV','aAO'])attributes[k]=gl.getAttribLocation(program,k);
-    for(const k of ['uViewport','uCenter','uWidth','uAngle','uTilt','uKind','uStrength','uRefraction','uRenderSize','uBehind','uSkin','uSphereCenter','uSphereRadius','uDark'])uniforms[k]=gl.getUniformLocation(program,k);
+    for(const k of ['uViewport','uCenter','uWidth','uAngle','uTilt','uKind','uStrength','uRefraction','uRenderSize','uBehind','uSkin','uSphereCenter','uSphereRadius','uSeedInverse','uDark'])uniforms[k]=gl.getUniformLocation(program,k);
     const batches=[],surfaces=[],behind=gl.createTexture();let captureWidth=0,captureHeight=0,loaded=false,loading,stats=null,skinTexture,crystal=null;
     gl.activeTexture(gl.TEXTURE7);gl.bindTexture(gl.TEXTURE_2D,behind);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,1,1,0,gl.RGB,gl.UNSIGNED_BYTE,new Uint8Array([232,234,232]));
     function build(raw,meta,roots){
@@ -130,8 +94,8 @@
     function load(){if(loading)return loading;loading=(async()=>{
       const compressed=typeof DecompressionStream==='function';
       const [response,meta,skin,rootResponse,rootMeta]=await Promise.all([
-        fetch(`assets/images/nire/bubbles.bin${compressed?'.gz':''}?v=2`),
-        fetch('assets/images/nire/bubbles.json?v=2').then(r=>r.json()),
+        fetch(`assets/images/nire/bubbles.bin${compressed?'.gz':''}?v=3`),
+        fetch('assets/images/nire/bubbles.json?v=3').then(r=>r.json()),
         image('assets/images/nire/bubble-skin-v1.png'),
         fetch(`assets/images/nire/crystal-roots.bin${compressed?'.gz':''}?v=2`),
         fetch('assets/images/nire/crystal-roots.json?v=2').then(r=>{if(!r.ok)throw new Error('Root metadata unavailable');return r.json();})
@@ -153,7 +117,7 @@
       gl.uniform1f(uniforms.uDark,window.NireAppearance?.isDark()?1:0);
       gl.activeTexture(gl.TEXTURE6);gl.bindTexture(gl.TEXTURE_2D,skinTexture);
       gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LESS);gl.depthMask(true);gl.disable(gl.CULL_FACE);
-      function part(b){if(b.kind>=12){gl.enable(gl.CULL_FACE);gl.cullFace(gl.BACK);}else gl.disable(gl.CULL_FACE);gl.uniform1f(uniforms.uKind,b.kind);if(b.sphere){gl.uniform3fv(uniforms.uSphereCenter,b.sphere.center);gl.uniform1f(uniforms.uSphereRadius,b.sphere.radius);}gl.bindBuffer(gl.ARRAY_BUFFER,b.vb);gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,b.ib);for(const[name,size,offset]of [['aPosition',3,0],['aNormal',3,3],['aColor',3,6],['aUV',2,9],['aAO',1,11]]){if(attributes[name]<0)continue;gl.enableVertexAttribArray(attributes[name]);gl.vertexAttribPointer(attributes[name],size,gl.FLOAT,false,48,offset*4);}gl.drawElements(gl.TRIANGLES,b.count,gl.UNSIGNED_SHORT,0);}
+      function part(b){if(b.kind>=12){gl.enable(gl.CULL_FACE);gl.cullFace(gl.BACK);}else gl.disable(gl.CULL_FACE);gl.uniform1f(uniforms.uKind,b.kind);if(b.sphere){gl.uniform3fv(uniforms.uSphereCenter,b.sphere.center);gl.uniform1f(uniforms.uSphereRadius,b.sphere.radius);if(b.kind===12)gl.uniformMatrix3fv(uniforms.uSeedInverse,false,b.sphere.frame.flat());}gl.bindBuffer(gl.ARRAY_BUFFER,b.vb);gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,b.ib);for(const[name,size,offset]of [['aPosition',3,0],['aNormal',3,3],['aColor',3,6],['aUV',2,9],['aAO',1,11]]){if(attributes[name]<0)continue;gl.enableVertexAttribArray(attributes[name]);gl.vertexAttribPointer(attributes[name],size,gl.FLOAT,false,48,offset*4);}gl.drawElements(gl.TRIANGLES,b.count,gl.UNSIGNED_SHORT,0);}
       for(const b of batches)if(b.kind<12)part(b);
       gl.activeTexture(gl.TEXTURE7);gl.bindTexture(gl.TEXTURE_2D,behind);
       const width=gl.drawingBufferWidth,height=gl.drawingBufferHeight,max=gl.getParameter(gl.MAX_TEXTURE_SIZE);
@@ -165,7 +129,7 @@
       }
       const depth=p=>Math.sin(tilt)*p[1]+Math.cos(tilt)*(-Math.sin(angle)*p[0]+Math.cos(angle)*p[2]);
       // All transparent objects share one depth sort and refract the already
-      // drawn scene. Smaller bubbles keep their earlier physical radius.
+      // drawn scene. Smaller arils keep their earlier physical radius.
       function captureRegion(b){
         if(!captured)return;
         let left=Infinity,right=-Infinity,top=Infinity,bottom=-Infinity;
@@ -175,7 +139,7 @@
           const f=view.scale*world.width*4/(4-z),x=view.cx+rx*f,y=view.cy-ry*f;
           left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);
         }
-        const padding=Math.max(3,(right-left)*.16,(bottom-top)*.16),sx=width/view.width,sy=height/view.height;
+        const margin=b.kind===12?.30:.16,padding=Math.max(3,(right-left)*margin,(bottom-top)*margin),sx=width/view.width,sy=height/view.height;
         const x=Math.max(0,Math.floor((left-padding)*sx)),y=Math.max(0,Math.floor(height-(bottom+padding)*sy));
         const w=Math.min(width,Math.ceil((right+padding)*sx))-x,h=Math.min(height,Math.ceil(height-(top-padding)*sy))-y;
         if(w>0&&h>0)gl.copyTexSubImage2D(gl.TEXTURE_2D,0,x,y,x,y,w,h);

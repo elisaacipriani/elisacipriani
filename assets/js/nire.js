@@ -35,7 +35,7 @@
   const state = {
     brush: "paint", color: "#ed75ac", size: 24,
     history: [], head: 0, stroke: null, renderer: null, started: false, entering: false, detail: false,
-    pointer: null, keyboard: false,
+    pointer: null, keyboard: false, contributing: false,
     keyPosition: { x: 0, y: 0 },
     view: { width: 1, height: 1, scale: 1, x: 0, y: 0, dpr: 1 }
   };
@@ -58,6 +58,7 @@
       boulderFact: "Los líquenes también pueden crecer sobre las piedras y expandirse como raíces. Sobre ellas, también pueden morir.",
       rockFact: "En algunas fuentes termales, el agua deposita carbonato de calcio y forma travertino. Capa a capa, esta roca construye bordes, pequeñas cuencas y terrazas: un paisaje que sigue creciendo.",
       rockFactLabel: "Un texto sobre las piedras",
+      communityFactLabel: "El mensaje de este elemento",
       drawingFact: "La hoja de una planta, en el mundo de un caballito de mar.",
       drawingFactLabel: "Un texto sobre el dibujo",
       bubbleFact: "Algo así como una burbuja. La sensación de morder un gajito de granada, cuando explota, fucsia, adentro de la boca.",
@@ -69,8 +70,8 @@
       colors: "Colores", pink: "Rosa", violet: "Violeta", yellow: "Amarillo",
       coral: "Terracota", green: "Verde", chalk: "Tiza", size: "Grosor", sizeLabel: "Grosor del trazo",
       undo: "Deshacer", redo: "Rehacer", clear: "Clear", clearLabel: "Borrar todo y empezar de cero", save: "Guardar",
-      startHint: "Tocá una parte del árbol para explorar sus detalles.", startLabel: "Tocá una parte del árbol para explorar sus detalles",
-      develop: "DEVELOP YOUR OWN ÑIRE", backTree: "Volver al árbol", detailLabel: "Detalle del árbol", detailHint: "Arrastrá para recorrer. Acercá para descubrir.", zoomIn: "Acercar", zoomOut: "Alejar", locatorLabel: "Ubicar otra parte del árbol", detailKeyboard: "Tocá la roca, el dibujo, las burbujas o los tallos y las raíces de cristal para descubrir un texto en un círculo. Enter o espacio abren o cierran el texto al explorar la roca, el dibujo, las burbujas o los tallos y las raíces de cristal. Arrastrá o usá las flechas para recorrer. Acercá con +, la rueda o dos dedos. Escape vuelve al árbol completo.", detailOpened: "Detalle del universo. Tocá la roca, el dibujo, las burbujas o los tallos y las raíces de cristal para descubrir un texto, o elegí DEVELOP YOUR OWN ÑIRE para crear.", pieceStarted: "Lienzo listo. Elegí una pintura o agregá tus textos y fotos para crear tu propia pieza.",
+      startHint: "Acercá y alejá con el trackpad o con dos dedos. Con zoom, arrastrá para recorrer el árbol. Tocá una parte para explorarla.", startLabel: "Árbol 3D: usá el trackpad para acercarte; con zoom, arrastrá para recorrer. Tocá una parte para explorarla",
+      develop: "SUMÁ TU ELEMENTO AL ÑIRE", backTree: "Volver al árbol", detailLabel: "Detalle del árbol", detailHint: "Arrastrá para recorrer. Acercá con el trackpad.", zoomIn: "Acercar", zoomOut: "Alejar", locatorLabel: "Ubicar otra parte del árbol", detailKeyboard: "Tocá la roca, el dibujo, las burbujas o los tallos y las raíces de cristal para descubrir un texto en un círculo. Enter o espacio abren o cierran el texto al explorar la roca, el dibujo, las burbujas o los tallos y las raíces de cristal. Arrastrá o usá las flechas para recorrer. Acercá y alejá con el trackpad o con dos dedos. También podés usar + y − en el teclado. Escape vuelve al árbol completo.", detailOpened: "Detalle del universo. Tocá la roca, el dibujo, las burbujas o los tallos y las raíces de cristal para descubrir un texto, o sumá tu elemento al ñire.", pieceStarted: "Lienzo listo. Elegí una pintura o agregá tus textos y fotos para crear tu propia pieza.",
       note: "Un árbol. Infinitos universos.",
       canvas: "Lienzo para crear tu universo",
       keyboard: "Con el lienzo enfocado, usá las flechas para moverte y espacio para empezar o terminar un trazo. Deshacé con Control o Comando y Z.",
@@ -91,6 +92,7 @@
       boulderFact: "Lichens can also grow on stones and spread like roots. On those stones, they can also die.",
       rockFact: "In some hot springs, water deposits calcium carbonate, forming travertine. Layer by layer, this rock builds rims, small basins and terraces: a landscape that keeps growing.",
       rockFactLabel: "A reflection on stones",
+      communityFactLabel: "This element’s message",
       drawingFact: "A plant’s leaf, in the world of a seahorse.",
       drawingFactLabel: "A reflection on the drawing",
       bubbleFact: "Something like a bubble. The feeling of biting into a pomegranate seed as it bursts, fuchsia, inside your mouth.",
@@ -102,8 +104,8 @@
       colors: "Colors", pink: "Pink", violet: "Violet", yellow: "Yellow",
       coral: "Terracotta", green: "Green", chalk: "Chalk", size: "Size", sizeLabel: "Stroke size",
       undo: "Undo", redo: "Redo", clear: "Clear", clearLabel: "Clear canvas and start again", save: "Save",
-      startHint: "Touch a part of the tree to explore its details.", startLabel: "Touch a part of the tree to explore its details",
-      develop: "DEVELOP YOUR OWN ÑIRE", backTree: "Back to the tree", detailLabel: "Tree close-up", detailHint: "Drag to explore. Zoom in to discover.", zoomIn: "Zoom in", zoomOut: "Zoom out", locatorLabel: "Locate another part of the tree", detailKeyboard: "Tap the rock, the drawing, the bubbles or the crystal stems and roots to discover a reflection inside a circle. Enter or space opens or closes the reflection while exploring the rock, the drawing, the bubbles or the crystal stems and roots. Drag or use the arrow keys to explore. Zoom with +, the wheel or two fingers. Escape returns to the whole tree.", detailOpened: "Universe close-up. Tap the rock, the drawing, the bubbles or the crystal stems and roots to discover a reflection, or choose DEVELOP YOUR OWN ÑIRE to create.", pieceStarted: "Canvas ready. Choose a paint or add your words and photos to create your own piece.",
+      startHint: "Zoom with your trackpad or two fingers. Once zoomed in, drag to explore the tree. Touch a part to explore it.", startLabel: "3D tree: zoom with your trackpad; once zoomed in, drag to explore. Touch a part to explore it",
+      develop: "ADD YOUR ELEMENT TO THE ÑIRE", backTree: "Back to the tree", detailLabel: "Tree close-up", detailHint: "Drag to explore. Zoom in with your trackpad.", zoomIn: "Zoom in", zoomOut: "Zoom out", locatorLabel: "Locate another part of the tree", detailKeyboard: "Tap the rock, the drawing, the bubbles or the crystal stems and roots to discover a reflection inside a circle. Enter or space opens or closes the reflection while exploring the rock, the drawing, the bubbles or the crystal stems and roots. Drag or use the arrow keys to explore. Zoom in and out with your trackpad or two fingers. You can also use + and − on the keyboard. Escape returns to the whole tree.", detailOpened: "Universe close-up. Tap the rock, the drawing, the bubbles or the crystal stems and roots to discover a reflection, or add your own element to the ñire.", pieceStarted: "Canvas ready. Choose a paint or add your words and photos to create your own piece.",
       note: "One tree. Infinite universes.",
       canvas: "Canvas for creating your universe",
       keyboard: "Focus the canvas, use the arrow keys to move, and press space to start or finish a stroke. Undo with Control or Command and Z.",
@@ -124,11 +126,9 @@
     });
     document.querySelectorAll("[data-nire-label]").forEach((node) => {
       node.setAttribute("aria-label", t(node.dataset.nireLabel));
-      if (node.tagName === "BUTTON") node.title = t(node.dataset.nireLabel);
     });
     canvas.setAttribute("aria-label", t("canvas"));
     document.querySelectorAll("[data-brush]").forEach((button) => {
-      button.title = t(button.dataset.brush);
       button.setAttribute("aria-label", t(button.dataset.brush));
     });
     syncRotation();
@@ -140,19 +140,17 @@
     syncHold();
   }
   function syncRotation() {
-    rotation.hidden = !scene;
+    rotation.hidden = !scene||!state.started;
+    treeRotation.hidden = !scene||state.started||state.detail||state.entering||state.contributing;
     const enabled = scene && scene.enabled();
-    rotation.setAttribute("aria-pressed", String(Boolean(enabled)));
-    rotation.setAttribute("aria-label", t(enabled ? "pauseRotation" : "resumeRotation"));
-    rotation.title = t(enabled ? "pauseRotation" : "resumeRotation");
-    treeRotation.hidden=!scene||state.started||state.detail;
-    treeRotation.setAttribute("aria-pressed",String(Boolean(enabled)));
-    treeRotation.setAttribute("aria-label",t(enabled?"pauseRotation":"resumeRotation"));
-    treeRotation.title=t(enabled?"pauseRotation":"resumeRotation");
+    [rotation,treeRotation].forEach(button=>{
+      button.setAttribute("aria-pressed", String(Boolean(enabled)));
+      button.setAttribute("aria-label", t(enabled ? "pauseRotation" : "resumeRotation"));
+    });
   }
+  treeRotation.addEventListener("click", () => { if(scene)scene.setEnabled(!scene.enabled()); });
   rotation.addEventListener("click", () => { if (scene) { scene.setEnabled(!scene.enabled()); syncRotation(); } });
   rotation.addEventListener("click", () => { if (colorPicker) colorPicker.close(false); });
-  treeRotation.addEventListener("click",()=>{if(scene){scene.setEnabled(!scene.enabled());syncRotation();}});
   document.addEventListener("nire-motion-change", syncRotation);
   new MutationObserver(localize).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
   localize();
@@ -319,7 +317,7 @@
   }
   function scheduleView() { if (!frame) frame = requestAnimationFrame(renderView); }
   function syncHold() {
-    if (scene) scene.hold(Boolean(state.entering || state.detail || state.stroke || state.keyboard || state.pointer !== null || volume && volume.holdsMotion() || collage && collage.holdsMotion() || colorPicker && colorPicker.isOpen()));
+    if (scene) scene.hold(Boolean(state.contributing || state.entering || state.detail || state.stroke || state.keyboard || state.pointer !== null || volume && volume.holdsMotion() || collage && collage.holdsMotion() || colorPicker && colorPicker.isOpen()));
   }
   function resize() {
     const rect = canvas.getBoundingClientRect();
@@ -510,13 +508,29 @@
     view: () => state.view, scene: () => scene,
     pointAt: (x, y) => pointAt(x, y, .65)
   }) : null;
+  const community=window.createNireCommunity?window.createNireCommunity({
+    scene:()=>scene,
+    enter(){
+      state.contributing=true;state.detail=state.entering=false;
+      entrance?.reset();scene?.resetOverview();
+      introContent.hidden=detailContent.hidden=start.hidden=true;
+      document.body.classList.remove('nire-detail-open');syncRotation();syncHold();
+    },
+    exit(){
+      state.contributing=state.detail=state.entering=false;
+      detailContent.hidden=true;introContent.hidden=start.hidden=false;
+      scene?.resetOverview();syncRotation();syncHold();start.focus({preventScroll:true});
+    }
+  }):null;
   start.addEventListener("pointermove", (event) => {
     if (state.entering || state.started || state.detail) return;
+    if(entrance?.isDragging())return;
     const rect = canvas.getBoundingClientRect();
     const hit = !entrance || entrance.hitTest(event.clientX - rect.left, event.clientY - rect.top, 20);
-    start.style.cursor = hit ? "zoom-in" : "default";
+    start.style.cursor = hit ? "zoom-in" : scene?.overviewZoom()>1 ? "grab" : "default";
   });
   start.addEventListener("click", async (event) => {
+    if(event.detail!==0&&entrance?.consumeClick())return;
     if (state.started || state.entering || state.detail) return;
     if(!scene){develop.click();return;}
     if(!scene.modelVisible())return;
@@ -548,6 +562,7 @@
     develop.disabled = backToTree.disabled = true;
     detailContent.classList.add("is-zooming");
     try { if (entrance) await entrance.close(); } catch (_) { if (entrance) entrance.reset(); }
+    if(scene)scene.resetOverview();
     state.detail = state.entering = false;
     syncRotation();
     detailContent.hidden = true;
@@ -560,10 +575,11 @@
   }
   backToTree.addEventListener("click", returnToTree);
   document.addEventListener("keydown", event => {
-    if (event.key === "Escape" && state.detail) { event.preventDefault(); returnToTree(); }
+    if (event.key === "Escape" && state.detail) { event.preventDefault(); if(!entrance?.dismiss())returnToTree(); }
   });
   develop.addEventListener("click", () => {
     if (state.started || state.entering) return;
+    if(community){community.open();return;}
     state.started = true;
     syncRotation();
     state.detail = false;

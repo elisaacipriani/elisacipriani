@@ -7,7 +7,7 @@
   function update(){
     root.dataset.nireTheme=dark?'dark':'light';
     const en=root.lang==='en',label=en?(dark?'Use a light background':'Use a black background'):(dark?'Cambiar a fondo claro':'Cambiar a fondo negro');
-    if(button){button.setAttribute('aria-label',label);button.title=label;button.setAttribute('aria-pressed',String(dark));}
+    if(button){button.setAttribute('aria-label',label);button.removeAttribute('title');button.setAttribute('aria-pressed',String(dark));}
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content',background());
     const color=document.getElementById('nire-text-color');
     if(color&&['#30392f','#f3efe9'].includes(color.value))color.value=dark?'#f3efe9':'#30392f';

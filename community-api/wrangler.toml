@@ -1,0 +1,12 @@
+name = "nire-community"
+main = "worker.mjs"
+compatibility_date = "2026-10-28"
+
+[vars]
+ALLOWED_ORIGINS = "https://elisacipriani.xyz,https://www.elisacipriani.xyz,https://elisaacipriani.github.io"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "nire-community"
+# Replace after creating the database. Deploy intentionally fails until configured.
+database_id = "REPLACE_WITH_DATABASE_ID"

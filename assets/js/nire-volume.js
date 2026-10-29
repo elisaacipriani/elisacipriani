@@ -112,9 +112,9 @@
     function localize(){
       language=document.documentElement.lang==="en"?"en":"es";
       document.querySelectorAll("[data-volume-copy]").forEach(n=>n.textContent=t(n.dataset.volumeCopy));
-      document.querySelectorAll("[data-volume-label]").forEach(n=>{n.setAttribute("aria-label",t(n.dataset.volumeLabel));n.title=t(n.dataset.volumeLabel);});
+      document.querySelectorAll("[data-volume-label]").forEach(n=>{n.setAttribute("aria-label",t(n.dataset.volumeLabel));});
       output.textContent=`${depth.value}%`;tool.disabled=!host.supported();
-      if(!host.supported())tool.title=t("unsupported");
+      if(!host.supported())tool.setAttribute("aria-label",t("unsupported"));
     }
     localize();new MutationObserver(localize).observe(document.documentElement,{attributes:true,attributeFilter:["lang"]});
     function syncSelection(){

@@ -59,8 +59,7 @@
       hexInput.value = hex.toUpperCase();
       hexInput.removeAttribute("aria-invalid");
       message.textContent = "";
-      tool.title = `${t("chooseColor")} · ${hex.toUpperCase()}`;
-      tool.setAttribute("aria-label", tool.title);
+      tool.setAttribute("aria-label", `${t("chooseColor")} · ${hex.toUpperCase()}`);
       presets.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.color === hex)));
     }
     function emit(commit) {
@@ -72,7 +71,6 @@
       document.querySelectorAll("[data-picker-copy]").forEach((node) => { node.textContent = t(node.dataset.pickerCopy); });
       document.querySelectorAll("[data-picker-label]").forEach((node) => {
         node.setAttribute("aria-label", t(node.dataset.pickerLabel));
-        if (node.tagName === "BUTTON") node.title = t(node.dataset.pickerLabel);
       });
       render();
     }

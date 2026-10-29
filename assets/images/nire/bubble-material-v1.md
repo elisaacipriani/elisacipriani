@@ -1,6 +1,6 @@
 # Burbujas coral
 
-Method: built-in image_gen, new generation of a material texture. The user’s photograph guides the salmon-coral colour and translucent fruit-skin surface. The spheres retain the positions and radii of the earlier three clusters and are rendered as actual 3D spheres.
+Method: built-in image_gen, new generation of a material texture. The user’s photograph guides the salmon-coral colour and translucent fruit-skin surface. The original texture is unchanged. The current aril geometry and optical interior are documented in `arils-v1.md`; both the large clusters and the miniature source marks use this same coral pigment.
 
 Asset: `bubble-skin-v1.png`.
 

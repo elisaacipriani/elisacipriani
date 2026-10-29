@@ -56,7 +56,6 @@
       document.querySelectorAll("[data-collage-copy]").forEach((node) => { node.textContent = t(node.dataset.collageCopy); });
       document.querySelectorAll("[data-collage-label]").forEach((node) => {
         node.setAttribute("aria-label", t(node.dataset.collageLabel));
-        if (node.tagName === "BUTTON") node.title = t(node.dataset.collageLabel);
       });
       document.querySelectorAll("[data-collage-placeholder]").forEach((node) => { node.placeholder = t(node.dataset.collagePlaceholder); });
       $("nire-add-text").textContent = t(selected()?.kind === "text" ? "updateText" : "addText");
@@ -237,7 +236,6 @@
       const button = document.createElement("button");
       button.type = "button";
       button.className = "nire-photo-thumbnail";
-      button.title = asset.name;
       button.setAttribute("aria-label", asset.name);
       const image = new Image();
       image.src = asset.thumbnail;

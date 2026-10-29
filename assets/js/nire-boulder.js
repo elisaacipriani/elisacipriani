@@ -49,10 +49,17 @@
         float fill=max(0.0,dot(n,normalize(vec3(.6,.1,-.7))));
         float sky=max(0.0,n.y*.5+.5);
         float crust=smoothstep(-.20,.27,vLocal.y-vLocal.x*.5);
-        vec3 bare=mix(vec3(.10,.105,.098),map*.55,.50);
+        // Keep the photographed relief and mineral grain, with a cooler grey
+        // palette. Only the saturated olive growth becomes pale aqua lichen.
+        float saturation=(max(max(map.r,map.g),map.b)-min(min(map.r,map.g),map.b))/max(max(max(map.r,map.g),map.b),.001);
+        float green=smoothstep(.16,.36,saturation)*smoothstep(.86,.98,map.g/max(map.r,.001))*smoothstep(.025,.10,map.g-map.b);
+        vec3 mineral=mix(vec3(luminance)*vec3(.95,1.0,1.08),map,.06);
+        vec3 aqua=vec3(.78,1.04,1.03)*(.32+.85*luminance);
+        map=mix(mineral,aqua,green);
+        vec3 bare=mix(vec3(.098,.103,.108),map*.55,.50);
         vec3 albedo=mix(bare,map,crust*.87+.07);
         float weather=smoothstep(.05,.4,-vLocal.x)*smoothstep(-.4,-.04,vLocal.y);
-        albedo=mix(albedo,albedo*vec3(1.30,1.18,.91),weather*.6);
+        albedo=mix(albedo,albedo*vec3(.99,1.0,1.025),weather*.6);
         vec3 carbon=mix(vec3(.012,.014,.013),lichen.rgb*.50,.65);
         albedo=mix(albedo,carbon,colony*.97);
         vec3 linear=pow(max(albedo,vec3(.0)),vec3(2.2));

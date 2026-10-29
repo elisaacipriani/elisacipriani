@@ -4,3 +4,6 @@ Thumbs.db
 .vscode/
 *.log
 __pycache__/
+.nire-data/
+community-api/.wrangler/
+community-api/node_modules/

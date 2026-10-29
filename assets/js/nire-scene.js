@@ -12,26 +12,28 @@
     const maxRenderSize = gl.getParameter(gl.MAX_RENDERBUFFER_SIZE);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     let enabled = !reduced.matches;
-    let treeMotion = true;
+    let treeMotion = !reduced.matches;
     let held = false;
+    let interacting = false;
     let visible = !document.hidden;
     let dirty = true;
     let inkDirty = true;
     let treeVisible = false;
     let modelReveal = 0;
     let universeReveal = 0;
-    let treeAngle = .045;
+    const initialTreeAngle = .045, initialTreeTilt = -.012;
     const turnDuration = 30;
+    let treeAngle = initialTreeAngle;
+    const overview = { zoom: 1, x: 0, y: 0 };
+    let returningToTree = null;
     let time = 0;
     let previous = 0;
-    let angle = .045;
-    let tilt = -.012;
-    let lastFrame = 0;
+    let angle = initialTreeAngle;
+    let tilt = initialTreeTilt;
     let raf = 0;
     let view = { width: 1, height: 1, scale: 1, cx: 0, cy: 0, dpr: 1 };
     let baseView = { ...view };
     let focus = null;
-    let focusAngle = 0, focusTilt = 0, focusStartAngle = 0, focusStartTilt = 0;
     const inspection = { x: 0, y: 0, targetX: 0, targetY: 0 };
 
     const vertexSource = `
@@ -177,6 +179,9 @@
       return treeVisible&&focus&&focus.point.feature!=='boulder'&&universe&&universe.ready()?focus.progress*universeReveal*Math.max(0,Math.min(1,(focus.zoom-2)/2)):0;
     }
     const sculpture = window.createNireSculpture ? window.createNireSculpture(gl) : null;
+    const elements=window.createNireElements?window.createNireElements(gl,count=>{
+      canvas.dataset.communityElements=String(count);dirty=true;request();
+    }):null;
     if (!sculpture) texture(4);
     if(filaments)filaments.load();
     if(materials)materials.load();
@@ -242,28 +247,30 @@
         if(materialStrength>0)materials.draw(view,world,angle,tilt,materialStrength,inspection,discovery,botany?.waxTexture());
         if(discovery>0)universe.draw(view,world,angle,tilt,sculpt*discovery,inspection);
         if(botany)botany.draw(view,world,angle,tilt,sculpt);
+        if(elements)elements.draw(view,world,angle,tilt,dark);
       }
       if(!treeVisible&&sculpture)sculpture.draw(view,world,angle,tilt);
       canvas.dataset.renderMode=treeVisible?(modelReveal>=1?'model':'loading'):'surface';
       canvas.dataset.universe=discovery>.99?'revealed':discovery>0?'revealing':'hidden';
       dirty = false;
     }
-    function inspectionMoving() {
-      return focus && !reduced.matches && Math.abs(inspection.x-inspection.targetX)+Math.abs(inspection.y-inspection.targetY) > .001;
-    }
     function revealPending(){return treeVisible&&modelReady()&&modelReveal<1;}
     function universePending(){return treeVisible&&focus&&universe&&universe.ready()&&universeReveal<1;}
-    function orbitMoving(){return !held&&(treeVisible?treeMotion&&modelReady()&&modelReveal>=1:enabled);}
+    function orbitMoving(){
+      if(held||interacting)return false;
+      return treeVisible ? treeMotion&&!focus&&modelReady()&&modelReveal>=1 : enabled;
+    }
     function tick(now) {
       raf = 0;
-      if (visible && now - lastFrame >= 32) {
+      if (visible) {
         const elapsed = previous ? Math.min((now - previous) / 1000, .15) : 0;
         if(revealPending()){modelReveal=Math.min(1,modelReveal+elapsed/.8);dirty=true;}
         if(universePending()){universeReveal=Math.min(1,universeReveal+elapsed/.65);dirty=true;}
         if (orbitMoving()) {
           if(treeVisible){
-            treeAngle+=elapsed*Math.PI*2/turnDuration;
-            angle=treeAngle;tilt=-.012;
+            treeAngle=(treeAngle+elapsed*Math.PI*2/turnDuration)%(Math.PI*2);
+            angle=treeAngle;
+            tilt=initialTreeTilt;
           }else{
             time+=elapsed;
             angle=.08+Math.sin(time*.23)*.36;
@@ -271,19 +278,10 @@
           }
           dirty = true;
         }
-        if (inspectionMoving()) {
-          inspection.x += (inspection.targetX-inspection.x)*.12;
-          inspection.y += (inspection.targetY-inspection.y)*.12;
-          angle = focusAngle + inspection.x*.035*focus.progress;
-          tilt = focusTilt + inspection.y*.02*focus.progress;
-          applyFocus(); dirty = true;
-          document.dispatchEvent(new Event("nire-inspection-change"));
-        }
         previous = now;
-        lastFrame = now;
         if (dirty) draw();
       }
-      if (visible && (orbitMoving() || dirty || inspectionMoving() || revealPending() || universePending())) raf = requestAnimationFrame(tick);
+      if (visible && (orbitMoving() || dirty || revealPending() || universePending())) raf = requestAnimationFrame(tick);
     }
     function request() { if (!raf && visible) raf = requestAnimationFrame(tick); }
     function resize() {
@@ -316,8 +314,8 @@
     }
     function pointAt(x, y) {
       if(treeVisible&&modelReveal>=.5&&focus){
-        // Pan on the camera plane through the selected 3D point. Unlike a
-        // photograph inverse this remains defined when branches face sideways.
+        // Pan on the camera plane through the selected 3D point while
+        // preserving the tree's fixed viewing direction.
         const u=focus.point.x/world.width,v=focus.point.y/world.height;
         const z=focus.point.z===undefined?window.NireTreeForm.depth(u,v):focus.point.z/world.width;
         const px=u-.5,py=(.5-v)*aspect,c=Math.cos(angle),s=Math.sin(angle),ct=Math.cos(tilt),st=Math.sin(tilt);
@@ -384,12 +382,42 @@
       }
       const drawing=artistDrawing&&artistDrawing.pickPoint(view,world,angle,tilt,x,y,Math.min(9,tolerance));
       if(drawing&&(!nearest||drawing.distance<best||(drawing.distance<=best&&drawing.depth>=nearestDepth-.0003))){
+        nearestDepth=drawing.depth;
         const p=drawing.point;nearest={x:(p[0]+.5)*world.width,y:(aspect*.5-p[1])*world.width,z:p[2]*world.width,material:'drawing',feature:'elisaDrawing'};
+      }
+      const element=elements?.pick(x,y,p=>project(p.x/world.width,p.y/world.height,p.z/world.width),view,world,angle,tilt);
+      if(element){
+        const px=element.x/world.width-.5,py=aspect*.5-element.y/world.width,pz=element.z/world.width;
+        const depth=Math.sin(tilt)*py+Math.cos(tilt)*(-Math.sin(angle)*px+Math.cos(angle)*pz);
+        if(!nearest||depth>=nearestDepth-.0003)nearest=element;
       }
       return nearest;
     }
+    function constrainTreeView(camera){
+      // The entry frame is locked. Camera travel grows with magnification,
+      // and contracts back to the original center as the visitor zooms out.
+      camera.scale=Math.max(baseView.scale,camera.scale);
+      const extra=camera.scale/baseView.scale-1;
+      const x=baseView.width*extra/2,y=baseView.height*extra/2;
+      camera.cx=Math.max(baseView.cx-x,Math.min(baseView.cx+x,camera.cx));
+      camera.cy=Math.max(baseView.cy-y,Math.min(baseView.cy+y,camera.cy));
+      return camera;
+    }
+    function overviewView(){
+      if(!treeVisible)return {...baseView};
+      const camera=constrainTreeView({...baseView,scale:baseView.scale*overview.zoom,cx:baseView.cx+overview.x,cy:baseView.cy+overview.y});
+      overview.x=camera.cx-baseView.cx;overview.y=camera.cy-baseView.cy;
+      return camera;
+    }
+    function resetOverview(){
+      overview.zoom=1;overview.x=overview.y=0;
+      treeAngle=angle=initialTreeAngle;tilt=initialTreeTilt;
+      returningToTree=focus=null;
+      inspection.x=inspection.y=inspection.targetX=inspection.targetY=0;
+      previous=0;applyFocus();dirty=true;request();
+    }
     function applyFocus() {
-      view = { ...baseView };
+      view = overviewView();
       if (!focus) return;
       const anchor = project(focus.point.x / world.width, focus.point.y / world.height,focus.point.z===undefined?undefined:focus.point.z/world.width);
       const x = anchor.x + (view.width / 2 - anchor.x) * focus.progress;
@@ -397,12 +425,15 @@
       view.cx = (view.cx - anchor.x) * focus.zoom + x;
       view.cy = (view.cy - anchor.y) * focus.zoom + y;
       view.scale *= focus.zoom;
+      constrainTreeView(view);
     }
     document.querySelector(".nire-studio").prepend(canvas);
     document.body.classList.add("has-nire-scene");
     document.addEventListener("visibilitychange", () => { visible = !document.hidden; previous = 0; request(); });
     document.addEventListener('nire-appearance-change',()=>{dirty=true;request();});
-    reduced.addEventListener("change", (event) => { if (event.matches&&!treeVisible) api.setEnabled(false); });
+    reduced.addEventListener("change", (event) => {
+      if(event.matches){enabled=treeMotion=false;previous=0;document.dispatchEvent(new Event("nire-motion-change"));request();}
+    });
     canvas.addEventListener("webglcontextlost", (event) => {
       event.preventDefault();
       visible = false;
@@ -412,33 +443,55 @@
     });
     const api = {
       resize, pointAt, pickPoint,
-      featureInfo: name=>name==='boulder'&&boulder&&boulder.ready()?boulder.feature(baseView,world,angle,tilt):name==='elisaDrawing'&&artistDrawing&&artistDrawing.ready()?artistDrawing.feature(baseView,world,angle,tilt):name==='poppyTear'&&botany?botany.crystalFeature(baseView,world,angle,tilt):null,
+      setElements(value){elements?.set(value);},
+      previewElement(value){elements?.setPreview(value);},
+      featureInfo(name){
+        if(name.startsWith('community:')){
+          const info=elements?.feature(name);if(!info)return null;
+          const camera=overviewView(),p=info.point,px=p.x/world.width-.5,py=aspect*.5-p.y/world.width,pz=p.z/world.width;
+          const rx=Math.cos(angle)*px+Math.sin(angle)*pz,rz=-Math.sin(angle)*px+Math.cos(angle)*pz;
+          const ry=Math.cos(tilt)*py-Math.sin(tilt)*rz,depth=Math.sin(tilt)*py+Math.cos(tilt)*rz,factor=camera.scale*world.width*4/(4-depth),size=info.size*camera.scale*4/(4-depth);
+          return {...info,zoom:Math.max(1.4,Math.min(80,Math.min(camera.width,camera.height)*.62/size)),screen:{x:camera.cx+rx*factor,y:camera.cy-ry*factor,width:size,height:size}};
+        }
+        const info=name==='boulder'&&boulder&&boulder.ready()?boulder.feature(baseView,world,angle,tilt):name==='elisaDrawing'&&artistDrawing&&artistDrawing.ready()?artistDrawing.feature(baseView,world,angle,tilt):name==='poppyTear'&&botany?botany.crystalFeature(baseView,world,angle,tilt):null;
+        if(!info)return null;
+        const screen={...info.screen,x:baseView.cx+(info.screen.x-baseView.cx)*overview.zoom+overview.x,y:baseView.cy+(info.screen.y-baseView.cy)*overview.zoom+overview.y};
+        for(const key of ['width','height','scale'])if(Number.isFinite(screen[key]))screen[key]*=overview.zoom;
+        return {...info,zoom:info.zoom/overview.zoom,screen};
+      },
       modelVisible:()=>treeVisible&&modelReveal>=.5,
-      baseView: () => ({ ...baseView }),
+      baseView: overviewView,
+      overviewZoom:()=>overview.zoom,
+      resetOverview,
+      beginReturnToTree(){
+        // Return along the shorter arc, always to the original entry pose.
+        const delta=Math.atan2(Math.sin(angle-initialTreeAngle),Math.cos(angle-initialTreeAngle));
+        returningToTree={...overview,angle:initialTreeAngle+delta};
+      },
+      zoomOverview(factor,x,y){
+        if(!treeVisible||focus)return;
+        const old=overviewView(),next=Math.max(1,Math.min(32,overview.zoom*factor)),ratio=next/overview.zoom;
+        overview.x=x+(old.cx-x)*ratio-baseView.cx;overview.y=y+(old.cy-y)*ratio-baseView.cy;overview.zoom=next;
+        applyFocus();dirty=true;request();
+      },
+      panOverview(x,y){
+        if(!treeVisible||focus||overview.zoom<=1)return;
+        overview.x+=x;overview.y+=y;applyFocus();dirty=true;request();
+      },
+      interact(value){interacting=Boolean(value);previous=0;request();},
       setFocus(point, zoom, progress) {
         if(point&&point.feature!=='boulder'&&universe)universe.load();
-        if (point && !focus) {
-          focusStartAngle=angle;focusStartTilt=tilt;
-          // Keep the selected part in the same spatial orientation when zooming.
-          focusAngle=angle;focusTilt=tilt;
-        }
-        if (!point && focus) {
-          angle = treeAngle; tilt = -.012;
-          inspection.x = inspection.y = inspection.targetX = inspection.targetY = 0;
-        }
+        if(!point&&returningToTree)resetOverview();
         focus = point ? { point, zoom, progress } : null;
-        if (focus) {
-          angle = focusStartAngle+(focusAngle-focusStartAngle)*progress+inspection.x*.035*progress;
-          tilt = focusStartTilt+(focusTilt-focusStartTilt)*progress+inspection.y*.02*progress;
+        if(treeVisible){
+          angle=focus&&returningToTree ? initialTreeAngle+(returningToTree.angle-initialTreeAngle)*progress : treeAngle;
+          tilt=initialTreeTilt;
         }
-        applyFocus(); dirty = true; draw();
-      },
-      inspect(x, y) {
-        if (!focus || reduced.matches) return;
-        if (x === null) { inspection.targetX = inspection.x; inspection.targetY = inspection.y; return; }
-        inspection.targetX = Math.max(-1, Math.min(1, x));
-        inspection.targetY = Math.max(-1, Math.min(1, y));
-        request();
+        if(focus&&returningToTree){
+          overview.zoom=Math.exp(Math.log(returningToTree.zoom)*progress);
+          overview.x=returningToTree.x*progress;overview.y=returningToTree.y*progress;
+        }
+        applyFocus(); dirty = true; request();
       },
       hasSculpture: () => Boolean(sculpture),
       setSculpture(model) {
@@ -450,13 +503,18 @@
       maxTextureSize: () => gl.getParameter(gl.MAX_TEXTURE_SIZE),
       projectPoint: (point) => project(point.x / world.width, point.y / world.height,point.z===undefined?undefined:point.z/world.width),
       enabled: () => treeVisible?treeMotion:enabled,
-      setEnabled(value) { if(treeVisible)treeMotion=Boolean(value);else enabled=Boolean(value);previous = 0; document.dispatchEvent(new Event("nire-motion-change")); request(); },
+      setEnabled(value) {
+        if(treeVisible)treeMotion=Boolean(value);else enabled=Boolean(value);
+        previous=0;document.dispatchEvent(new Event("nire-motion-change"));request();
+      },
       hold(value) { held = value; previous = 0; request(); },
       update() { inkDirty = dirty = true; request(); },
       flush() { if (dirty) draw(); },
       setTreeVisible(value) { if (treeVisible !== value) {
         treeVisible = value;
-        if(!value){angle=.08;tilt=-.025;time=0;}
+        if(value){treeAngle=angle=initialTreeAngle;tilt=initialTreeTilt;}
+        else{angle=.08;tilt=-.025;time=0;}
+        applyFocus();
         dirty = true;previous=0;document.dispatchEvent(new Event("nire-motion-change"));request();
       } },
       copyTo(ctx) { draw(2); ctx.drawImage(canvas, 0, 0, view.width, view.height); draw(); },
