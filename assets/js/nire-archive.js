@@ -72,6 +72,15 @@
   const isBrowsing=()=>route==='index'||route==='object';
   const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
   function stopObjectMedia(){objectSequence?.destroy();objectSequence=null;}
+  function paperChannelTable(whitePoint){
+    // Normalize the paper color, then roll off highlights before the channel clips.
+    const knee=0.83,headroom=1-knee,steps=32;
+    return Array.from({length:steps+1},(_,step)=>{
+      const level=step/steps*255/whitePoint;
+      const tone=level<=knee?level:1-headroom*Math.exp((knee-level)/headroom);
+      return tone.toFixed(5);
+    }).join(' ');
+  }
   function renderObjectSequence(item,display,content){
     const figure=node('figure','archive-object-sequence archive-object-hero-image'),viewport=node('div','archive-sequence-viewport'),toggle=node('button','archive-sequence-toggle');
     const sources=item.sequence,interval=Math.max(250,Math.min(3000,Number(item.sequenceInterval)||700));
@@ -84,7 +93,7 @@
       const white=item.sequenceWhitePoints?.[index];
       if(!white)return;
       const channels=document.querySelectorAll('#archive-paper-white feComponentTransfer > *');
-      channels.forEach((channel,i)=>channel.setAttribute('slope',(255/white[i]).toFixed(4)));
+      channels.forEach((channel,i)=>channel.setAttribute('tableValues',paperChannelTable(white[i])));
     }
     balanceFrame(0);
     const first=frame(0);first.fetchPriority='high';viewport.append(first);
