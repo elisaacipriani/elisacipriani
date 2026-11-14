@@ -8,12 +8,12 @@
   <link rel="canonical" href="https://elisacipriani.xyz/coleccion/">
   <title>ELISA CIPRIANI</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=11">
-  <link rel="stylesheet" href="/assets/css/nire-archive.css?v=177">
+  <link rel="stylesheet" href="/assets/css/nire-archive.css?v=179">
   <link rel="stylesheet" href="/assets/css/nire-nav.css?v=1">
   <script src="/assets/js/language.js?v=85" defer></script>
   <script src="/assets/js/nire-community-config.js?v=1" defer></script>
-  <script src="/assets/js/nire-archive-data.js?v=178" defer></script>
-  <script src="/assets/js/nire-archive.js?v=177" defer></script>
+  <script src="/assets/js/nire-archive-data.js?v=179" defer></script>
+  <script src="/assets/js/nire-archive.js?v=179" defer></script>
 </head>
 <body class="archive-page" data-archive-view="home">
   <a class="archive-skip" href="#archive-main" data-archive-copy="skip">Ir a la colección</a>
@@ -43,6 +43,11 @@
         <feComponentTransfer in="monochrome-grain" result="subtle-grain"><feFuncA type="linear" slope="0.16"/></feComponentTransfer>
         <feBlend in="film-tones" in2="subtle-grain" mode="soft-light" result="print"/>
         <feComposite in="print" in2="SourceGraphic" operator="in"/>
+      </filter>
+      <filter id="archive-paper-white" color-interpolation-filters="sRGB">
+        <feComponentTransfer>
+          <feFuncR type="linear" slope="1"/><feFuncG type="linear" slope="1"/><feFuncB type="linear" slope="1"/>
+        </feComponentTransfer>
       </filter>
     </defs>
   </svg>
@@ -111,3 +116,4 @@
   <div id="archive-announcement" class="sr-only" aria-live="polite"></div>
 </body>
 </html>
+

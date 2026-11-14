@@ -92,7 +92,6 @@ body[data-archive-view=home] .archive-footer{display:none}
 .archive-object-drawing figcaption{font-size:10px;line-height:1.4;color:var(--muted);margin-top:13px}
 .archive-object-writing{min-width:0}
 .archive-project-paragraph{font-size:18px;line-height:1.5}
-.archive-project-paragraph a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
 .archive-project-paragraph+.archive-project-paragraph{margin-top:22px}
 .archive-project-section{margin-top:32px;font-size:18px;line-height:1.5}
 .archive-project-section h3{font-size:inherit;line-height:inherit;font-weight:400;margin-bottom:10px}
@@ -150,7 +149,7 @@ body[data-archive-view=home] .archive-footer{display:none}
 body.archive-catalogue-open{display:grid;grid-template-rows:auto minmax(0,1fr) auto;height:100svh;overflow:hidden}
 .archive-catalogue-open #archive-main{min-height:0;overflow:hidden}
 .archive-catalogue-open .archive-footer{padding-top:10px;padding-bottom:12px}
-.archive-catalogue-open .archive-index{height:100%;min-height:0}
+.archive-catalogue-open .archive-index{height:100%;min-height:0;padding-block:0}
 .archive-catalogue-open .archive-index .archive-index-layout{height:100%;min-height:0}
 .archive-index .archive-alphabet{grid-column:1;grid-row:1;position:static;display:grid;grid-auto-rows:minmax(0,1fr);justify-items:center;align-items:stretch;max-height:none;height:100%;padding:0;overflow:visible}
 .archive-index .archive-alphabet button{width:100%;min-width:0;min-height:0;padding:0 2px;font:400 min(24px,calc((100svh - var(--header) - 100px)/32))/1 Haas,'Helvetica Neue',Helvetica,Arial,sans-serif;text-align:center;border-radius:0;color:var(--ink)}
@@ -306,8 +305,9 @@ body.archive-catalogue-open{display:grid;grid-template-rows:auto minmax(0,1fr) a
 /* A full-screen alphabet. Each glyph is a doorway into an existing piece. */
 .archive-index .archive-index-layout:not(.has-preview){display:block;position:relative;height:100%;min-height:0}
 .archive-index .archive-index-layout:not(.has-preview)>.archive-alphabet,.archive-index .archive-index-layout:not(.has-preview)>.archive-index-aside{display:none}
-.archive-map-actions{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:26px;z-index:2;height:30px}
+.archive-map-actions{pointer-events:none;position:absolute;top:0;left:0;right:0;display:flex;align-items:center;gap:26px;z-index:2;height:30px}
 .archive-map-actions .archive-back,.archive-map-actions .archive-text-link{font-size:inherit;text-transform:inherit}
+.archive-map-actions a{pointer-events:auto}
 .archive-map-actions .archive-back{margin-right:auto}
 .archive-catalogue-open .archive-footer{text-transform:uppercase}
 .has-preview>.archive-map-actions{display:none}
@@ -360,7 +360,6 @@ body.archive-catalogue-open{display:grid;grid-template-rows:auto minmax(0,1fr) a
 .archive-index-preview{height:auto}
 .archive-preview-close{top:0;right:var(--edge)}
 .archive-index-preview .archive-object-view.has-media-strip{
- --strip-width:clamp(128px,12vw,184px);
  --strip-height:clamp(172px,16vw,246px);
  display:flex;flex-direction:column;justify-content:center;
  min-height:calc(100svh - var(--header) - 130px);
@@ -385,23 +384,24 @@ body.archive-catalogue-open{display:grid;grid-template-rows:auto minmax(0,1fr) a
 .archive-index-preview .has-media-strip .archive-gallery-track::before,
 .archive-index-preview .has-media-strip .archive-gallery-track::after{content:none}
 .archive-index-preview .has-media-strip .archive-gallery-piece{
- position:relative;flex:0 0 var(--strip-width);width:var(--strip-width);
+ position:relative;flex:0 0 auto;width:auto;
  height:auto;min-width:0;filter:none;
 }
 .archive-gallery-media{
- position:relative;width:100%;height:var(--strip-height);
+ position:relative;width:max-content;height:var(--strip-height);
  transform:scale(1);transform-origin:center;transition:transform .24s ease;
 }
 .archive-index-preview .has-media-strip .archive-gallery-media> :is(img,video,svg),
 .archive-index-preview .has-media-strip .archive-gallery-media>.archive-object-sequence{
- display:block;width:100%;height:100%;max-width:none;max-height:none;
- margin:0;object-fit:cover;
+ display:block;width:auto;height:100%;max-width:none;max-height:none;
+ margin:0;object-fit:contain;
 }
 .archive-index-preview .has-media-strip .is-drawing .archive-gallery-media> :is(img,svg){object-fit:contain}
 #archive-main .archive-gallery-piece:not(.is-drawing) .archive-gallery-media>svg{--archive-image-grade:url('#archive-film-print')}
-.archive-index-preview .has-media-strip .archive-sequence-viewport{height:100%;width:100%;aspect-ratio:auto}
-.archive-index-preview .has-media-strip .archive-sequence-viewport img{object-fit:cover}
+.archive-index-preview .has-media-strip .archive-sequence-viewport{height:100%;width:max-content;aspect-ratio:auto}
+.archive-index-preview .has-media-strip .archive-sequence-viewport img{position:static;display:block;width:auto;height:100%;object-fit:contain}
 .archive-index-preview .has-media-strip .archive-sequence-toggle{bottom:-32px;right:0}
+.archive-sequence-toggle:not(:focus-visible){opacity:0}
 .archive-gallery-piece>figcaption{font:300 10px/1.35 var(--archive-font);margin:16px 0 0;max-width:100%;white-space:normal}
 .archive-gallery-piece>figcaption p+p{margin-top:3px}
 @media(hover:hover){
@@ -430,9 +430,33 @@ body.archive-catalogue-open{display:grid;grid-template-rows:auto minmax(0,1fr) a
  .archive-manifesto-title{font-size:14px;line-height:1.1}
  .archive-manifesto-copy{font-size:15px;line-height:1.18;letter-spacing:0}
  .archive-index-preview .archive-object-view.has-media-strip{
-  --strip-width:128px;--strip-height:172px;
+  --strip-height:min(172px,49vw);
   min-height:calc(100svh - var(--header) - 125px);gap:18px;padding-top:48px;
  }
  .archive-index-preview .has-media-strip .archive-gallery-track{gap:12px}
  .archive-index-preview .has-media-strip :is(.archive-project-paragraph,.archive-project-section){font-size:14px}
+}
+
+
+/* Keep the artwork centered on the page, independently of the reference column. */
+.archive-index-preview .has-media-strip .archive-object-display:has(.archive-reference-rail){
+ position:relative;display:grid;align-items:center;
+}
+.archive-reference-rail{
+ position:absolute;right:var(--edge);display:grid;gap:12px;
+ width:clamp(60px,7vw,96px);
+}
+.archive-reference-rail figure{margin:0}
+.archive-reference-rail img{display:block;width:auto;height:auto;max-width:100%;max-height:calc(var(--strip-height)*.38)}
+.archive-reference-rail figcaption{margin-top:4px;font:300 10px/1.25 var(--archive-font)}
+.archive-poem{margin:20px 0 0;font:inherit}
+.archive-poem p{white-space:pre-line}
+.archive-poem p+p{margin-top:1em}
+#archive-main [data-entry-id="angeles-de-mar"] .archive-sequence-viewport img{filter:url('#archive-paper-white')}
+@media(max-width:550px){
+ .archive-index-preview .has-media-strip .archive-object-display:has(.archive-reference-rail){
+  --strip-height:min(172px,35vw);
+ }
+ .archive-reference-rail{right:2vw;width:14vw;gap:8px}
+ .archive-reference-rail figcaption{font-size:9px}
 }

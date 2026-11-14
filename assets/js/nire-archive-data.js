@@ -65,7 +65,7 @@
         "En 1594, este espacio no solo funcionaba como una sala de estudio médico interactiva para la disección de cadáveres. El anfiteatro se transformaba en una suerte de gabinete de curiosidades y atracción turística abierta al público.",
         "Como se aprecia en la imagen, las gradas circulares se poblaban de esqueletos humanos y de animales colocados en poses dinámicas, muchos de los cuales sostenían banderas con inscripciones latinas que funcionaban como advertencias morales y recordatorios del Memento Mori (recuerda que vas a morir) y el Nosce te ipsum (conócete a ti mismo)."
       ],formatting:[
-        {text:"teatro anatómico de la Universidad de Leiden",tag:"strong",href:leidenSource},
+        {text:"teatro anatómico de la Universidad de Leiden",tag:"strong"},
         {text:"gabinete de curiosidades y atracción turística",tag:"strong"},
         {text:"Memento Mori",tag:"em"},{text:"Nosce te ipsum",tag:"em"}
       ]},
@@ -74,7 +74,7 @@
         "In 1594, this space did not only function as an interactive medical study room for dissecting corpses. The amphitheatre would become a kind of cabinet of curiosities and tourist attraction open to the public.",
         "As can be seen in the image, the circular tiers were filled with human and animal skeletons arranged in dynamic poses, many of which held flags with Latin inscriptions that served as moral warnings and reminders of Memento Mori (remember that you will die) and Nosce te ipsum (know thyself)."
       ],formatting:[
-        {text:"anatomical theatre of Leiden University",tag:"strong",href:leidenSource},
+        {text:"anatomical theatre of Leiden University",tag:"strong"},
         {text:"cabinet of curiosities and tourist attraction",tag:"strong"},
         {text:"Memento Mori",tag:"em"},{text:"Nosce te ipsum",tag:"em"}
       ]}}
@@ -137,17 +137,16 @@
       en:{word:"Fuck Me",title:"Fuck Me",artworkCredit:"Marina Otero",medium:"",imageNote:"",imageAlt:"A photograph of a performance of Fuck Me, with a group of performers onstage and a projection behind them.",tags:["theatre","acting"],paragraphs:["This photo is from the first time I saw Fuck Me, by Marina Otero. Afterwards I saw Love Me and Kill Me. Nothing was like that first time. It made me want to act again."]}}
   );
 
-  const finsterlinLink="https://www.google.com/search?kgmid=%2Fm%2F09wgm8&q=Hermann+Finsterlin";
   window.NireArchiveItems.push(
     {id:"hermann-finsterlin",letter:"H",number:"15",image:root+"archive/hermann-finsterlin.jpg",imageStatus:"photograph",related:[],
       es:{word:"Hermann Finsterlin",title:"Hermann Finsterlin",medium:"",imageNote:"",imageAlt:"Dibujo de Hermann Finsterlin de una arquitectura imaginaria de formas onduladas.",tags:["arquitectura","diseño","facultad"],paragraphs:[
         "Este dibujo es una obra del arquitecto, pintor y escritor alemán Hermann Finsterlin (1887–1973), una figura central del expresionismo arquitectónico de principios del siglo XX.",
         "Fue una de las primeras cosas con las que me crucé en la facultad. Era una idea de boceto para una obra arquitectónica que por motivos obvios finalmente no se llegó a construir. Pero creo que fue mi primer encuentro con el diseño, donde comenzó el amor. Tanto que compartí la obra completa con mi terapeuta."
-      ],formatting:[{text:"Hermann Finsterlin",href:finsterlinLink}]},
+      ]},
       en:{word:"Hermann Finsterlin",title:"Hermann Finsterlin",medium:"",imageNote:"",imageAlt:"A drawing by Hermann Finsterlin of an imaginary architecture with undulating forms.",tags:["architecture","design","university"],paragraphs:[
         "This drawing is a work by the German architect, painter and writer Hermann Finsterlin (1887–1973), a central figure in architectural Expressionism in the early twentieth century.",
         "It was one of the first things I came across at university. It was a sketch idea for an architectural work that, for obvious reasons, was never built. But I think it was my first encounter with design, where the love began. So much so that I shared the complete work with my therapist."
-      ],formatting:[{text:"Hermann Finsterlin",href:finsterlinLink}]}}
+      ]}}
   );
 
   window.NireArchiveItems.push(
@@ -165,7 +164,6 @@
 
   window.NireArchiveItems.push(
     {id:"si-queria",letter:"S",number:"17",image:root+"archive/si-queria/poster.jpg",imageWidth:1280,imageHeight:720,imageStatus:"video",video:root+"archive/si-queria/si-queria.mp4",related:[],
-      photographs:[{image:root+"archive/si-queria.jpg",width:1920,height:1080,es:{alt:"Fotografía de Sí, quería: un vestido blanco con un corazón de tejido en una vitrina con arañas y telarañas."},en:{alt:"A photograph of Sí, quería: a white dress with a woven heart in a glass case with spiders and webs."}}],
       es:{word:"Sí, quería",title:"Sí, quería",artworkCredit:"Joaquín Sánchez",medium:"",imageNote:"",imageAlt:"Video de Sí, quería: un vestido blanco con un corazón de tejido en una vitrina con arañas y telarañas.",tags:["arañas","textil","Malba"],paragraphs:["Sí, quería x Joaquín Sánchez en el Malba. Las arañas estaban vivas. Sacaron la obra por cuestiones medioambientales y las liberaron en el Ecoparque de Palermo Chico."]},
       en:{word:"Sí, quería",title:"Sí, quería",artworkCredit:"Joaquín Sánchez",medium:"",imageNote:"",imageAlt:"A video of Sí, quería: a white dress with a woven heart in a glass case with spiders and webs.",tags:["spiders","textile","Malba"],paragraphs:["Sí, quería by Joaquín Sánchez at Malba. The spiders were alive. They removed the work for environmental reasons and released them in the Ecoparque in Palermo Chico."]}}
   );
@@ -184,7 +182,12 @@
 
   window.NireArchiveItems.push(
     {id:"la-lluvia",letter:"L",number:"20",image:root+"archive/la-lluvia/poster.jpg",imageWidth:1280,imageHeight:720,imageStatus:"video",video:root+"archive/la-lluvia/lluvia.mp4",related:[],
-      photographs:[{image:root+"archive/la-lluvia.jpg",width:564,height:604,es:{alt:"El poema La lluvia, de Jorge Luis Borges, en la imagen original."},en:{alt:"Jorge Luis Borges’s poem La lluvia in the original image."}}],
+      poem:[
+        "Bruscamente la tarde se ha aclarado\nporque ya cae la lluvia minuciosa.\nCae y cayó. La lluvia es una cosa\nque sin duda sucede en el pasado.",
+        "Quien la oye caer ha recobrado\nel tiempo en que la suerte venturosa\nle reveló una flor llamada rosa\ny el curioso color del colorado.",
+        "Esta lluvia que ciega los cristales\nalegrará en perdidos arrabales\nlas negras uvas de una parra en cierto",
+        "patio que ya no existe. La mojada\ntarde me trae la voz, la voz deseada,\nde mi padre que vuelve y que no ha muerto."
+      ],
       es:{word:"Lluvia",title:"La lluvia",artworkCredit:"Jorge Luis Borges",medium:"",imageNote:"",imageAlt:"Video de lluvia sobre un jardín, con árboles, plantas y una pileta.",tags:["poema","lluvia","Buenos Aires"],paragraphs:["Un poema de Borges por todo lo que está lloviendo en Buenos Aires."]},
       en:{word:"Rain",title:"La lluvia",artworkCredit:"Jorge Luis Borges",medium:"",imageNote:"",imageAlt:"A video of rain over a garden with trees, plants and a swimming pool.",tags:["poem","rain","Buenos Aires"],paragraphs:["A poem by Borges because it’s been raining so much in Buenos Aires."]}}
   );
@@ -198,6 +201,14 @@
   window.NireArchiveItems.push(
     {id:"angeles-de-mar",letter:"A",number:"07",image:root+"archive/angeles-de-mar.jpg",imageStatus:"photograph",related:[],
       sequence:[root+"archive/angeles-de-mar.jpg",...Array.from({length:30},(_,i)=>root+"archive/transoceanic/frame-"+String(i+1).padStart(2,"0")+".jpg")],sequenceInterval:700,
+      // RGB of the light background in each source photograph, in sequence order.
+      sequenceWhitePoints:[
+        [246,246,241],[182,161,139],[178,160,137],[200,182,162],[192,172,153],[167,150,133],
+        [172,156,138],[150,133,116],[197,180,164],[198,180,163],[172,155,138],[172,155,139],
+        [235,213,192],[171,162,153],[165,163,159],[214,196,179],[211,195,181],[218,201,185],
+        [210,192,177],[220,207,191],[180,162,152],[212,196,184],[217,200,186],[249,246,236],
+        [227,217,201],[225,216,201],[224,214,199],[205,201,191],[222,222,220],[208,208,206],[218,208,190]
+      ],
       es:{word:"Ángeles de mar",title:"Ángeles de mar",medium:"",imageNote:"",imageAlt:"Dibujo de dos ángeles de mar sobre una hoja de papel.",sequenceAlt:"Secuencia de fotografías del proceso, las piezas, las construcciones y los bocetos de TRANSOCEANIC.",tags:["moluscos","dibujo","construcción","TRANSOCEANIC"],paragraphs:["TRANSOCEANIC: un juego de construcción inspirado en la reproducción de los ángeles de mar. Un baile de piezas que se atraviesan y se unen de forma recíproca, creando un nexo de infinitas conexiones."]},
       en:{word:"Sea angels",title:"Sea angels",medium:"",imageNote:"",imageAlt:"A drawing of two sea angels on a sheet of paper.",sequenceAlt:"A photographic sequence of TRANSOCEANIC’s process, pieces, constructions and sketches.",tags:["molluscs","drawing","construction","TRANSOCEANIC"],paragraphs:["TRANSOCEANIC: a construction game inspired by the reproduction of sea angels. A dance of pieces passing through one another and joining reciprocally, creating a link of infinite connections."]}}
   );
@@ -214,7 +225,6 @@
         {image:root+"archive/earrings-peggy-guggenheim/foto-01.png",width:401,height:498,es:{alt:"Peggy Guggenheim sentada junto a una escultura de alambre."},en:{alt:"Peggy Guggenheim seated beside a wire sculpture."}},
         {image:root+"archive/earrings-peggy-guggenheim/foto-02.png",width:511,height:639,es:{alt:"Primer plano de Peggy Guggenheim con un aro de alambre."},en:{alt:"Close-up of Peggy Guggenheim wearing a wire earring."}},
         {image:root+"archive/earrings-peggy-guggenheim/foto-03.png",width:400,height:500,es:{alt:"Peggy Guggenheim se coloca un aro frente a un espejo ovalado."},en:{alt:"Peggy Guggenheim puts on an earring beside an oval mirror."}},
-        {image:root+"archive/earrings-peggy-guggenheim/foto-04.png",width:507,height:640,es:{alt:"Retrato al aire libre de Peggy Guggenheim con aros de alambre."},en:{alt:"Outdoor portrait of Peggy Guggenheim wearing wire earrings."}},
         {image:root+"archive/earrings-peggy-guggenheim/foto-05.png",width:399,height:501,es:{alt:"Peggy Guggenheim sentada en su cama, junto a una escultura de alambre."},en:{alt:"Peggy Guggenheim sitting on her bed beside a wire sculpture."}},
         {image:root+"archive/earrings-peggy-guggenheim/foto-06.png",width:400,height:500,es:{alt:"Peggy Guggenheim con su perro en una sala con una pintura y un móvil."},en:{alt:"Peggy Guggenheim with her dog in a room with a painting and a mobile."}},
         {image:root+"archive/earrings-peggy-guggenheim/foto-07.png",width:447,height:447,es:{alt:"Habitación con chimenea, espejo y aros en las paredes."},en:{alt:"Room with a fireplace, a mirror and earrings on the walls."}},
@@ -248,15 +258,15 @@
   );
 
   window.NireArchiveItems.push(
-    {id:"la-siesta",letter:"S",number:"25",image:root+"archive/la-siesta.jpg",imageStatus:"photograph",related:[],
-      es:{word:"Siesta",title:"La siesta",artworkCredit:"Joan Miró",medium:"",imageNote:"",imageAlt:"Fotografía de La siesta de Joan Miró, enmarcada y expuesta en una pared.",tags:[],paragraphs:["La siesta de Joan Miró, perteneciente a su periodo de transición hacia el surrealismo y la pintura automática. Es la pieza que nos lleva hasta acá, a este espacio, de intercambio, cultura y diseño, de archivo, de abecedario y de colección."],formatting:[{text:"perteneciente a su periodo de transición hacia el surrealismo y la pintura automática",tag:"strong"}]},
-      en:{word:"Siesta",title:"La siesta",artworkCredit:"Joan Miró",medium:"",imageNote:"",imageAlt:"A photograph of Joan Miró’s La siesta, framed and displayed on a wall.",tags:[],paragraphs:["La siesta by Joan Miró, from his period of transition towards surrealism and automatic painting. It is the piece that brings us here, to this space of exchange, culture and design, of archives, of alphabets and of collections."],formatting:[{text:"from his period of transition towards surrealism and automatic painting",tag:"strong"}]}}
+    {id:"la-siesta",letter:"S",number:"25",image:root+"archive/la-siesta-obra.webp",imageStatus:"photograph",related:[],
+      es:{word:"Siesta",title:"La siesta",artworkCredit:"Joan Miró",medium:"",imageNote:"",imageAlt:"La siesta, de Joan Miró: formas blancas, azules y negras sobre un fondo claro.",tags:[],paragraphs:["La siesta de Joan Miró, perteneciente a su periodo de transición hacia el surrealismo y la pintura automática. Es la pieza que nos lleva hasta acá, a este espacio, de intercambio, cultura y diseño, de archivo, de abecedario y de colección."],formatting:[{text:"perteneciente a su periodo de transición hacia el surrealismo y la pintura automática",tag:"strong"}]},
+      en:{word:"Siesta",title:"La siesta",artworkCredit:"Joan Miró",medium:"",imageNote:"",imageAlt:"Joan Miró’s La siesta, with white, blue and black forms on a pale ground.",tags:[],paragraphs:["La siesta by Joan Miró, from his period of transition towards surrealism and automatic painting. It is the piece that brings us here, to this space of exchange, culture and design, of archives, of alphabets and of collections."],formatting:[{text:"from his period of transition towards surrealism and automatic painting",tag:"strong"}]}}
   );
 
   window.NireArchiveItems.push(
-    {id:"remedios-varo",letter:"R",number:"26",image:root+"archive/remedios-varo.jpg",imageStatus:"photograph",related:[],
-      es:{word:"Remedios Varo",title:"Remedios Varo",medium:"",imageNote:"",imageAlt:"Fotografía de una pintura de Remedios Varo enmarcada, con una figura sentada dentro de una pequeña construcción.",tags:[],paragraphs:["Remedios Varo, algo así como la mujer de mis sueños"]},
-      en:{word:"Remedios Varo",title:"Remedios Varo",medium:"",imageNote:"",imageAlt:"A photograph of a framed painting by Remedios Varo, with a figure seated inside a small structure.",tags:[],paragraphs:["Remedios Varo, something like the woman of my dreams"]}}
+    {id:"remedios-varo",letter:"R",number:"26",image:root+"archive/remedios-varo-obra.webp",imageStatus:"photograph",related:[],
+      es:{word:"Remedios Varo",title:"Remedios Varo",medium:"",imageNote:"",imageAlt:"Pintura de Remedios Varo con una figura sentada en una construcción rodeada de árboles.",tags:[],paragraphs:["Remedios Varo, algo así como la mujer de mis sueños"]},
+      en:{word:"Remedios Varo",title:"Remedios Varo",medium:"",imageNote:"",imageAlt:"A painting by Remedios Varo showing a seated figure in a structure surrounded by trees.",tags:[],paragraphs:["Remedios Varo, something like the woman of my dreams"]}}
   );
 
   window.NireArchiveItems.push(
@@ -311,3 +321,4 @@
   }
 
 }());
+
