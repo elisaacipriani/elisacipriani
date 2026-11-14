@@ -1,4 +1,9 @@
 (function () {
+  if (/^https?:$/.test(location.protocol) && location.pathname.endsWith("/index.html")) {
+    const directory = location.pathname.replace(/index\.html$/, "");
+    history.replaceState(history.state, "", directory + location.search + location.hash);
+  }
+
   const storageKey = "elisa-cipriani-language";
   const copy = {
     es: {
