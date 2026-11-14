@@ -273,7 +273,7 @@ def main():
         db.executescript((ROOT / "community-api" / "schema.sql").read_text())
     server = PreviewServer(("127.0.0.1", options.port), functools.partial(Handler, directory=str(ROOT)))
     server.database = options.database
-    print(f"Ñire preview: http://127.0.0.1:{options.port}/nire.html?lang=es", flush=True)
+    print(f"Colección: http://127.0.0.1:{options.port}/coleccion.html?lang=es", flush=True)
     server.serve_forever()
 
 

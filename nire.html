@@ -2,111 +2,14 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="description" content="Una colección de objetos, dibujos, fotografías y pequeñas ficciones de Elisa Cipriani.">
-  <meta name="theme-color" content="#ffffff">
-  <title>ELISA CIPRIANI</title>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=11">
-  <link rel="stylesheet" href="assets/css/nire-archive.css?v=177">
-  <link rel="stylesheet" href="assets/css/nire-nav.css?v=1">
-  <script src="assets/js/language.js?v=84" defer></script>
-  <script src="assets/js/nire-community-config.js?v=1" defer></script>
-  <script src="assets/js/nire-archive-data.js?v=177" defer></script>
-  <script src="assets/js/nire-archive.js?v=177" defer></script>
+  <title>Colección · Elisa Cipriani</title>
+  <link rel="canonical" href="https://elisacipriani.xyz/coleccion.html">
+  <script>
+    location.replace("coleccion.html" + location.search + location.hash);
+  </script>
+  <noscript><meta http-equiv="refresh" content="0; url=coleccion.html"></noscript>
 </head>
-<body class="archive-page" data-archive-view="home">
-  <a class="archive-skip" href="#archive-main" data-archive-copy="skip">Ir a la colección</a>
-  <header class="nire-header site-header" aria-label="Main navigation">
-    <a class="nire-brand brand" href="index.html#top">ELISA CIPRIANI</a>
-    <nav class="site-nav site-nav-with-nire">
-      <a href="works.html" class="nav-link" data-i18n="nav.works">TRABAJOS</a>
-      <a href="arts-photography.html" class="nav-link" data-i18n="nav.art">ARTE Y FOTOGRAFÍA</a>
-      <a href="nire.html" class="nav-link" data-i18n="nav.create" aria-current="page">COLECCIÓN</a>
-      <a href="contact.html" class="nav-link" data-i18n="nav.contact">CONTACTO</a>
-    </nav>
-    <div class="nire-language language-switch" aria-label="Idioma">
-      <a href="?lang=es" data-lang-link="es" aria-pressed="true">ES</a><a href="?lang=en" data-lang-link="en" aria-pressed="false">EN</a>
-    </div>
-  </header>
-  <svg class="archive-image-filters" width="0" height="0" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <filter id="archive-film-print" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
-        <feColorMatrix in="SourceGraphic" type="saturate" values="1.06" result="film-color"/>
-        <feComponentTransfer in="film-color" result="film-tones">
-          <feFuncR type="table" tableValues=".016 .174 .397 .631 .832 .985"/>
-          <feFuncG type="table" tableValues=".027 .186 .413 .635 .83 .979"/>
-          <feFuncB type="table" tableValues=".024 .188 .397 .61 .803 .956"/>
-        </feComponentTransfer>
-        <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="2" seed="17" stitchTiles="stitch" result="grain"/>
-        <feColorMatrix in="grain" type="saturate" values="0" result="monochrome-grain"/>
-        <feComponentTransfer in="monochrome-grain" result="subtle-grain"><feFuncA type="linear" slope="0.16"/></feComponentTransfer>
-        <feBlend in="film-tones" in2="subtle-grain" mode="soft-light" result="print"/>
-        <feComposite in="print" in2="SourceGraphic" operator="in"/>
-      </filter>
-    </defs>
-  </svg>
-  <main id="archive-main">
-    <section id="archive-cover" class="archive-cover" aria-labelledby="archive-title">
-      <h1 id="archive-title" class="sr-only" data-archive-copy="indexTitle">Colección</h1>
-      <a class="archive-cover-drawing" href="#manifiesto" data-archive-label="enter" aria-label="Abrir la colección"><img class="is-drawing" src="assets/images/nire/archive/drawings/pie/digitalizacion-sin-texto.png" alt="" aria-hidden="true" fetchpriority="high"></a>
-    </section>
-    <section id="archive-manifesto" class="archive-manifesto" aria-labelledby="archive-intro-text" hidden>
-      <h2 id="archive-intro-text" class="archive-manifesto-title" tabindex="-1" data-archive-copy="spaceTitle">Centro de experimentación e intercambio</h2>
-      <p class="archive-manifesto-copy" data-archive-copy="spaceIntroduction">Así imagino el diseño: una convivencia entre investigación, discusión, experimentación y comunicación. Un espacio para compartir preguntas, explorar elementos y aprender haciendo.</p>
-      <a class="archive-manifesto-next" href="#archivo" data-archive-label="continueCollection" aria-label="Continuar a la colección">
-        <span aria-hidden="true"><span data-archive-copy="indexTitle">Colección</span> ↗</span>
-      </a>
-    </section>
-
-    <section id="archive-index" class="archive-index archive-view" aria-labelledby="archive-index-title" hidden>
-      <div class="archive-index-layout">
-        <h1 id="archive-index-title" class="sr-only" tabindex="-1" data-archive-copy="indexTitle">Colección</h1>
-        <nav class="archive-map-actions" aria-label="Opciones de la colección" data-archive-label="collectionOptions"><a href="#inicio" class="archive-back archive-home-arrow" data-archive-label="backHome" aria-label="Volver al inicio"></a></nav>
-        <nav id="archive-alphabet" class="archive-alphabet" aria-label="Filtrar por letra" data-archive-label="alphabetLabel"></nav>
-        <aside class="archive-index-aside">
-          <p id="archive-index-status" class="archive-index-status" aria-live="polite"></p>
-          <section class="archive-index-introduction" aria-labelledby="archive-space-title">
-            <h2 id="archive-space-title" data-archive-copy="spaceTitle">Centro de experimentación e intercambio.</h2>
-            <p data-archive-copy="spaceIntroduction">Así imagino el diseño: una convivencia entre investigación, discusión, experimentación y comunicación. Un espacio para compartir preguntas, explorar elementos y aprender haciendo.</p>
-          </section>
-        </aside>
-        <div class="archive-index-files">
-          <nav id="archive-collection" class="archive-collection archive-letter-sheet" aria-label="Abecedario de la colección"></nav>
-          <p id="archive-empty" class="archive-empty" hidden data-archive-copy="empty">Esta parte de la colección todavía está en blanco.</p>
-        </div>
-        <div class="archive-index-preview" hidden>
-          <button type="button" class="archive-preview-close" aria-label="Cerrar vista previa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
-          <article id="archive-object-view" class="archive-object-view" aria-labelledby="archive-object-title" hidden>
-            <h1 id="archive-object-title" class="sr-only" tabindex="-1"></h1>
-            <section class="archive-object-visuals">
-              <section class="archive-object-hero">
-                <a href="#archivo" class="archive-object-back archive-back" data-archive-copy="backArchive">← Volver a la colección</a>
-                <p id="archive-object-folio" class="archive-object-folio archive-label"></p>
-                <div id="archive-object-display" class="archive-object-display"></div>
-              </section>
-            </section>
-            <section id="archive-object-notes" class="archive-object-notes" aria-label="Ficha del objeto" data-archive-label="entryLabel">
-              <header class="archive-object-caption"><p id="archive-object-note-number" class="archive-label"></p><h2 id="archive-object-note-title"></h2><p id="archive-object-medium"></p></header>
-              <div class="archive-object-writing"><div id="archive-object-text"></div></div>
-            </section>
-          </article>
-        </div>
-      </div>
-    </section>
-
-
-
-
-    <section id="archive-composer" class="archive-composer archive-view" aria-labelledby="archive-composer-title" hidden>
-      <div class="archive-section-top"><a href="#archivo" class="archive-back" data-archive-copy="backArchive">← Volver al archivo</a><span class="archive-label" data-archive-copy="newEntry">UNA NUEVA FICHA</span></div>
-      <div class="archive-composer-heading"><h1 id="archive-composer-title" tabindex="-1" data-archive-copy="composerTitle">Una pieza para conservar.</h1><p data-archive-copy="composerIntro">Una imagen, un trazo, una palabra. Armá una estampita y contá por qué merece un lugar en esta colección.</p></div>
-      <form id="archive-piece-form">
-        <div class="archive-composer-grid"><div class="archive-composer-art"><div class="archive-stamp-tools"><button type="button" data-stamp-tool="draw" aria-label="Dibujar" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 15 10-10 4 4L9 19l-5 1zM13 7l4 4"/></svg></button><label class="archive-file-button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18"/><path d="m3 18 6-6 4 4 4-5 4 5"/><circle cx="8" cy="8" r="1.5"/></svg><span data-archive-copy="image">Imagen</span><input id="archive-stamp-file" type="file" accept="image/jpeg,image/png,image/webp" hidden></label><button type="button" data-stamp-tool="move" aria-label="Mover imagen" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 3 14 10-7 1-3 7z"/></svg></button><button type="button" id="archive-stamp-undo" aria-label="Deshacer" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5-5 5 5 5M4 10h10a6 6 0 0 1 0 12" transform="translate(0 -2)"/></svg></button><button type="button" id="archive-stamp-clear" aria-label="Borrar dibujo" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14M10 11v6m4-6v6"/></svg></button></div><div class="archive-stamp-paper"><canvas id="archive-stamp" width="600" height="800" tabindex="0" aria-label="Tu estampita"></canvas></div><div id="archive-image-controls" class="archive-image-controls" hidden><label><span data-archive-copy="imageSize">Tamaño de imagen</span><input id="archive-image-size" type="range" min="30" max="150" value="85"></label><button id="archive-image-remove" type="button" data-archive-copy="removeImage">Quitar imagen</button></div><p class="archive-stamp-hint" data-archive-copy="stampHint">El rectángulo es tu papel. Podés combinar una imagen propia, dibujo y una palabra.</p></div>
-        <div class="archive-composer-fields"><label><span data-archive-copy="pieceName">Nombre de la pieza</span><input id="archive-piece-name" type="text" maxlength="80" required autocomplete="off"></label><label><span data-archive-copy="pieceWord">Una palabra para tu estampita</span><input id="archive-piece-word" type="text" maxlength="24" autocomplete="off"></label><label><span data-archive-copy="pieceStory">Su pequeña historia</span><textarea id="archive-piece-story" rows="6" maxlength="2400" required></textarea><span class="archive-field-hint" data-archive-copy="storyHint">Algo que encontraste, recordaste, leíste o imaginaste.</span></label><label><span data-archive-copy="pieceOrigin">Se encuentra con</span><select id="archive-piece-origin"></select></label><label><span data-archive-copy="pieceAuthor">Tu nombre (opcional)</span><input id="archive-piece-author" type="text" maxlength="80" autocomplete="name"></label><p id="archive-save-status" class="archive-save-status" role="status" aria-live="polite"></p><div class="archive-submit-row"><button id="archive-save" type="submit" class="archive-primary" data-archive-copy="savePiece">Conservar en el archivo ↗</button><button id="archive-download" type="button" class="archive-download" data-archive-copy="download">Descargar estampita</button></div><p class="archive-field-hint" data-archive-copy="publishHint">Tu pieza y tu texto se suman a la colección compartida.</p></div></div>
-      </form>
-    </section>
-  </main>
-  <footer class="archive-footer"><a href="#archivo" data-archive-copy="indexTitle">Colección</a><span data-archive-copy="footer">UN ARCHIVO EN CONSTRUCCIÓN. UNA COLECCIÓN QUE CONTINÚA.</span><a href="#archivo" data-archive-copy="indexLink">ÍNDICE ↗</a></footer>
-  <div id="archive-announcement" class="sr-only" aria-live="polite"></div>
+<body>
+  <a href="coleccion.html">Ir a Colección</a>
 </body>
 </html>
