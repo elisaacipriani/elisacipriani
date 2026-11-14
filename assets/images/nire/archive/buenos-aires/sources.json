@@ -1,0 +1,155 @@
+[
+  {
+    "file": "foto-01.jpg",
+    "source": "/Users/elicipriani/Pictures/Fototeca de Fotos.photoslibrary/resources/derivatives/B/B2543164-F544-46A0-85FE-D2A80655BDEB_1_105_c.jpeg",
+    "exists": true,
+    "width": 1024,
+    "height": 768,
+    "orientation": 1,
+    "bytes": 265139
+  },
+  {
+    "file": "foto-02.jpg",
+    "source": "/Users/elicipriani/Pictures/Fototeca de Fotos.photoslibrary/resources/derivatives/2/201604F7-D3BA-497C-901A-05D474C5979C_1_105_c.jpeg",
+    "exists": true,
+    "width": 768,
+    "height": 1024,
+    "orientation": 1,
+    "bytes": 577518
+  },
+  {
+    "file": "foto-03.jpg",
+    "source": "/Users/elicipriani/Pictures/Fototeca de Fotos.photoslibrary/resources/derivatives/1/1A9D8E93-EBAA-4E1A-B439-B35F2D088667_1_105_c.jpeg",
+    "exists": true,
+    "width": 1024,
+    "height": 768,
+    "orientation": 1,
+    "bytes": 224772
+  },
+  {
+    "file": "foto-04.jpg",
+    "source": "/Users/elicipriani/Pictures/Fototeca de Fotos.photoslibrary/resources/derivatives/8/82D90E96-F23C-4697-99F5-0E1A056F56E3_1_105_c.jpeg",
+    "exists": true,
+    "width": 768,
+    "height": 1024,
+    "orientation": 1,
+    "bytes": 322867
+  },
+  {
+    "file": "foto-05.jpg",
+    "source": "/Users/elicipriani/Pictures/Fototeca de Fotos.photoslibrary/resources/derivatives/E/E43A7504-8713-46BF-95A6-1B332AFFD8F4_1_105_c.jpeg",
+    "exists": true,
+    "width": 1024,
+    "height": 768,
+    "orientation": 1,
+    "bytes": 466293
+  },
+  {
+    "file": "foto-06.jpg",
+    "source": "/Users/elicipriani/Pictures/Fototeca de Fotos.photoslibrary/resources/derivatives/0/0063DCCF-C4BD-4A21-9269-7639FDE28218_1_102_a.jpeg",
+    "exists": true,
+    "width": 2082,
+    "height": 1510,
+    "orientation": 1,
+    "bytes": 868114
+  },
+  {
+    "file": "foto-07.jpg",
+    "source": "/Users/elicipriani/Pictures/Fototeca de Fotos.photoslibrary/resources/derivatives/A/AC3017B9-6A66-44E3-8ADB-4A6A1201D980_1_105_c.jpeg",
+    "exists": true,
+    "width": 1024,
+    "height": 768,
+    "orientation": 1,
+    "bytes": 280583
+  },
+  {
+    "file": "foto-08.jpg",
+    "source": "/Users/elicipriani/Pictures/Fototeca de Fotos.photoslibrary/resources/derivatives/1/1674BC37-1DB1-4476-AE79-CD86F686928D_1_105_c.jpeg",
+    "exists": true,
+    "width": 1024,
+    "height": 768,
+    "orientation": 1,
+    "bytes": 243018
+  },
+  {
+    "file": "foto-09.jpg",
+    "source": "/Users/elicipriani/Pictures/Fototeca de Fotos.photoslibrary/resources/derivatives/4/4E65EE05-DFED-4727-8DE2-85773767A1A2_1_105_c.jpeg",
+    "exists": true,
+    "width": 1024,
+    "height": 768,
+    "orientation": 1,
+    "bytes": 255151
+  },
+  {
+    "file": "foto-10.jpg",
+    "source": "/Users/elicipriani/Pictures/Fototeca de Fotos.photoslibrary/resources/derivatives/D/DC922869-948C-47C2-A57F-C3EF865DD78B_1_105_c.jpeg",
+    "exists": true,
+    "width": 1024,
+    "height": 768,
+    "orientation": 1,
+    "bytes": 483305
+  },
+  {
+    "file": "foto-11.jpg",
+    "source": "/Users/elicipriani/Pictures/Fototeca de Fotos.photoslibrary/resources/derivatives/masters/C/C6D75509-F1F2-453F-8AE9-8AE7732E4F1C_4_5005_c.jpeg",
+    "exists": true,
+    "width": 480,
+    "height": 360,
+    "orientation": 1,
+    "bytes": 54740
+  },
+  {
+    "file": "foto-12.jpg",
+    "source": "/Users/elicipriani/Pictures/Fototeca de Fotos.photoslibrary/resources/derivatives/masters/7/781859DA-C51F-456C-8379-05C9D9DB0AFF_4_5005_c.jpeg",
+    "exists": true,
+    "width": 638,
+    "height": 359,
+    "orientation": 1,
+    "bytes": 87657
+  },
+  {
+    "file": "foto-13.jpg",
+    "source": "/Users/elicipriani/Pictures/Fototeca de Fotos.photoslibrary/resources/derivatives/masters/D/D77ADB69-26BF-4636-90B8-5F7F48EE0198_4_5005_c.jpeg",
+    "exists": true,
+    "width": 359,
+    "height": 638,
+    "orientation": 1,
+    "bytes": 91601
+  },
+  {
+    "file": "foto-14.jpg",
+    "source": "/Users/elicipriani/Pictures/Fototeca de Fotos.photoslibrary/resources/derivatives/masters/D/D26F815E-C5B5-4A6E-843E-C0ADAB7014F0_4_5005_c.jpeg",
+    "exists": true,
+    "width": 480,
+    "height": 360,
+    "orientation": 1,
+    "bytes": 41060
+  },
+  {
+    "file": "foto-15.jpg",
+    "source": "/Users/elicipriani/Pictures/Fototeca de Fotos.photoslibrary/resources/derivatives/7/72633466-98B9-4D10-A2E0-BFF66958683F_1_105_c.jpeg",
+    "exists": true,
+    "width": 1024,
+    "height": 768,
+    "orientation": 1,
+    "bytes": 219225
+  },
+  {
+    "file": "foto-16.jpg",
+    "source": "/Users/elicipriani/Pictures/Fototeca de Fotos.photoslibrary/resources/derivatives/masters/D/D8FFB867-3341-4150-94F4-EF8AEFD14089_4_5005_c.jpeg",
+    "exists": true,
+    "width": 512,
+    "height": 336,
+    "orientation": 1,
+    "bytes": 61554
+  },
+  {
+    "file": "foto-17.jpg",
+    "source": "/Users/elicipriani/Pictures/Fototeca de Fotos.photoslibrary/resources/derivatives/masters/6/62A9F3B6-0B92-4956-B358-2E905BED32A3_4_5005_c.jpeg",
+    "exists": true,
+    "width": 480,
+    "height": 360,
+    "orientation": 1,
+    "bytes": 85734
+  }
+]

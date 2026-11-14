@@ -1,0 +1,53 @@
+[
+  {
+    "id": "01",
+    "source": "Screenshot 2026-10-30 at 6.59.51 PM.png",
+    "originalSize": [
+      744,
+      684
+    ],
+    "viewBox": [
+      87,
+      60,
+      649,
+      613
+    ],
+    "paths": 69,
+    "inkPixels": 15597,
+    "file": "dibujo-01.svg"
+  },
+  {
+    "id": "02",
+    "source": "Screenshot 2026-10-30 at 6.59.58 PM.png",
+    "originalSize": [
+      524,
+      758
+    ],
+    "viewBox": [
+      4,
+      44,
+      519,
+      710
+    ],
+    "paths": 330,
+    "inkPixels": 40697,
+    "file": "dibujo-02.svg"
+  },
+  {
+    "id": "03",
+    "source": "Screenshot 2026-10-30 at 7.01.09 PM.png",
+    "originalSize": [
+      894,
+      632
+    ],
+    "viewBox": [
+      2,
+      106,
+      888,
+      526
+    ],
+    "paths": 425,
+    "inkPixels": 29083,
+    "file": "dibujo-03.svg"
+  }
+]

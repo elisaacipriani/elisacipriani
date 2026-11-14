@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="768" height="768" viewBox="0 0 768 768">
+  <filter id="paper" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency=".48" numOctaves="3" seed="12" stitchTiles="stitch" result="fibres"/>
+    <feColorMatrix in="fibres" type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="linear" slope=".13"/></feComponentTransfer>
+  </filter>
+  <rect width="768" height="768" fill="#e7e7d9"/>
+  <rect width="768" height="768" filter="url(#paper)" opacity=".7"/>
+  <filter id="cloud" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency=".012" numOctaves="3" seed="19" stitchTiles="stitch"/>
+    <feColorMatrix type="saturate" values="0"/>
+    <feComponentTransfer><feFuncA type="linear" slope=".075"/></feComponentTransfer>
+  </filter>
+  <rect width="768" height="768" filter="url(#cloud)" style="mix-blend-mode:multiply"/>
+</svg>

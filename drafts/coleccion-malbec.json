@@ -1,0 +1,47 @@
+{
+  "status": "awaiting_image",
+  "requestedImage": "/Users/elicipriani/Pictures/Fototeca de Fotos.photoslibrary/resources/renders/5/510E1ECF-337C-4F7E-943E-D22A96013472_1_201_a.heic",
+  "note": "El archivo adjunto no existe en la ubicación recibida. No incorporar la ficha al índice hasta recibir la fotografía. La numeración se asigna al incorporarla.",
+  "entry": {
+    "id": "malbec",
+    "letter": "M",
+    "imageStatus": "photograph",
+    "related": [],
+    "es": {
+      "word": "Malbec",
+      "title": "Malbec",
+      "medium": "",
+      "imageNote": "",
+      "tags": [],
+      "paragraphs": [
+        "La etiqueta del vino es un homenaje a la historia de la cepa Malbec. Muestra a cuatro mujeres: la primera simboliza el nacimiento del Malbec y la presencia del Viejo Mundo, Leonor de Aquitania. La segunda, una inmigrante, simboliza a los colonos que emigraron hacia el Nuevo Mundo y a los exploradores y aventureros desconocidos que conectaron a Europa con América.",
+        "La filoxera representa la muerte del Malbec en el Viejo Mundo y su posterior renacimiento en América. Finalmente, Doña Zapata, simbolizada por Adrianna Catena, representa el nacimiento, la tierra y la maternidad, compartiendo las riquezas del Nuevo Mundo."
+      ],
+      "formatting": [
+        {"text": "etiqueta del vino es un homenaje a la historia de la cepa Malbec", "tag": "strong"},
+        {"text": "Leonor de Aquitania", "tag": "strong"},
+        {"text": "una inmigrante", "tag": "strong"},
+        {"text": "filoxera", "tag": "strong"},
+        {"text": "Doña Zapata", "tag": "strong"}
+      ]
+    },
+    "en": {
+      "word": "Malbec",
+      "title": "Malbec",
+      "medium": "",
+      "imageNote": "",
+      "tags": [],
+      "paragraphs": [
+        "The wine label is a tribute to the history of the Malbec grape. It depicts four women: the first symbolises the birth of Malbec and the presence of the Old World, Eleanor of Aquitaine. The second, an immigrant, symbolises the settlers who emigrated to the New World and the unknown explorers and adventurers who connected Europe with America.",
+        "Phylloxera represents the death of Malbec in the Old World and its subsequent rebirth in America. Finally, Doña Zapata, symbolised by Adrianna Catena, represents birth, the land and motherhood, sharing the riches of the New World."
+      ],
+      "formatting": [
+        {"text": "wine label is a tribute to the history of the Malbec grape", "tag": "strong"},
+        {"text": "Eleanor of Aquitaine", "tag": "strong"},
+        {"text": "an immigrant", "tag": "strong"},
+        {"text": "Phylloxera", "tag": "strong"},
+        {"text": "Doña Zapata", "tag": "strong"}
+      ]
+    }
+  }
+}

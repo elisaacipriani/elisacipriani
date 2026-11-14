@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Portfolio preview with durable, shared community elements. Standard library only."""
 import argparse
+import base64
 import functools
 import hashlib
 import json
@@ -14,6 +15,58 @@ from urllib.parse import parse_qs, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 API = "/api/nire/elements"
+ARCHIVE_API = "/api/nire/archive"
+
+
+def validate_archive(raw):
+    def need(ok):
+        if not ok:
+            raise ValueError("Invalid archive entry")
+
+    need(isinstance(raw, dict) and type(raw.get("version")) is int and raw.get("version") == 1)
+    need(isinstance(raw.get("id"), str) and re.fullmatch(r"[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}", raw["id"]))
+
+    def plain(value, limit, required=False):
+        need(isinstance(value, str) and len(value.encode("utf-16-le")) // 2 <= limit)
+        need(not re.search(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", value))
+        result = value.replace("\r\n", "\n").replace("\r", "\n").strip()
+        need(not required or bool(result))
+        return result
+
+    title, text = plain(raw.get("title"), 80, True), plain(raw.get("text"), 2400, True)
+    author, source = plain(raw.get("author", ""), 80), plain(raw.get("sourceId", ""), 80)
+    need(not source or bool(re.fullmatch(r"[a-zA-Z0-9-]+", source)))
+    image = raw.get("image")
+    need(isinstance(image, str) and len(image) <= 1100000 and re.fullmatch(r"data:image/jpeg;base64,[A-Za-z0-9+/]+={0,2}", image))
+    try:
+        data = base64.b64decode(image[23:], validate=True)
+    except Exception as exc:
+        raise ValueError("Invalid image") from exc
+    need(100 <= len(data) <= 800000 and data[:2] == b"\xff\xd8" and data[-2:] == b"\xff\xd9")
+    at, dimensions = 2, False
+    while at + 4 < len(data):
+        if data[at] != 255:
+            break
+        at += 1
+        while at < len(data) and data[at] == 255:
+            at += 1
+        if at + 2 >= len(data):
+            break
+        marker = data[at]
+        at += 1
+        if marker in (218, 217):
+            break
+        if marker in (0, 216) or 208 <= marker <= 215:
+            continue
+        length = int.from_bytes(data[at:at + 2], "big")
+        if length < 2 or at + length > len(data):
+            break
+        if marker in (192, 193, 194, 195, 197, 198, 199, 201, 202, 203, 205, 206, 207):
+            dimensions = length >= 8 and int.from_bytes(data[at + 3:at + 5], "big") == 800 and int.from_bytes(data[at + 5:at + 7], "big") == 600
+            break
+        at += length
+    need(dimensions)
+    return dict(version=1, id=raw["id"].lower(), title=title, text=text, author=author, sourceId=source, image=image)
 
 
 def validate(raw):
@@ -68,6 +121,62 @@ def unpack(row):
 
 
 class Handler(SimpleHTTPRequestHandler):
+    def send_head(self):
+        self._video_remaining = None
+        path = Path(self.translate_path(self.path))
+        if path.suffix.lower() != ".mp4" or not path.is_file():
+            return super().send_head()
+        try:
+            source = path.open("rb")
+        except OSError:
+            self.send_error(404)
+            return None
+        stat = path.stat()
+        size, start, end = stat.st_size, 0, stat.st_size - 1
+        requested = self.headers.get("Range") if not self.headers.get("If-Range") else None
+        if requested:
+            match = re.fullmatch(r"bytes=([0-9]{0,20})-([0-9]{0,20})", requested.strip())
+            valid = bool(match and any(match.groups()))
+            if valid:
+                first, last = match.groups()
+                if first:
+                    start = int(first)
+                    end = min(int(last), size - 1) if last else size - 1
+                else:
+                    length = int(last)
+                    start = max(0, size - length)
+                    valid = length > 0
+                valid = valid and 0 <= start <= end < size
+            if not valid:
+                source.close()
+                self.send_response(416)
+                self.send_header("Content-Range", f"bytes */{size}")
+                self.send_header("Content-Length", "0")
+                self.end_headers()
+                return None
+        self.send_response(206 if requested else 200)
+        self.send_header("Content-Type", "video/mp4")
+        self.send_header("Accept-Ranges", "bytes")
+        self.send_header("Content-Length", str(max(0, end - start + 1)))
+        self.send_header("Last-Modified", self.date_time_string(stat.st_mtime))
+        if requested:
+            self.send_header("Content-Range", f"bytes {start}-{end}/{size}")
+        self.end_headers()
+        source.seek(start)
+        self._video_remaining = max(0, end - start + 1)
+        return source
+
+    def copyfile(self, source, outputfile):
+        remaining = getattr(self, "_video_remaining", None)
+        if remaining is None:
+            return super().copyfile(source, outputfile)
+        while remaining:
+            data = source.read(min(65536, remaining))
+            if not data:
+                break
+            outputfile.write(data)
+            remaining -= len(data)
+
     def translate_path(self, path):
         result = Path(super().translate_path(path))
         if any(part in (".git", ".nire-data", ".wrangler") for part in result.parts):
@@ -93,23 +202,27 @@ class Handler(SimpleHTTPRequestHandler):
         url = urlsplit(self.path)
         if any(x in (".git", ".nire-data", ".wrangler") for x in url.path.split("/")):
             return self.send_error(404)
-        if url.path != API:
+        if url.path not in (API, ARCHIVE_API):
             return super().do_GET()
+        table, plural = ("archive_entries", "entries") if url.path == ARCHIVE_API else ("elements", "elements")
         try:
             after = int(parse_qs(url.query).get("after", ["0"])[0])
             if not 0 <= after <= 2**53 - 1:
                 raise ValueError()
             with self.db() as db:
-                rows = db.execute("SELECT seq,created_at,payload FROM elements WHERE seq>? ORDER BY seq LIMIT 200", (after,)).fetchall()
-            self.json_response(dict(elements=[unpack(r) for r in rows], cursor=rows[-1]["seq"] if rows else after, hasMore=len(rows) == 200))
+                rows = db.execute(f"SELECT seq,created_at,payload FROM {table} WHERE seq>? ORDER BY seq LIMIT 200", (after,)).fetchall()
+            self.json_response({plural: [unpack(r) for r in rows], "cursor": rows[-1]["seq"] if rows else after, "hasMore": len(rows) == 200})
         except ValueError:
             self.json_response(dict(error="Invalid cursor"), 400)
         except sqlite3.Error:
             self.json_response(dict(error="Storage unavailable"), 503)
 
     def do_POST(self):
-        if urlsplit(self.path).path != API:
+        path = urlsplit(self.path).path
+        if path not in (API, ARCHIVE_API):
             return self.json_response(dict(error="Not found"), 404)
+        archive = path == ARCHIVE_API
+        table, single = ("archive_entries", "entry") if archive else ("elements", "element")
         origin = self.headers.get("Origin")
         if origin and urlsplit(origin).netloc != self.headers.get("Host"):
             return self.json_response(dict(error="Origin not allowed"), 403)
@@ -117,29 +230,29 @@ class Handler(SimpleHTTPRequestHandler):
             return self.json_response(dict(error="JSON required"), 415)
         try:
             size = int(self.headers.get("Content-Length", "0"))
-            if size < 1 or size > 60000:
+            if size < 1 or size > (1200000 if archive else 60000):
                 return self.json_response(dict(error="Element too large"), 413)
-            element = validate(json.loads(self.rfile.read(size)))
+            element = (validate_archive if archive else validate)(json.loads(self.rfile.read(size)))
             payload = json.dumps(element, separators=(",", ":"), ensure_ascii=False)
         except (ValueError, TypeError, AttributeError, KeyError):
             return self.json_response(dict(error="Invalid element"), 400)
         try:
             with self.db() as db:
-                row = db.execute("SELECT seq,created_at,payload FROM elements WHERE id=?", (element["id"],)).fetchone()
+                row = db.execute(f"SELECT seq,created_at,payload FROM {table} WHERE id=?", (element["id"],)).fetchone()
                 if row:
                     if row["payload"] != payload:
                         return self.json_response(dict(error="Element already exists"), 409)
-                    return self.json_response(dict(element=unpack(row)))
+                    return self.json_response({single: unpack(row)})
                 now = datetime.now(timezone.utc)
                 actor = hashlib.sha256(("nire:" + self.client_address[0]).encode()).hexdigest()
-                db.execute("INSERT OR IGNORE INTO elements(id,created_at,actor,payload) SELECT ?,?,?,? WHERE (SELECT COUNT(*) FROM elements WHERE actor=? AND created_at>?)<30",
+                db.execute(f"INSERT OR IGNORE INTO {table}(id,created_at,actor,payload) SELECT ?,?,?,? WHERE (SELECT COUNT(*) FROM {table} WHERE actor=? AND created_at>?)<30",
                            (element["id"], now.isoformat(), actor, payload, actor, (now - timedelta(days=1)).isoformat()))
-                row = db.execute("SELECT seq,created_at,payload FROM elements WHERE id=?", (element["id"],)).fetchone()
+                row = db.execute(f"SELECT seq,created_at,payload FROM {table} WHERE id=?", (element["id"],)).fetchone()
             if not row:
                 return self.json_response(dict(error="Daily limit reached"), 429)
             if row["payload"] != payload:
                 return self.json_response(dict(error="Element already exists"), 409)
-            self.json_response(dict(element=unpack(row)), 201)
+            self.json_response({single: unpack(row)}, 201)
         except sqlite3.Error:
             self.json_response(dict(error="Storage unavailable"), 503)
 

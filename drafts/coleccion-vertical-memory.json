@@ -1,0 +1,35 @@
+{
+  "status": "awaiting_image",
+  "requestedImage": "/Users/elicipriani/Pictures/Fototeca de Fotos.photoslibrary/resources/derivatives/7/7FD04712-C2BB-480A-8347-DF202E879CB7_1_102_o.jpeg",
+  "note": "El archivo adjunto no existe en la ubicación recibida y no se encontraron otras versiones con el mismo identificador en las carpetas originales, derivatives, renders o masters de la fototeca. Incorporar la ficha al índice al recibir la fotografía y asignar entonces el siguiente número disponible. Conservar la imagen completa y presentarla en blanco y negro. No sustituirla por otra imagen ni añadir textos a los proporcionados por Elisa.",
+  "entry": {
+    "id": "vertical-memory",
+    "letter": "V",
+    "imageStatus": "photograph",
+    "related": [],
+    "es": {
+      "word": "Vertical Memory",
+      "title": "Vertical Memory",
+      "artworkCredit": "Yoko Ono",
+      "medium": "",
+      "imageNote": "",
+      "imageAlt": "Fotografía de la obra Vertical Memory, de Yoko Ono.",
+      "tags": [],
+      "paragraphs": [
+        "La propia Yoko Ono considera esta una obra importante. Muestra el mismo rostro distorsionado en blanco y negro repetido 21 veces, con diferentes textos colocados debajo de cada fotografía. El rostro es una combinación de los de John Lennon, su hijo Sean Ono Lennon y el padre de Yoko Ono. Los textos debajo de las fotografías describen a 21 hombres diferentes, sus profesiones y cómo han influido en la vida de la artista de manera positiva o negativa."
+      ]
+    },
+    "en": {
+      "word": "Vertical Memory",
+      "title": "Vertical Memory",
+      "artworkCredit": "Yoko Ono",
+      "medium": "",
+      "imageNote": "",
+      "imageAlt": "A photograph of Vertical Memory by Yoko Ono.",
+      "tags": [],
+      "paragraphs": [
+        "Yoko Ono herself regards this work as a major work. It shows the same distorted black-and-white face repeated 21 times with different texts mounted beneath each photograph. The face is a combination of the faces of John Lennon, of their son Sean Ono Lennon, and of Yoko Ono's father. The texts beneath the photographs describe 21 different men, their professions, and how they have influenced the artist's life in either a positive or negative sense."
+      ]
+    }
+  }
+}

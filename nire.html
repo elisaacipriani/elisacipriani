@@ -1,209 +1,112 @@
 <!doctype html>
-<html lang="es" data-nire-theme="light">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="description" content="Un centro de experimentación e intercambio entre arte, diseño y naturaleza, por Elisa Cipriani. Un universo surrealista inspirado en el ñire para explorar, descubrir y crear.">
-    <meta name="theme-color" content="#e8eae8">
-    <script>try{if(localStorage.getItem('ec-nire-appearance')==='dark')document.documentElement.dataset.nireTheme='dark';}catch(_){}</script>
-    <title>ELISA CIPRIANI</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=11">
-    <link rel="stylesheet" href="assets/css/nire.css?v=43">
-    <link rel="stylesheet" href="assets/css/nire-nav.css?v=1">
-    <link rel="stylesheet" href="assets/css/nire-botanical.css?v=8">
-    <link rel="stylesheet" href="assets/css/nire-community.css?v=8">
-    <script src="assets/js/language.js?v=76" defer></script>
-    <script src="assets/js/nire-appearance.js?v=2" defer></script>
-    <script src="assets/js/nire-form.js?v=2" defer></script>
-    <script src="assets/js/nire-filaments.js?v=22" defer></script>
-    <script src="assets/js/nire-volume.js?v=3" defer></script>
-    <script src="assets/js/nire-coral-material.js?v=4" defer></script>
-    <script src="assets/js/nire-materials.js?v=19" defer></script>
-    <script src="assets/js/nire-boulder.js?v=5" defer></script>
-    <script src="assets/js/nire-stage.js?v=2" defer></script>
-    <script src="assets/js/nire-crystal.js?v=3" defer></script>
-    <script src="assets/js/nire-botany.js?v=19" defer></script>
-    <script src="assets/js/nire-artist-drawing.js?v=7" defer></script>
-    <script src="assets/js/nire-inflate.js?v=1" defer></script>
-    <script src="assets/js/nire-elements.js?v=8" defer></script>
-    <script src="assets/js/nire-community-config.js?v=1" defer></script>
-    <script src="assets/js/nire-community.js?v=11" defer></script>
-    <script src="assets/js/nire-scene.js?v=46" defer></script>
-    <script src="assets/js/nire-collage.js?v=10" defer></script>
-    <script src="assets/js/nire-color.js?v=9" defer></script>
-    <script src="assets/js/nire-entry.js?v=31" defer></script>
-    <script src="assets/js/nire.js?v=46" defer></script>
-  </head>
-  <body class="nire-page nire-intro">
-    <main class="nire-studio" aria-labelledby="nire-title">
-      <div id="nire-art-space" class="nire-art-space" aria-hidden="true"></div>
-      <div id="nire-intro-content" class="nire-intro-content">
-        <div class="nire-intro-texts">
-          <section class="nire-intro-copy" aria-labelledby="nire-space-title">
-            <h2 id="nire-space-title" class="nire-space-title" data-nire-copy="spaceTitle">Centro de experimentación e intercambio.</h2>
-            <p data-nire-copy="introduction">Así imagino el diseño: una convivencia entre investigación, discusión, experimentación y comunicación. Un espacio para compartir preguntas, explorar elementos y aprender haciendo.</p>
-            <p data-nire-copy="origin">Esta abstracción surrealista nace del ñire del bosque andino patagónico.</p>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="Una colección de objetos, dibujos, fotografías y pequeñas ficciones de Elisa Cipriani.">
+  <meta name="theme-color" content="#ffffff">
+  <title>ELISA CIPRIANI</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=11">
+  <link rel="stylesheet" href="assets/css/nire-archive.css?v=177">
+  <link rel="stylesheet" href="assets/css/nire-nav.css?v=1">
+  <script src="assets/js/language.js?v=84" defer></script>
+  <script src="assets/js/nire-community-config.js?v=1" defer></script>
+  <script src="assets/js/nire-archive-data.js?v=177" defer></script>
+  <script src="assets/js/nire-archive.js?v=177" defer></script>
+</head>
+<body class="archive-page" data-archive-view="home">
+  <a class="archive-skip" href="#archive-main" data-archive-copy="skip">Ir a la colección</a>
+  <header class="nire-header site-header" aria-label="Main navigation">
+    <a class="nire-brand brand" href="index.html#top">ELISA CIPRIANI</a>
+    <nav class="site-nav site-nav-with-nire">
+      <a href="works.html" class="nav-link" data-i18n="nav.works">TRABAJOS</a>
+      <a href="arts-photography.html" class="nav-link" data-i18n="nav.art">ARTE Y FOTOGRAFÍA</a>
+      <a href="nire.html" class="nav-link" data-i18n="nav.create" aria-current="page">COLECCIÓN</a>
+      <a href="contact.html" class="nav-link" data-i18n="nav.contact">CONTACTO</a>
+    </nav>
+    <div class="nire-language language-switch" aria-label="Idioma">
+      <a href="?lang=es" data-lang-link="es" aria-pressed="true">ES</a><a href="?lang=en" data-lang-link="en" aria-pressed="false">EN</a>
+    </div>
+  </header>
+  <svg class="archive-image-filters" width="0" height="0" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="archive-film-print" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
+        <feColorMatrix in="SourceGraphic" type="saturate" values="1.06" result="film-color"/>
+        <feComponentTransfer in="film-color" result="film-tones">
+          <feFuncR type="table" tableValues=".016 .174 .397 .631 .832 .985"/>
+          <feFuncG type="table" tableValues=".027 .186 .413 .635 .83 .979"/>
+          <feFuncB type="table" tableValues=".024 .188 .397 .61 .803 .956"/>
+        </feComponentTransfer>
+        <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="2" seed="17" stitchTiles="stitch" result="grain"/>
+        <feColorMatrix in="grain" type="saturate" values="0" result="monochrome-grain"/>
+        <feComponentTransfer in="monochrome-grain" result="subtle-grain"><feFuncA type="linear" slope="0.16"/></feComponentTransfer>
+        <feBlend in="film-tones" in2="subtle-grain" mode="soft-light" result="print"/>
+        <feComposite in="print" in2="SourceGraphic" operator="in"/>
+      </filter>
+    </defs>
+  </svg>
+  <main id="archive-main">
+    <section id="archive-cover" class="archive-cover" aria-labelledby="archive-title">
+      <h1 id="archive-title" class="sr-only" data-archive-copy="indexTitle">Colección</h1>
+      <a class="archive-cover-drawing" href="#manifiesto" data-archive-label="enter" aria-label="Abrir la colección"><img class="is-drawing" src="assets/images/nire/archive/drawings/pie/digitalizacion-sin-texto.png" alt="" aria-hidden="true" fetchpriority="high"></a>
+    </section>
+    <section id="archive-manifesto" class="archive-manifesto" aria-labelledby="archive-intro-text" hidden>
+      <h2 id="archive-intro-text" class="archive-manifesto-title" tabindex="-1" data-archive-copy="spaceTitle">Centro de experimentación e intercambio</h2>
+      <p class="archive-manifesto-copy" data-archive-copy="spaceIntroduction">Así imagino el diseño: una convivencia entre investigación, discusión, experimentación y comunicación. Un espacio para compartir preguntas, explorar elementos y aprender haciendo.</p>
+      <a class="archive-manifesto-next" href="#archivo" data-archive-label="continueCollection" aria-label="Continuar a la colección">
+        <span aria-hidden="true"><span data-archive-copy="indexTitle">Colección</span> ↗</span>
+      </a>
+    </section>
+
+    <section id="archive-index" class="archive-index archive-view" aria-labelledby="archive-index-title" hidden>
+      <div class="archive-index-layout">
+        <h1 id="archive-index-title" class="sr-only" tabindex="-1" data-archive-copy="indexTitle">Colección</h1>
+        <nav class="archive-map-actions" aria-label="Opciones de la colección" data-archive-label="collectionOptions"><a href="#inicio" class="archive-back archive-home-arrow" data-archive-label="backHome" aria-label="Volver al inicio"></a></nav>
+        <nav id="archive-alphabet" class="archive-alphabet" aria-label="Filtrar por letra" data-archive-label="alphabetLabel"></nav>
+        <aside class="archive-index-aside">
+          <p id="archive-index-status" class="archive-index-status" aria-live="polite"></p>
+          <section class="archive-index-introduction" aria-labelledby="archive-space-title">
+            <h2 id="archive-space-title" data-archive-copy="spaceTitle">Centro de experimentación e intercambio.</h2>
+            <p data-archive-copy="spaceIntroduction">Así imagino el diseño: una convivencia entre investigación, discusión, experimentación y comunicación. Un espacio para compartir preguntas, explorar elementos y aprender haciendo.</p>
           </section>
-          <p class="nire-note nire-intro-note" data-nire-copy="note">Un árbol. Infinitos universos.</p>
+        </aside>
+        <div class="archive-index-files">
+          <nav id="archive-collection" class="archive-collection archive-letter-sheet" aria-label="Abecedario de la colección"></nav>
+          <p id="archive-empty" class="archive-empty" hidden data-archive-copy="empty">Esta parte de la colección todavía está en blanco.</p>
+        </div>
+        <div class="archive-index-preview" hidden>
+          <button type="button" class="archive-preview-close" aria-label="Cerrar vista previa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+          <article id="archive-object-view" class="archive-object-view" aria-labelledby="archive-object-title" hidden>
+            <h1 id="archive-object-title" class="sr-only" tabindex="-1"></h1>
+            <section class="archive-object-visuals">
+              <section class="archive-object-hero">
+                <a href="#archivo" class="archive-object-back archive-back" data-archive-copy="backArchive">← Volver a la colección</a>
+                <p id="archive-object-folio" class="archive-object-folio archive-label"></p>
+                <div id="archive-object-display" class="archive-object-display"></div>
+              </section>
+            </section>
+            <section id="archive-object-notes" class="archive-object-notes" aria-label="Ficha del objeto" data-archive-label="entryLabel">
+              <header class="archive-object-caption"><p id="archive-object-note-number" class="archive-label"></p><h2 id="archive-object-note-title"></h2><p id="archive-object-medium"></p></header>
+              <div class="archive-object-writing"><div id="archive-object-text"></div></div>
+            </section>
+          </article>
         </div>
       </div>
-      <canvas id="nire-canvas" class="nire-canvas" tabindex="-1" aria-hidden="true" inert aria-label="Lienzo claro para crear tu universo" aria-describedby="nire-keyboard">Tu navegador necesita admitir canvas para dibujar.</canvas>
-      <div id="nire-cursor" class="nire-cursor" aria-hidden="true"></div>
-      <svg id="nire-selection" class="nire-selection" aria-hidden="true" hidden><polygon id="nire-selection-outline"/></svg>
-      <svg id="nire-volume-selection" class="nire-selection nire-volume-selection" aria-hidden="true" hidden><polygon id="nire-volume-outline"/></svg>
-      <button type="button" id="nire-resize-object" class="nire-transform-handle" aria-label="Cambiar tamaño del elemento" data-collage-label="resizeHandle" hidden>↘</button>
-      <button type="button" id="nire-rotate-object" class="nire-transform-handle" aria-label="Girar elemento" data-collage-label="rotateHandle" hidden>↻</button>
+    </section>
 
-      <header class="nire-header site-header" aria-label="Main navigation">
-        <a class="nire-brand brand" href="index.html#top" aria-label="ELISA CIPRIANI: ir al menú principal" data-nire-label="homeLabel">ELISA CIPRIANI</a>
-        <nav class="site-nav site-nav-with-nire">
-          <a href="works.html" class="nav-link" data-i18n="nav.works">TRABAJOS</a>
-          <a href="arts-photography.html" class="nav-link" data-i18n="nav.art">ARTE Y FOTOGRAFÍA</a>
-          <a href="nire.html" class="nav-link" data-i18n="nav.create">CREAR</a>
-          <a href="contact.html" class="nav-link" data-i18n="nav.contact">CONTACTO</a>
-        </nav>
-        <div class="nire-language language-switch" aria-label="Idioma">
-          <a href="?lang=es" data-lang-link="es" aria-pressed="true">ES</a>
-          <a href="?lang=en" data-lang-link="en" aria-pressed="false">EN</a>
-        </div>
-      </header>
 
-      <button id="nire-background-toggle" class="nire-background-toggle" type="button" aria-label="Cambiar a fondo negro" aria-pressed="false"><span aria-hidden="true"></span></button>
-      <div class="nire-heading">
-        <h1 id="nire-title">ÑIRE</h1>
-        <p data-nire-copy="subtitle">creá tu universo</p>
-      </div>
 
-      <button type="button" id="nire-start" class="nire-start" aria-label="Tocá una parte del árbol para explorar sus detalles" data-nire-label="startLabel" aria-controls="nire-detail"><span class="sr-only" data-nire-copy="startHint">Tocá una parte del árbol para explorar sus detalles.</span></button>
-      <button type="button" id="nire-tree-rotation" class="nire-tree-rotation" aria-pressed="true" aria-label="Pausar giro" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path class="nire-pause-symbol" d="M9 6v12M15 6v12"/><path class="nire-play-symbol" d="m9 6 9 6-9 6z"/></svg></button>
 
-      <section id="nire-detail" class="nire-detail" aria-label="Detalle del árbol" data-nire-label="detailLabel" hidden>
-        <div id="nire-detail-pan" class="nire-detail-pan" tabindex="0" role="region" aria-label="Detalle del árbol" data-nire-label="detailLabel" aria-describedby="nire-detail-keyboard"></div>
-        <p id="nire-detail-keyboard" class="sr-only" data-nire-copy="detailKeyboard">Arrastrá para recorrer. Acercá y alejá con el trackpad o con dos dedos. Escape vuelve al árbol completo.</p>
-        <button id="nire-back-tree" class="nire-back-tree" type="button"><span aria-hidden="true">←</span> <span data-nire-copy="backTree">Volver al árbol</span></button>
-        <div class="nire-detail-actions">
-          <button id="nire-develop" class="nire-develop" type="button" data-nire-copy="develop" aria-controls="nire-community">SUMÁ TU ELEMENTO AL ÑIRE</button>
-          <p class="nire-detail-hint" data-nire-copy="detailHint">Arrastrá para recorrer. Acercá con el trackpad.</p>
-        </div>
-      </section>
-
-      <section id="nire-community" class="nire-community" aria-label="Sumá tu elemento al ñire" hidden></section>
-
-      <aside id="nire-sidebar" class="nire-sidebar" hidden>
-        <div class="nire-tools" role="region" aria-label="Pinturas y herramientas" data-nire-label="tools">
-          <div class="nire-collage-tools">
-            <button type="button" id="nire-text-tool" class="nire-collage-tool" aria-label="Menú de texto" data-collage-label="textMenu" aria-expanded="false" aria-controls="nire-text-panel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6V3h16v3M12 3v18m-4 0h8"/></svg><span data-collage-copy="text">Texto</span></button>
-            <button type="button" id="nire-photo-tool" class="nire-collage-tool" aria-label="Menú de fotos" data-collage-label="photoMenu" aria-expanded="false" aria-controls="nire-photo-panel"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="1"/><circle cx="8" cy="8" r="2"/><path d="m3 18 6-6 4 4 4-5 4 5"/></svg><span data-collage-copy="photos">Fotos</span></button>
-            <button type="button" id="nire-move-tool" class="nire-collage-tool" aria-label="Seleccionar y mover elementos" data-collage-label="moveTool" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 3 14 10-7 1-3 7z"/></svg><span data-collage-copy="move">Mover</span></button>
-            <button type="button" id="nire-volume-tool" class="nire-collage-tool" aria-label="Dar volumen a una zona de tu pieza" data-volume-label="tool" aria-expanded="false" aria-controls="nire-volume-panel nire-volume-picking"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 9 5v10l-9 5-9-5V7Zm0 10 9-5M12 12 3 7m9 5v10"/></svg><span>3D</span></button>
-          </div>
-          <fieldset class="nire-brushes">
-            <legend class="sr-only" data-nire-copy="brushes">Pinturas</legend>
-            <button class="nire-brush" type="button" data-brush="paint" aria-pressed="true">
-              <svg viewBox="0 0 48 22" aria-hidden="true"><path class="brush-paint-under" d="M6 16 13 10 18 14 27 6 32 9 42 5"/><path class="brush-paint-over" d="m8 17 10-5 10-4 12-3"/></svg>
-              <span data-nire-copy="paint">Pincel</span>
-            </button>
-            <button class="nire-brush" type="button" data-brush="thread" aria-pressed="false">
-              <svg viewBox="0 0 48 22" aria-hidden="true"><path class="brush-thread" d="M4 17C10-4 13 27 20 8S27 23 32 8s7 4 12-5M4 20C10-1 13 30 20 11S27 26 32 11s7 4 12-5"/></svg>
-              <span data-nire-copy="thread">Hilo</span>
-            </button>
-            <button class="nire-brush" type="button" data-brush="pigment" aria-pressed="false">
-              <svg viewBox="0 0 48 22" aria-hidden="true"><g class="brush-pigment"><circle cx="9" cy="14" r="1.2"/><circle cx="15" cy="9" r="1.8"/><circle cx="21" cy="13" r="1"/><circle cx="26" cy="7" r="1.5"/><circle cx="32" cy="10" r="2"/><circle cx="38" cy="5" r="1.1"/><circle cx="17" cy="17" r=".7"/><circle cx="28" cy="15" r=".9"/><circle cx="36" cy="15" r=".7"/><circle cx="23" cy="3" r=".7"/><circle cx="42" cy="10" r=".8"/><circle cx="5" cy="7" r=".6"/></g></svg>
-              <span data-nire-copy="pigment">Pigmento</span>
-            </button>
-          </fieldset>
-
-          <div class="nire-color-controls">
-            <label class="nire-hue-label" for="nire-color-hue"><span data-picker-copy="hue">Tono</span><input id="nire-color-hue" class="nire-hue-bar" type="range" min="0" max="360" step="0.1" value="332.5" aria-orientation="vertical" aria-label="Tono del color" data-picker-label="hueLabel"></label>
-            <button type="button" id="nire-color-tool" class="nire-color-tool" aria-label="Elegir cualquier color" data-picker-label="chooseColor" aria-expanded="false" aria-controls="nire-color-panel"><span class="nire-current-color" aria-hidden="true"></span><span data-picker-copy="color">Color</span></button>
-          </div>
-
-          <label class="nire-size" for="nire-size">
-            <span data-nire-copy="size">Grosor</span>
-            <input id="nire-size" type="range" min="4" max="60" value="24" aria-orientation="vertical" aria-label="Grosor del trazo" data-nire-label="sizeLabel">
-            <span id="nire-size-preview" class="nire-size-preview" aria-hidden="true"></span>
-          </label>
-
-          <div class="nire-actions">
-            <button type="button" id="nire-undo" class="nire-icon-button" aria-label="Deshacer" data-nire-label="undo" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5-5 5 5 5M4 10h10a6 6 0 0 1 0 12" transform="translate(0 -2)"/></svg></button>
-            <button type="button" id="nire-redo" class="nire-icon-button" aria-label="Rehacer" data-nire-label="redo" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5 5 5-5 5m5-5H10a6 6 0 0 0 0 12" transform="translate(0 -2)"/></svg></button>
-          </div>
-          <button type="button" id="nire-clear" class="nire-clear" aria-label="Borrar todo y empezar de cero" data-nire-label="clearLabel" disabled><span data-nire-copy="clear">Clear</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14M10 11v6m4-6v6"/></svg></button>
-          <button type="button" id="nire-save" class="nire-save" disabled><span data-nire-copy="save">Guardar</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-5-5 5 5 5-5M4 17v4h16v-4"/></svg></button>
-          <button type="button" id="nire-rotation" class="nire-rotation" aria-pressed="true" aria-label="Pausar giro"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 8a8 8 0 1 0 0 8M20 3v5h-5"/></svg><span data-nire-copy="rotation">Giro</span></button>
-        </div>
-      </aside>
-
-      <div id="nire-volume-picking" class="nire-volume-picking" role="status" hidden><p data-volume-copy="picking">Marcá una zona sobre tu dibujo.</p><button type="button" id="nire-volume-cancel-pick" data-volume-copy="cancel">Cancelar</button></div>
-      <section id="nire-volume-panel" class="nire-panel nire-volume-panel" role="region" aria-labelledby="nire-volume-title" hidden>
-        <header class="nire-panel-header"><h2 id="nire-volume-title" data-volume-copy="title">Volumen 3D</h2><button type="button" id="nire-volume-close" class="nire-panel-close" aria-label="Cerrar volumen 3D" data-volume-label="close">×</button></header>
-        <p class="nire-volume-hint" data-volume-copy="hint">Marcá sobre el dibujo la zona que quieras llevar a 3D, o elegí toda la pieza.</p>
-        <div class="nire-volume-options"><button type="button" id="nire-volume-pick" class="nire-panel-link" data-volume-copy="pick">Elegir zona</button><button type="button" id="nire-volume-all" class="nire-panel-link" data-volume-copy="all">Toda la pieza</button></div>
-        <label class="nire-panel-field" for="nire-volume-depth"><span><span data-volume-copy="depth">Profundidad</span><output id="nire-volume-depth-value">55%</output></span><input id="nire-volume-depth" type="range" min="1" max="100" value="55" aria-label="Profundidad" data-volume-label="depth"></label>
-        <button type="button" id="nire-volume-apply" class="nire-panel-primary" data-volume-copy="apply" disabled>Aplicar 3D</button>
-        <button type="button" id="nire-volume-flatten" class="nire-panel-link" data-volume-copy="flatten" disabled>Volver a plano</button>
-        <p id="nire-volume-message" class="nire-panel-message" role="status" aria-live="polite"></p>
-      </section>
-
-      <section id="nire-color-panel" class="nire-panel nire-color-panel" role="region" aria-labelledby="nire-color-panel-title" hidden>
-        <header class="nire-panel-header"><h2 id="nire-color-panel-title" data-picker-copy="color">Color</h2><button type="button" id="nire-close-color" class="nire-panel-close" aria-label="Cerrar selector de color" data-picker-label="close">×</button></header>
-        <div id="nire-color-sv" class="nire-color-sv" tabindex="0" role="group" aria-label="Saturación y brillo" data-picker-label="svLabel" aria-describedby="nire-color-help"><span id="nire-color-marker" class="nire-color-marker" aria-hidden="true"></span></div>
-        <p id="nire-color-help" class="sr-only" data-picker-copy="svHelp">Arrastrá para elegir el color. Con las flechas izquierda y derecha cambiás la saturación; con arriba y abajo, el brillo.</p>
-        <div class="nire-color-adjustments">
-          <label class="nire-panel-field" for="nire-color-saturation"><span><span data-picker-copy="saturation">Saturación</span><output id="nire-color-saturation-value"></output></span><input id="nire-color-saturation" type="range" min="0" max="100" step="0.1" value="50.6"></label>
-          <label class="nire-panel-field" for="nire-color-value"><span><span data-picker-copy="brightness">Brillo</span><output id="nire-color-value-value"></output></span><input id="nire-color-value" type="range" min="0" max="100" step="0.1" value="92.9"></label>
-        </div>
-        <label class="nire-color-hex-row" for="nire-color-hex"><span id="nire-color-preview" class="nire-color-preview" aria-hidden="true"></span><span>HEX</span><input id="nire-color-hex" type="text" value="#ED75AC" maxlength="7" spellcheck="false" autocomplete="off" autocapitalize="characters" aria-label="Código hexadecimal del color" data-picker-label="hexLabel"></label>
-        <p id="nire-color-message" class="nire-panel-message" role="status" aria-live="polite"></p>
-        <fieldset class="nire-color-presets"><legend class="sr-only" data-picker-copy="presets">Colores del árbol</legend>
-          <button type="button" class="nire-swatch" data-color="#ed75ac" style="--swatch:#ed75ac" aria-pressed="true" aria-label="Rosa" data-nire-label="pink"></button>
-          <button type="button" class="nire-swatch" data-color="#b497c6" style="--swatch:#b497c6" aria-pressed="false" aria-label="Violeta" data-nire-label="violet"></button>
-          <button type="button" class="nire-swatch" data-color="#dfdb8c" style="--swatch:#dfdb8c" aria-pressed="false" aria-label="Amarillo" data-nire-label="yellow"></button>
-          <button type="button" class="nire-swatch" data-color="#d68c6c" style="--swatch:#d68c6c" aria-pressed="false" aria-label="Terracota" data-nire-label="coral"></button>
-          <button type="button" class="nire-swatch" data-color="#a3bc89" style="--swatch:#a3bc89" aria-pressed="false" aria-label="Verde" data-nire-label="green"></button>
-          <button type="button" class="nire-swatch" data-color="#c7c4bd" style="--swatch:#c7c4bd" aria-pressed="false" aria-label="Tiza" data-nire-label="chalk"></button>
-        </fieldset>
-      </section>
-
-      <section id="nire-text-panel" class="nire-panel" role="region" aria-labelledby="nire-text-panel-title" hidden>
-        <header class="nire-panel-header"><h2 id="nire-text-panel-title" data-collage-copy="text">Texto</h2><button type="button" class="nire-panel-close" data-close-panel aria-label="Cerrar menú" data-collage-label="close">×</button></header>
-        <form id="nire-text-form">
-          <label class="nire-panel-field" for="nire-text-content"><span data-collage-copy="yourWords">Tus palabras</span><textarea id="nire-text-content" rows="3" maxlength="500" placeholder="Escribí lo que quieras…" data-collage-placeholder="textPlaceholder" required></textarea></label>
-          <div class="nire-text-style">
-            <label class="nire-panel-field" for="nire-text-font"><span data-collage-copy="font">Tipografía</span><select id="nire-text-font"><option value="light">Light</option><option value="regular">Regular</option><option value="bold">Bold</option></select></label>
-            <label class="nire-panel-field" for="nire-text-color"><span data-collage-copy="color">Color</span><input id="nire-text-color" type="color" value="#30392f"></label>
-          </div>
-          <button id="nire-add-text" class="nire-panel-primary" type="submit" data-collage-copy="addText">Agregar texto</button>
-          <button id="nire-new-text" class="nire-panel-link" type="button" data-collage-copy="newText" hidden>Crear otro texto</button>
-        </form>
-        <div class="nire-settings-slot"></div>
-      </section>
-
-      <section id="nire-photo-panel" class="nire-panel" role="region" aria-labelledby="nire-photo-panel-title" hidden>
-        <header class="nire-panel-header"><h2 id="nire-photo-panel-title" data-collage-copy="photos">Fotos</h2><button type="button" class="nire-panel-close" data-close-panel aria-label="Cerrar menú" data-collage-label="close">×</button></header>
-        <button type="button" id="nire-upload-photos" class="nire-upload"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17V3m-5 5 5-5 5 5M3 16v5h18v-5"/></svg><span data-collage-copy="choosePhotos">Elegir fotos</span></button>
-        <input id="nire-photo-input" type="file" accept="image/*" multiple hidden>
-        <p class="nire-panel-hint" data-collage-copy="dropHint">También podés arrastrarlas al lienzo.</p>
-        <p id="nire-photo-message" class="nire-panel-message" role="status" aria-live="polite"></p>
-        <div id="nire-photo-gallery" class="nire-photo-gallery" aria-label="Tus fotos" data-collage-label="yourPhotos"></div>
-        <div class="nire-settings-slot"></div>
-      </section>
-
-      <div id="nire-object-settings" class="nire-object-settings" hidden>
-        <p class="nire-panel-hint" data-collage-copy="moveHint">Arrastrá el elemento para moverlo. Usá los controles para cambiar el tamaño o girarlo.</p>
-        <label class="nire-panel-field" for="nire-object-size"><span><span data-collage-copy="size">Tamaño</span><output id="nire-object-size-value"></output></span><input id="nire-object-size" type="range" min="20" max="1200" value="200"></label>
-        <label class="nire-panel-field" for="nire-object-angle"><span><span data-collage-copy="angle">Giro</span><output id="nire-object-angle-value"></output></span><input id="nire-object-angle" type="range" min="-180" max="180" value="0"></label>
-        <label class="nire-panel-field" for="nire-object-opacity"><span><span data-collage-copy="opacity">Opacidad</span><output id="nire-object-opacity-value"></output></span><input id="nire-object-opacity" type="range" min="10" max="100" value="100"></label>
-        <button type="button" id="nire-delete-object" class="nire-panel-delete" data-collage-copy="deleteObject">Quitar elemento</button>
-      </div>
-
-      <div class="nire-bottom">
-        <p class="nire-note" data-nire-copy="note">Un árbol. Infinitos universos.</p>
-      </div>
-
-      <p id="nire-keyboard" class="sr-only" data-nire-copy="keyboard">Con el lienzo enfocado, usá las flechas para moverte y espacio para empezar o terminar un trazo. Deshacé con Control o Comando y Z.</p>
-      <p id="nire-status" class="sr-only" role="status" aria-live="polite"></p>
-      <noscript><p class="nire-error">Activá JavaScript para crear tu propia pieza.</p></noscript>
-    </main>
-  </body>
+    <section id="archive-composer" class="archive-composer archive-view" aria-labelledby="archive-composer-title" hidden>
+      <div class="archive-section-top"><a href="#archivo" class="archive-back" data-archive-copy="backArchive">← Volver al archivo</a><span class="archive-label" data-archive-copy="newEntry">UNA NUEVA FICHA</span></div>
+      <div class="archive-composer-heading"><h1 id="archive-composer-title" tabindex="-1" data-archive-copy="composerTitle">Una pieza para conservar.</h1><p data-archive-copy="composerIntro">Una imagen, un trazo, una palabra. Armá una estampita y contá por qué merece un lugar en esta colección.</p></div>
+      <form id="archive-piece-form">
+        <div class="archive-composer-grid"><div class="archive-composer-art"><div class="archive-stamp-tools"><button type="button" data-stamp-tool="draw" aria-label="Dibujar" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 15 10-10 4 4L9 19l-5 1zM13 7l4 4"/></svg></button><label class="archive-file-button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18"/><path d="m3 18 6-6 4 4 4-5 4 5"/><circle cx="8" cy="8" r="1.5"/></svg><span data-archive-copy="image">Imagen</span><input id="archive-stamp-file" type="file" accept="image/jpeg,image/png,image/webp" hidden></label><button type="button" data-stamp-tool="move" aria-label="Mover imagen" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 3 14 10-7 1-3 7z"/></svg></button><button type="button" id="archive-stamp-undo" aria-label="Deshacer" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5-5 5 5 5M4 10h10a6 6 0 0 1 0 12" transform="translate(0 -2)"/></svg></button><button type="button" id="archive-stamp-clear" aria-label="Borrar dibujo" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14M10 11v6m4-6v6"/></svg></button></div><div class="archive-stamp-paper"><canvas id="archive-stamp" width="600" height="800" tabindex="0" aria-label="Tu estampita"></canvas></div><div id="archive-image-controls" class="archive-image-controls" hidden><label><span data-archive-copy="imageSize">Tamaño de imagen</span><input id="archive-image-size" type="range" min="30" max="150" value="85"></label><button id="archive-image-remove" type="button" data-archive-copy="removeImage">Quitar imagen</button></div><p class="archive-stamp-hint" data-archive-copy="stampHint">El rectángulo es tu papel. Podés combinar una imagen propia, dibujo y una palabra.</p></div>
+        <div class="archive-composer-fields"><label><span data-archive-copy="pieceName">Nombre de la pieza</span><input id="archive-piece-name" type="text" maxlength="80" required autocomplete="off"></label><label><span data-archive-copy="pieceWord">Una palabra para tu estampita</span><input id="archive-piece-word" type="text" maxlength="24" autocomplete="off"></label><label><span data-archive-copy="pieceStory">Su pequeña historia</span><textarea id="archive-piece-story" rows="6" maxlength="2400" required></textarea><span class="archive-field-hint" data-archive-copy="storyHint">Algo que encontraste, recordaste, leíste o imaginaste.</span></label><label><span data-archive-copy="pieceOrigin">Se encuentra con</span><select id="archive-piece-origin"></select></label><label><span data-archive-copy="pieceAuthor">Tu nombre (opcional)</span><input id="archive-piece-author" type="text" maxlength="80" autocomplete="name"></label><p id="archive-save-status" class="archive-save-status" role="status" aria-live="polite"></p><div class="archive-submit-row"><button id="archive-save" type="submit" class="archive-primary" data-archive-copy="savePiece">Conservar en el archivo ↗</button><button id="archive-download" type="button" class="archive-download" data-archive-copy="download">Descargar estampita</button></div><p class="archive-field-hint" data-archive-copy="publishHint">Tu pieza y tu texto se suman a la colección compartida.</p></div></div>
+      </form>
+    </section>
+  </main>
+  <footer class="archive-footer"><a href="#archivo" data-archive-copy="indexTitle">Colección</a><span data-archive-copy="footer">UN ARCHIVO EN CONSTRUCCIÓN. UNA COLECCIÓN QUE CONTINÚA.</span><a href="#archivo" data-archive-copy="indexLink">ÍNDICE ↗</a></footer>
+  <div id="archive-announcement" class="sr-only" aria-live="polite"></div>
+</body>
 </html>
