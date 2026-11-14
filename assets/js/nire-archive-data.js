@@ -29,21 +29,21 @@
       ]}
   ];
   window.NireArchiveItems.push(
-    {id:"flores-de-mama",letter:"F",number:"08",image:root+"archive/flores-de-mama/flor-01.jpg",imageStatus:"gallery",related:[],galleryFocus:3,galleryBase:root+"archive/flores-de-mama/",
-      gallery:[
-        {file:"flor-02.jpg",width:665,height:1182,crop:[215,220,205,670],size:105,offset:26,es:"Dibujo de un tallo con flores pequeñas.",en:"A drawing of a stem with small flowers."},
-        {file:"registro-01.jpg",width:3024,height:4032,rotate:-90,crop:[430,590,3500,2080],size:350,offset:45,es:"Recorte de una hoja con flores dibujadas a lapicera y lápiz.",en:"A detail of a sheet of paper with flowers drawn in pen and pencil."},
-        {file:"flor-01.jpg",width:665,height:1182,crop:[205,425,245,375],size:128,offset:78,es:"Dibujo de un tallo con tres flores abiertas.",en:"A drawing of a stem with three open flowers."},
-        {file:"registro-03.jpg",width:3024,height:4032,crop:[270,830,2380,2590],size:290,offset:-14,es:"Flores dibujadas a lápiz sobre una hoja de papel.",en:"Flowers drawn in pencil on a sheet of paper."},
-        {file:"flor-05.jpg",width:665,height:1182,crop:[215,260,255,740],size:120,offset:6,es:"Dibujo de un tallo con flores y capullos.",en:"A drawing of a stem with flowers and buds."},
-        {file:"registro-04.jpg",width:3024,height:4032,crop:[110,950,2800,1630],size:355,offset:57,es:"Recorte de una hoja con grupos de flores y anotaciones manuscritas.",en:"A detail of a sheet of paper with groups of flowers and handwritten notes."},
-        {file:"flor-03.jpg",width:665,height:1182,crop:[210,310,245,515],size:130,offset:-26,es:"Dibujo de un tallo con flores y pétalos sueltos.",en:"A drawing of a stem with flowers and scattered petals."},
-        {file:"registro-02.jpg",width:3024,height:4032,crop:[120,1190,2820,1030],size:345,offset:32,es:"Una hilera de flores a lápiz, conservando la textura y las notas de la hoja.",en:"A row of pencil flowers, with the texture and notes of the paper preserved."},
-        {file:"flor-04.jpg",width:638,height:360,crop:[105,105,445,135],size:250,offset:72,es:"Dibujo de una hilera de flores pequeñas.",en:"A drawing of a row of small flowers."},
+    {id:"flores-de-mama",letter:"F",number:"08",image:root+"archive/flores-de-mama/flor-01.jpg",imageStatus:"sequence",related:[],sequenceInterval:700,sequenceBase:root+"archive/flores-de-mama/",
+      sequence:[
+        {file:"flor-02.jpg",drawing:true,width:665,height:1182,crop:[215,220,205,670],es:"Dibujo de un tallo con flores pequeñas.",en:"A drawing of a stem with small flowers."},
+        {file:"registro-01.jpg",width:3024,height:4032,transform:"translate(0 3024) rotate(-90)",crop:[430,590,3500,2080],es:"Recorte de una hoja con flores dibujadas a lapicera y lápiz.",en:"A detail of a sheet of paper with flowers drawn in pen and pencil."},
+        {file:"flor-01.jpg",drawing:true,width:665,height:1182,crop:[205,425,245,375],es:"Dibujo de un tallo con tres flores abiertas.",en:"A drawing of a stem with three open flowers."},
+        {file:"registro-03.jpg",width:3024,height:4032,crop:[270,830,2380,2590],es:"Flores dibujadas a lápiz sobre una hoja de papel.",en:"Flowers drawn in pencil on a sheet of paper."},
+        {file:"flor-05.jpg",drawing:true,width:665,height:1182,crop:[215,260,255,740],es:"Dibujo de un tallo con flores y capullos.",en:"A drawing of a stem with flowers and buds."},
+        {file:"registro-04.jpg",width:3024,height:4032,crop:[110,950,2800,1630],es:"Recorte de una hoja con grupos de flores y anotaciones manuscritas.",en:"A detail of a sheet of paper with groups of flowers and handwritten notes."},
+        {file:"flor-03.jpg",drawing:true,width:665,height:1182,crop:[210,310,245,515],es:"Dibujo de un tallo con flores y pétalos sueltos.",en:"A drawing of a stem with flowers and scattered petals."},
+        {file:"registro-02.jpg",width:3024,height:4032,crop:[120,1190,2820,1030],es:"Una hilera de flores a lápiz, conservando la textura y las notas de la hoja.",en:"A row of pencil flowers, with the texture and notes of the paper preserved."},
+        {file:"flor-04.jpg",drawing:true,width:638,height:360,crop:[105,105,445,135],es:"Dibujo de una hilera de flores pequeñas.",en:"A drawing of a row of small flowers."},
         {file:"registro-05.jpg",width:768,height:1024,crop:[100,295,510,680],es:"Papel rasgado con flores rosas, naranjas y violetas sobre una mesa de madera.",en:"Torn paper with pink, orange and violet flowers on a wooden table."}
       ],
-      es:{word:"Flores",title:"Las flores de mamá",medium:"",imageNote:"",imageAlt:"Galería horizontal de los dibujos de flores de mamá y sus registros en papel.",tags:["flores","mamá","jardín"],paragraphs:["Alguien tenía que ocuparse de armar un jardín con todas las flores que dibuja mamá cuando habla por teléfono."]},
-      en:{word:"Flowers",title:"Mum’s flowers",medium:"",imageNote:"",imageAlt:"A horizontal gallery of Mum’s flower drawings and photographs of the original paper.",tags:["flowers","mum","garden"],paragraphs:["Someone had to put together a garden with all the flowers Mum draws while she talks on the phone."]}}
+      es:{word:"Flores",title:"Las flores de mamá",medium:"",imageNote:"",imageAlt:"Secuencia de los dibujos de flores de mamá y sus registros en papel.",tags:["flores","mamá","jardín"],paragraphs:["Alguien tenía que ocuparse de armar un jardín con todas las flores que dibuja mamá cuando habla por teléfono."]},
+      en:{word:"Flowers",title:"Mum’s flowers",medium:"",imageNote:"",imageAlt:"A sequence of Mum’s flower drawings and photographs of the original paper.",tags:["flowers","mum","garden"],paragraphs:["Someone had to put together a garden with all the flowers Mum draws while she talks on the phone."]}}
   );
 
   window.NireArchiveItems.push(
@@ -200,14 +200,36 @@
 
   window.NireArchiveItems.push(
     {id:"angeles-de-mar",letter:"A",number:"07",image:root+"archive/angeles-de-mar.jpg",imageStatus:"photograph",related:[],
-      sequence:[root+"archive/angeles-de-mar.jpg",...Array.from({length:30},(_,i)=>root+"archive/transoceanic/frame-"+String(i+1).padStart(2,"0")+".jpg")],sequenceInterval:700,
-      // RGB of the light background in each source photograph, in sequence order.
-      sequenceWhitePoints:[
-        [246,246,241],[182,161,139],[178,160,137],[200,182,162],[192,172,153],[167,150,133],
-        [172,156,138],[150,133,116],[197,180,164],[198,180,163],[172,155,138],[172,155,139],
-        [235,213,192],[171,162,153],[165,163,159],[214,196,179],[211,195,181],[218,201,185],
-        [210,192,177],[220,207,191],[180,162,152],[212,196,184],[217,200,186],[249,246,236],
-        [227,217,201],[225,216,201],[224,214,199],[205,201,191],[222,222,220],[208,208,206],[218,208,190]
+      sequenceBase:root+"archive/transoceanic/",sequenceInterval:700,
+      sequence:[
+        {image:root+"archive/angeles-de-mar.jpg",whitePoint:[246,246,241]},
+        {file:"frame-01.jpg",whitePoint:[182,161,139]},
+        {file:"frame-02.jpg",whitePoint:[178,160,137]},
+        {file:"frame-03.jpg",whitePoint:[200,182,162]},
+        {file:"frame-04.jpg",whitePoint:[192,172,153]},
+        {file:"frame-05.jpg",whitePoint:[167,150,133]},
+        {file:"frame-06.jpg",whitePoint:[172,156,138]},
+        {file:"frame-07.jpg",whitePoint:[150,133,116],width:500,height:375,crop:[0,0,492,360]},
+        {file:"frame-08.jpg",whitePoint:[197,180,164]},
+        {file:"frame-09.jpg",whitePoint:[198,180,163]},
+        {file:"frame-10.jpg",whitePoint:[172,155,138]},
+        {file:"frame-11.jpg",whitePoint:[172,155,139]},
+        {file:"frame-12.jpg",whitePoint:[235,213,192]},
+        {file:"frame-13.jpg",whitePoint:[171,162,153]},
+        {file:"frame-14.jpg",whitePoint:[165,163,159]},
+        {file:"frame-15.jpg",whitePoint:[214,196,179],width:500,height:375,crop:[14,0,477,375]},
+        {file:"frame-16.jpg",whitePoint:[211,195,181]},
+        {file:"frame-17.jpg",whitePoint:[218,201,185],width:500,height:375,crop:[25,0,475,373]},
+        {file:"frame-18.jpg",whitePoint:[210,192,177],width:500,height:375,crop:[16,0,484,375]},
+        {file:"frame-19.jpg",whitePoint:[220,207,191]},
+        {file:"frame-20.jpg",whitePoint:[180,162,152]},
+        {file:"frame-21.jpg",whitePoint:[212,196,184]},
+        {file:"frame-22.jpg",whitePoint:[217,200,186]},
+        {file:"frame-26.jpg",whitePoint:[224,214,199],width:375,height:500,crop:[0,0,363,500]},
+        {file:"frame-27.jpg",whitePoint:[205,201,191],width:375,height:500,crop:[0,110,375,390]},
+        {file:"frame-28.jpg",whitePoint:[222,222,220],width:375,height:500,crop:[97,19,255,414],transform:"rotate(-6.5)"},
+        {file:"frame-29.jpg",whitePoint:[208,208,206],width:375,height:500,crop:[97,74,226,404],transform:"rotate(2.2)"},
+        {file:"frame-30.jpg",whitePoint:[218,208,190],width:375,height:500,crop:[85,15,256,291],transform:"matrix(1 -0.24 0.13 1 0 0)"}
       ],
       es:{word:"Ángeles de mar",title:"Ángeles de mar",medium:"",imageNote:"",imageAlt:"Dibujo de dos ángeles de mar sobre una hoja de papel.",sequenceAlt:"Secuencia de fotografías del proceso, las piezas, las construcciones y los bocetos de TRANSOCEANIC.",tags:["moluscos","dibujo","construcción","TRANSOCEANIC"],paragraphs:["TRANSOCEANIC: un juego de construcción inspirado en la reproducción de los ángeles de mar. Un baile de piezas que se atraviesan y se unen de forma recíproca, creando un nexo de infinitas conexiones."]},
       en:{word:"Sea angels",title:"Sea angels",medium:"",imageNote:"",imageAlt:"A drawing of two sea angels on a sheet of paper.",sequenceAlt:"A photographic sequence of TRANSOCEANIC’s process, pieces, constructions and sketches.",tags:["molluscs","drawing","construction","TRANSOCEANIC"],paragraphs:["TRANSOCEANIC: a construction game inspired by the reproduction of sea angels. A dance of pieces passing through one another and joining reciprocally, creating a link of infinite connections."]}}
@@ -258,7 +280,7 @@
   );
 
   window.NireArchiveItems.push(
-    {id:"la-siesta",letter:"S",number:"25",image:root+"archive/la-siesta-obra.webp",imageStatus:"photograph",related:[],
+    {id:"la-siesta",letter:"S",number:"25",image:root+"archive/la-siesta-obra.webp",imageWidth:900,imageHeight:700,imageCrop:[12,10,876,680],imageStatus:"photograph",related:[],
       es:{word:"Siesta",title:"La siesta",artworkCredit:"Joan Miró",medium:"",imageNote:"",imageAlt:"La siesta, de Joan Miró: formas blancas, azules y negras sobre un fondo claro.",tags:[],paragraphs:["La siesta de Joan Miró, perteneciente a su periodo de transición hacia el surrealismo y la pintura automática. Es la pieza que nos lleva hasta acá, a este espacio, de intercambio, cultura y diseño, de archivo, de abecedario y de colección."],formatting:[{text:"perteneciente a su periodo de transición hacia el surrealismo y la pintura automática",tag:"strong"}]},
       en:{word:"Siesta",title:"La siesta",artworkCredit:"Joan Miró",medium:"",imageNote:"",imageAlt:"Joan Miró’s La siesta, with white, blue and black forms on a pale ground.",tags:[],paragraphs:["La siesta by Joan Miró, from his period of transition towards surrealism and automatic painting. It is the piece that brings us here, to this space of exchange, culture and design, of archives, of alphabets and of collections."],formatting:[{text:"from his period of transition towards surrealism and automatic painting",tag:"strong"}]}}
   );
