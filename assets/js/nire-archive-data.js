@@ -2,7 +2,7 @@
   "use strict";
   // Textos de autora: usar solo las palabras que Elisa proporcionó, sin ampliarlas.
   // Donde no haya relato, dejar paragraphs vacío. Traducir sin añadir ideas.
-  const root="assets/images/nire/";
+  const root="../assets/images/nire/";
   window.NireArchiveItems=[
     {id:"amapola",letter:"A",number:"01",image:root+"archive/drawings/dibujo-02.svg",imageStatus:"original",related:["granada","caballito","piedra"],
       es:{word:"Amapola",title:"El llanto de una amapola",medium:"Dibujo de Elisa Cipriani",imageNote:"",imageAlt:"Dibujo en tinta negra de formas florales entrelazadas.",tags:["dulzura","agua","imaginación"],paragraphs:["A veces las plantas también lloran.","Eso se llama néctar y, según como me lo imagino, tiene un gustito dulce."]},
