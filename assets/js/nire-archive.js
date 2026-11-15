@@ -48,13 +48,13 @@
     ['D','dargelos','Dargelos'],['E','earrings-peggy-guggenheim','Alexander'],
     ['F','fernanda-laguna','Fernanda'],['G','la-lluvia','Borges'],['H','hermann-finsterlin','Hermann'],
     ['I','primera-piel','piel'],['J','flores-de-mama','jardín'],['K','fuck-me','Fuck'],
-    ['L','liquenes','líquenes'],['M','las-metamorfosis','metamorfosis'],['N','angeles-de-mar','nexo'],
+    ['L','liquenes','líquenes',['leonora-carrington']],['M','las-metamorfosis','metamorfosis'],['N','angeles-de-mar','nexo'],
     ['Ñ','momento-de-refes','diseño'],['O','la-siesta','Joan'],['P','piedra','playa'],
     ['Q','bateria-popular','que'],['R','remedios-varo','Remedios'],['S','rollo-con-sales','sales'],
     ['T','the-singing-angels','The'],['U','buenos-aires','culpa'],['V','sistema-nervioso','Nervioso'],
     ['W','teatro-anatomico-leiden','Willem'],['X','si-queria','x Joaquín'],['Y','bed-in','Yoko'],
     ['Z','bang-hai-ja','luz']
-  ].map(([letter,id,word])=>({letter,id,word}));
+  ].map(([letter,id,word,siblings=[]])=>({letter,id,word,siblings}));
   const letterAlphabet=letterPortals.map(p=>p.letter);
   const normalizeLetter=character=>character.toLocaleUpperCase('es').replace(/[ÁÀÄÂ]/g,'A').replace(/[ÉÈËÊ]/g,'E').replace(/[ÍÌÏÎ]/g,'I').replace(/[ÓÒÖÔ]/g,'O').replace(/[ÚÙÜÛ]/g,'U');
   const readingText=c=>[...(c.paragraphs||[]),...(c.sections||[]).flatMap(s=>[...(s.paragraphs||[]),...(s.items||[])]),c.artworkCredit||''].filter(Boolean).join(' ')||c.title||'';
@@ -63,7 +63,7 @@
   const itemText=item=>item[lang()]||item.es;
   function letterForItem(item){
     if(!item)return '';
-    const portal=letterPortals.find(p=>p.id===item.id);if(portal)return portal.letter;
+    const portal=letterPortals.find(p=>p.id===item.id||p.siblings.includes(item.id));if(portal)return portal.letter;
     if(!item.raw)return '';
     const c=itemText(item),first=normalizeLetter(c.word.trim().charAt(0));
     return letterAlphabet.includes(first)&&hasLetter(readingText(c),first)?first:letterAlphabet.find(l=>hasLetter(readingText(c),l))||'';
