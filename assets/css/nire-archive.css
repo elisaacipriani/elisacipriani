@@ -7,11 +7,12 @@
 
 h1:focus,h2:focus{outline:none}
 .archive-skip:not(:focus){clip-path:inset(50%);width:1px;height:1px;padding:0;overflow:hidden}
-/* The collection’s color-negative treatment with fine grain.
-   Isolated ink drawings retain their original black lines and transparent paper. */
+/* Apply grayscale after the print treatment so the grain and paper tones are preserved. */
 .archive-image-filters{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
-#archive-main :is(img,video,svg){--archive-image-grade:grayscale(1);filter:var(--archive-image-grade)}
-#archive-main img:not(.is-drawing),#archive-main video,#archive-main .archive-gallery-piece:not(.is-drawing)>svg{--archive-image-grade:url('#archive-film-print')}
+#archive-main{--archive-photo-grade:url('#archive-film-print') grayscale(1)}
+#archive-main :is(img,svg){--archive-image-grade:grayscale(1);filter:var(--archive-image-grade)}
+#archive-main img:not(.is-drawing),#archive-main .archive-gallery-piece:not(.is-drawing)>svg{--archive-image-grade:var(--archive-photo-grade)}
+#archive-main video{filter:url('#archive-film-print')}
 #archive-main .is-drawing img,#archive-main .archive-object-drawing img{--archive-image-grade:grayscale(1)}
 /* Oculta la última columna defectuosa del GIF y evita su sangrado al escalar. */
 #archive-main img[data-object=granada]{clip-path:inset(0 .4% 0 0)}
@@ -329,6 +330,7 @@ body.archive-catalogue-open{display:grid;grid-template-rows:auto minmax(0,1fr) a
  background:
   linear-gradient(var(--letter-wash,transparent),var(--letter-wash,transparent)),
   url('../images/nire/archive/entrada/vidrio-verde.png') center/cover var(--ink);
+ filter:grayscale(1);
  -webkit-background-clip:text;
  background-clip:text;
  color:transparent;
@@ -397,10 +399,10 @@ body.archive-catalogue-open{display:grid;grid-template-rows:auto minmax(0,1fr) a
  margin:0;object-fit:contain;
 }
 .archive-index-preview .has-media-strip .is-drawing .archive-gallery-media> :is(img,svg){object-fit:contain}
-#archive-main .archive-gallery-piece:not(.is-drawing) .archive-gallery-media>svg{--archive-image-grade:url('#archive-film-print')}
+#archive-main .archive-gallery-piece:not(.is-drawing) .archive-gallery-media>svg{--archive-image-grade:var(--archive-photo-grade)}
 .archive-index-preview .has-media-strip .archive-sequence-viewport{display:grid;place-items:center;height:100%;width:max-content;aspect-ratio:auto}
 .archive-index-preview .has-media-strip .archive-sequence-viewport svg{display:block;height:auto;max-width:calc(100vw - var(--edge) * 2)}
-#archive-main .archive-sequence-viewport svg:not(.is-drawing){--archive-image-grade:url('#archive-film-print')}
+#archive-main .archive-sequence-viewport svg:not(.is-drawing){--archive-image-grade:var(--archive-photo-grade)}
 .archive-index-preview .has-media-strip .archive-sequence-viewport img{position:static;display:block;width:auto;height:100%;object-fit:contain}
 .archive-index-preview .has-media-strip .archive-sequence-toggle{bottom:-32px;right:0}
 .archive-sequence-toggle:not(:focus-visible){opacity:0}
@@ -454,7 +456,7 @@ body.archive-catalogue-open{display:grid;grid-template-rows:auto minmax(0,1fr) a
 .archive-poem{margin:20px 0 0;font:inherit}
 .archive-poem p{white-space:pre-line}
 .archive-poem p+p{margin-top:1em}
-#archive-main [data-entry-id="angeles-de-mar"] .archive-sequence-viewport :is(img,svg){filter:url('#archive-paper-white')}
+#archive-main [data-entry-id="angeles-de-mar"] .archive-sequence-viewport :is(img,svg){--archive-image-grade:url('#archive-paper-white') grayscale(1)}
 @media(max-width:550px){
  .archive-index-preview .has-media-strip .archive-object-display:has(.archive-reference-rail){
   --strip-height:min(172px,35vw);
