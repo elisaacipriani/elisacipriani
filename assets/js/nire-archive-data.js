@@ -287,6 +287,20 @@
 
   window.NireArchiveItems.push(
     {id:"remedios-varo",letter:"R",number:"26",image:root+"archive/remedios-varo-obra.webp",imageStatus:"photograph",related:[],
+      photographs:[
+        {image:root+"archive/varo-carrington/image(20261115-021915).png",
+          es:{alt:"Kati Horna fotografió a Remedios Varo con una máscara de Leonora Carrington."},
+          en:{alt:"Remedios Varo wearing a mask by Leonora Carrington, photographed by Kati Horna."}},
+        {image:root+"archive/varo-carrington/image(20261115-021920).png",
+          es:{alt:"Collage vertical con una figura de espaldas, una pierna extendida y un zapato en la base."},
+          en:{alt:"Vertical collage with a figure seen from behind, an outstretched leg and a shoe at the bottom."}},
+        {image:root+"archive/varo-carrington/image(20261115-021926).png",
+          es:{alt:"Collage con rostros recortados, un reloj y un paisaje con siluetas a caballo."},
+          en:{alt:"Collage with cut-out faces, a clock and a landscape with riders in silhouette."}},
+        {image:root+"archive/varo-carrington/image(20261115-021934).png",
+          es:{alt:"Collage de una escena de dormitorio con figuras reunidas alrededor de una cama y dos piernas en alto."},
+          en:{alt:"Bedroom collage with figures gathered around a bed and two legs raised in the air."}}
+      ],
       es:{word:"Remedios Varo",title:"Remedios Varo",medium:"",imageNote:"",imageAlt:"Pintura de Remedios Varo con una figura sentada en una construcción rodeada de árboles.",tags:[],paragraphs:["Remedios Varo, algo así como la mujer de mis sueños"]},
       en:{word:"Remedios Varo",title:"Remedios Varo",medium:"",imageNote:"",imageAlt:"A painting by Remedios Varo showing a seated figure in a structure surrounded by trees.",tags:[],paragraphs:["Remedios Varo, something like the woman of my dreams"]}}
   );
@@ -323,6 +337,21 @@
   );
 
 
+
+  window.NireArchiveItems.push({
+    id:"leonora-carrington",letter:"L",number:"31",image:root+"archive/varo-carrington/image(20261115-021939).png",imageStatus:"gallery",related:[],
+    galleryBase:root+"archive/varo-carrington/",
+    gallery:[
+      {file:"image(20261115-021939).png",
+        es:"Dos figuras alargadas, una con cabeza de media luna y la otra con un pájaro blanco posado en la mano.",
+        en:"Two elongated figures, one with a crescent-shaped head and the other holding a white bird."},
+      {file:"image(20261115-021947).png",
+        es:"A Map of the Human Animal, de Leonora Carrington. Círculos superpuestos, animales y notas manuscritas.",
+        en:"A Map of the Human Animal by Leonora Carrington. Overlapping circles, animals and handwritten notes."}
+    ],
+    es:{word:"Leonora Carrington",title:"Leonora Carrington",imageAlt:"Dos obras de Leonora Carrington.",tags:[],paragraphs:[]},
+    en:{word:"Leonora Carrington",title:"Leonora Carrington",imageAlt:"Two works by Leonora Carrington.",tags:[],paragraphs:[]}
+  });
 
   const stone=window.NireArchiveItems.find(item=>item.id==='piedra');
   stone.references=[
