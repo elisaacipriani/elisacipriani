@@ -391,7 +391,6 @@ body.archive-catalogue-open{display:grid;grid-template-rows:auto minmax(0,1fr) a
 }
 .archive-gallery-media{
  position:relative;width:max-content;height:var(--strip-height);
- transform:scale(1);transform-origin:center;transition:transform .24s ease;
 }
 .archive-index-preview .has-media-strip .archive-gallery-media> :is(img,video,svg),
 .archive-index-preview .has-media-strip .archive-gallery-media>.archive-object-sequence{
@@ -408,11 +407,6 @@ body.archive-catalogue-open{display:grid;grid-template-rows:auto minmax(0,1fr) a
 .archive-sequence-toggle:not(:focus-visible){opacity:0}
 .archive-gallery-piece>figcaption{font:300 10px/1.35 var(--archive-font);margin:16px 0 0;max-width:100%;white-space:normal}
 .archive-gallery-piece>figcaption p+p{margin-top:3px}
-@media(hover:hover){
- .archive-gallery-piece:hover{z-index:1}
- .archive-gallery-piece:hover .archive-gallery-media{transform:scale(1.08)}
- .archive-object-gallery.is-dragging .archive-gallery-media{transform:none}
-}
 .archive-index-preview .has-media-strip .archive-object-notes{
  order:1;position:static;transform:none;display:block;
  width:min(100% - var(--edge) * 2,560px);max-width:none;
